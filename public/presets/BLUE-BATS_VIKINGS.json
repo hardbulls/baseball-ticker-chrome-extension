@@ -1,0 +1,80 @@
+{
+  "autoConnectObs": false,
+  "scoreboard": {
+    "bases": [
+      2
+    ],
+    "inning": {
+      "value": 0,
+      "half": 0
+    },
+    "score": [
+      0,
+      0
+    ],
+    "outs": 0,
+    "strikes": 0,
+    "balls": 0
+  },
+  "home": "BLUE BATS",
+  "away": "VIKINGS",
+  "awayTeamId": "24635",
+  "homeTeamId": "24636",
+  "homeLogo": {
+    "name": "logo_bb.png"
+  },
+  "awayLogo": {
+    "name": "logo_kv.png"
+  },
+  "displaySettings": {
+    "filterColor": "#00ff00",
+    "hideBases": false,
+    "hideCounts": false,
+    "homeGradient": {
+      "angle": 180,
+      "startPercentage": 30,
+      "endPercentage": 50,
+      "startColor": "#266e92",
+      "endColor": "#295a7f"
+    },
+    "awayGradient": {
+      "angle": 180,
+      "startPercentage": 30,
+      "endPercentage": 50,
+      "startColor": "#088e06",
+      "endColor": "#076600"
+    },
+    "layoutGradient": {
+      "angle": 180,
+      "startPercentage": 30,
+      "endPercentage": 50,
+      "startColor": "#ebebeb",
+      "endColor": "#e0e0e0"
+    },
+    "backgroundGradient": {
+      "angle": 180,
+      "startPercentage": 0,
+      "endPercentage": 100,
+      "startColor": "#000000",
+      "endColor": "#363636"
+    },
+    "homeLogoShadow": "#ffffff",
+    "awayLogoShadow": "#3b3b3b",
+    "fontColorLight": "#e8e8e8",
+    "fontColorDark": "#292929",
+    "activeBaseColor": "#ffcd42",
+    "inactiveBaseColor": "#c7c7c7",
+    "activeInningColor": "#d60000",
+    "inactiveInningColor": "#b3b3b3",
+    "font": {
+      "name": "EurostileBold"
+    }
+  },
+  "obsSocket": "ws://127.0.0.1:4455",
+  "tickerUrl": "https://www.baseballsoftball.at/de/events/baseball-landesliga-vorarlberg-2023/schedule-and-results/box-score/107597",
+  "displayLineupStats": false,
+  "refreshTime": "13:15",
+  "login": false,
+
+  "fontLineHeight": 1.15
+}

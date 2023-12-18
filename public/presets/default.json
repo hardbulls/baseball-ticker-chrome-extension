@@ -1,0 +1,59 @@
+{
+  "home": "BULLS",
+  "away": "BANDIDOS",
+  "fontLineHeight": 1.15,
+  "homeLogo": {
+    "name": "logo_hb.png"
+  },
+  "awayLogo": {
+    "name": "logo_hb.png"
+  },
+  "awayTeamId": "24475",
+  "homeTeamId": "24492",
+  "displaySettings": {
+    "filterColor": "#00ff00",
+    "hideBases": false,
+    "hideCounts": false,
+    "homeGradient": {
+      "angle": 180,
+      "startPercentage": 30,
+      "endPercentage": 50,
+      "startColor": "#dd0808",
+      "endColor": "#ea1010"
+    },
+    "awayGradient": {
+      "angle": 180,
+      "startPercentage": 30,
+      "endPercentage": 50,
+      "startColor": "#5c5c5c",
+      "endColor": "#616161"
+    },
+    "layoutGradient": {
+      "angle": 180,
+      "startPercentage": 50,
+      "endPercentage": 50,
+      "startColor": "#ebebeb",
+      "endColor": "#e0e0e0"
+    },
+    "backgroundGradient": {
+      "angle": 180,
+      "startPercentage": 0,
+      "endPercentage": 100,
+      "startColor": "#000000",
+      "endColor": "#474747"
+    },
+    "homeLogoShadow": "#000000",
+    "awayLogoShadow": "#000000",
+    "fontColorLight": "#e8e8e8",
+    "fontColorDark": "#292929",
+    "activeBaseColor": "#f40000",
+    "inactiveBaseColor": "#c7c7c7",
+    "activeInningColor": "#e00000",
+    "inactiveInningColor": "#b3b3b3",
+    "font": {
+      "name": "HudsonNYSemiBold"
+    }
+  },
+  "obsSocket": "ws://127.0.0.1:4455",
+  "tickerUrl": ""
+}

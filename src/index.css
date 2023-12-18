@@ -1,0 +1,15 @@
+:root {
+    --color-bulls-red: #e20514;
+    --color-bulls-dark-red: #a60029;
+}
+
+html {
+    line-height: 1.15; /* 1 */
+    text-size-adjust: 100%; /* 2 */
+}
+
+body {
+    margin: 0;
+    line-height: 1.15; /* 1 */
+    text-size-adjust: 100%; /* 2 */
+}

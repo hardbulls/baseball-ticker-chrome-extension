@@ -1,0 +1,12 @@
+{
+  "name": "Hard Bulls Baseball Scoreboard",
+  "version": "0.0.6",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["https://*.baseballsoftball.at/*"],
+      "js": ["main.js"],
+      "css": ["main.css"]
+    }
+  ]
+}
