@@ -13,7 +13,7 @@ const useContentHash = false;
 module.exports = {
   mode: env,
   entry: "./src/main.tsx",
-  devtool: env === "production" ? undefined : "inline-source-map",
+  devtool: env === "production" ? "source-map" : "inline-source-map",
   module: {
     rules: [
       {
@@ -63,7 +63,7 @@ module.exports = {
           { from: "public/manifest.json" },
           env === "production" ? undefined : {from: "public/preview", to: "preview"}
 
-        ]
+        ].filter(Boolean)
       })
     ],
   output: {
