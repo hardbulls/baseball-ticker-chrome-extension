@@ -6,7 +6,7 @@ import { TEAMS } from "./config/teams";
 import { Team } from "./baseball/model/Team";
 import { LeagueSelect } from "./LeagueSelect";
 import { League } from "./baseball/model/League";
-import { LeagueLogoUpload } from "./baseball/LeagueLogoUpload";
+import Button from "@mui/material/Button";
 
 interface Props {
   state: State;
@@ -77,10 +77,16 @@ export const TeamSettings = ({ state, handleChange, handleSelect }: Props) => {
           <LeagueSelect handleSelect={async (league: League) => handleChange("leagueLogo", { data: league.logo})}/>
         </Grid2>
         <Grid2 xs={3}>
-          <LeagueLogoUpload
-            handleFileUpload={(file) => handleChange("leagueLogo", file)}
-            handleReset={() => handleChange("leagueLogo", undefined)}
-          />
+          <Button
+            sx={{
+              p: 2
+            }}
+            fullWidth
+            onClick={() => handleChange("leagueLogo", undefined)}
+            variant="contained"
+          >
+            Reset League Logo
+          </Button>
         </Grid2>
       </Grid2>
     </>

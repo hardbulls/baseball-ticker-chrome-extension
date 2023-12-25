@@ -25,6 +25,7 @@ export const DEFAULT_STATE: State = {
     leagueLogo: undefined,
     displaySettings: {
         filterColor: "#00ff00",
+        hideInning: true,
         hideBases: false,
         hideCounts: false,
         leagueLogoShadow: "#c9c9c9",

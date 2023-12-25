@@ -34,6 +34,7 @@ export const Scoreboard = ({ state, scoreboard }: Props) => {
     <BaseballScoreboardComponent
       hideBases={`${state.displaySettings.hideBases}`}
       hideCounts={`${state.displaySettings.hideCounts}`}
+      hideInning={`${state.displaySettings.hideInning}`}
       leagueLogoShadow={`${state.displaySettings.leagueLogoShadow}`}
       leagueLogoSrc={state.leagueLogo && `${state.leagueLogo?.data}`}
       homeScore={scoreboard.score[0]}

@@ -32,7 +32,7 @@ export const DisplayControl = ({ handleChange, displaySettings}: Props) => {
   return (
     <div>
       <Grid2 container spacing={2}>
-        <Grid2 xs={3}>
+        <Grid2 xs={2}>
           <FormControlLabel
             control={
               <Switch checked={!displaySettings.hideCounts} onChange={() => handleChange("hideCounts", !displaySettings.hideCounts)} />
@@ -40,7 +40,7 @@ export const DisplayControl = ({ handleChange, displaySettings}: Props) => {
             label="Show Counts"
           />
         </Grid2>
-        <Grid2 xs={3}>
+        <Grid2 xs={2}>
           <FormControlLabel
             control={
               <Switch
@@ -50,6 +50,18 @@ export const DisplayControl = ({ handleChange, displaySettings}: Props) => {
               />
             }
             label="Show Bases"
+          />
+        </Grid2>
+        <Grid2 xs={2}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={!displaySettings.hideInning}
+                onChange={() =>
+                  handleChange("hideInning", !displaySettings.hideInning)}
+              />
+            }
+            label="Show Inning"
           />
         </Grid2>
         <Grid2 xs={3}>

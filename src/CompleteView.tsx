@@ -28,12 +28,13 @@ function CompleteView({ state, setState }: Props) {
   useEffect(() => {
     saveState({
       ...state,
+      followTicker,
       scoreboard
     });
-  }, [state, scoreboard]);
+  }, [state, scoreboard, followTicker]);
 
   useEffect(() => {
-    if (!followTicker && tickerInterval) {
+    if (!followTicker) {
       clearInterval(tickerInterval)
 
       tickerInterval = undefined;

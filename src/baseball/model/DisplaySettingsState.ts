@@ -5,6 +5,7 @@ export interface DisplaySettingsState {
     filterColor: string
     hideBases: boolean
     hideCounts: boolean
+    hideInning: boolean
     homeGradient: Gradient
     awayGradient: Gradient
     layoutGradient: Gradient
