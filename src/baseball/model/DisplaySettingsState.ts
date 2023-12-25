@@ -1,6 +1,5 @@
 import { Gradient } from "./Gradient"
 import { Font } from "./Font"
-import { Image } from "./Image"
 
 export interface DisplaySettingsState {
     filterColor: string
@@ -12,7 +11,6 @@ export interface DisplaySettingsState {
     backgroundGradient: Gradient
     homeLogoShadow: string
     awayLogoShadow: string
-    leagueLogo?: Image
     leagueLogoShadow: string
     fontColorLight: string
     fontColorDark: string

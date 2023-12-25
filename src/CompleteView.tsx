@@ -11,6 +11,9 @@ import { TabSection } from "./component/tabs/TabSection";
 import { Team } from "./baseball/model/Team";
 import { getResizedImage } from "./service/assets";
 import { parseValues } from "./parse-values";
+import { TickerSettings } from "./TickerSettings";
+
+let tickerInterval: number|undefined;
 
 
 interface Props {
@@ -20,6 +23,7 @@ interface Props {
 
 function CompleteView({ state, setState }: Props) {
   const [scoreboard, setScoreboard] = useState<ScoreboardState>(state.scoreboard);
+  const [followTicker, setFollowTicker] = useState<boolean>(state.followTicker || false);
 
   useEffect(() => {
     saveState({
@@ -29,15 +33,22 @@ function CompleteView({ state, setState }: Props) {
   }, [state, scoreboard]);
 
   useEffect(() => {
-      setInterval(async () => {
-        const updatedScoreboard = {
-            ...state.scoreboard,
-            ...parseValues()
-        }
+    if (!followTicker && tickerInterval) {
+      clearInterval(tickerInterval)
 
-        setScoreboard(updatedScoreboard)
+      tickerInterval = undefined;
+    } else if (!tickerInterval) {
+      tickerInterval = setInterval(() => {
+
+        if (followTicker) {
+          setScoreboard({
+            ...scoreboard,
+            ...parseValues()
+          });
+        }
       }, 1000);
-  }, [state, setState]);
+    }
+  }, [scoreboard, followTicker, setScoreboard]);
 
   const updateScoreValue = async <T extends keyof ScoreboardState>(key: T, value: ScoreboardState[T]) => {
     const updatedScoreboard = {
@@ -48,7 +59,7 @@ function CompleteView({ state, setState }: Props) {
   };
 
 
-  const updateTeamValues = async (team: Team, type: "home"|"away") => {
+  const updateTeamValues = async (team: Team, type: "home" | "away") => {
     if (type === "home") {
       setState({
         ...state,
@@ -59,9 +70,9 @@ function CompleteView({ state, setState }: Props) {
         displaySettings: {
           ...state.displaySettings,
           homeLogoShadow: team.logoShadow,
-          homeGradient: team.gradient,
+          homeGradient: team.gradient
         }
-      })
+      });
 
       return;
     }
@@ -75,9 +86,9 @@ function CompleteView({ state, setState }: Props) {
       displaySettings: {
         ...state.displaySettings,
         awayLogoShadow: team.logoShadow,
-        awayGradient: team.gradient,
+        awayGradient: team.gradient
       }
-    })
+    });
   };
 
   const resetCounts = async () => {
@@ -85,16 +96,24 @@ function CompleteView({ state, setState }: Props) {
       ...scoreboard,
       balls: 0,
       strikes: 0
-    }
+    };
 
-    setScoreboard(updatedScoreboard)
-  }
+    setScoreboard(updatedScoreboard);
+  };
 
   return (
-    <div >
+    <div>
       <StickyScoreboardContainer state={state} scoreboard={scoreboard} />
       <TabSection
         items={[
+          {
+            label: "Ticker",
+            component: (
+              <TickerSettings followTicker={followTicker}
+                              handleChange={(value) => setFollowTicker(value)}
+              />
+            )
+          },
           {
             label: "Control",
             component: (
@@ -135,7 +154,7 @@ function CompleteView({ state, setState }: Props) {
                 }
                 }
                 handleResetCountClick={() => {
-                  resetCounts()
+                  resetCounts();
                 }
                 }
                 handleInningChange={(half, value) => {
@@ -168,7 +187,10 @@ function CompleteView({ state, setState }: Props) {
           {
             label: "Display",
             component: (
-              <DisplayControl displaySettings={state.displaySettings} handleChange={(key, value) => setState({ ...state, displaySettings: { ...state.displaySettings, [key]: value }})} />
+              <DisplayControl displaySettings={state.displaySettings} handleChange={(key, value) => setState({
+                ...state,
+                displaySettings: { ...state.displaySettings, [key]: value }
+              })} />
             )
           },
           {
@@ -179,7 +201,7 @@ function CompleteView({ state, setState }: Props) {
                             handleChange={(key, value) => setState({ ...state, [key]: value })}
               />
             )
-          },
+          }
         ]}
       />
     </div>

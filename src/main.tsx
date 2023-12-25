@@ -2,7 +2,6 @@ import '@webcomponents/custom-elements'
 import React from 'react'
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import "./baseball/index.css";
 import { loadState } from "./state";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { App } from "./App";

@@ -5,10 +5,10 @@ import { DisplaySettingsState } from "./DisplaySettingsState"
 export interface State {
     scoreboard: ScoreboardState
     displaySettings: DisplaySettingsState
+    leagueLogo?: Image
     home: string
     away: string
     homeLogo?: Image
     awayLogo?: Image
-    displayLineupStats: boolean
-    refreshTime?: string
+    followTicker: boolean
 }

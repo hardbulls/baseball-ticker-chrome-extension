@@ -22,11 +22,11 @@ export const DEFAULT_STATE: State = {
     away: "HB",
     homeLogo: undefined,
     awayLogo: undefined,
+    leagueLogo: undefined,
     displaySettings: {
         filterColor: "#00ff00",
         hideBases: false,
         hideCounts: false,
-        leagueLogo: undefined,
         leagueLogoShadow: "#c9c9c9",
         homeGradient: {
             angle: 180,
@@ -69,6 +69,5 @@ export const DEFAULT_STATE: State = {
         inactiveInningColor: "#8c8b7f",
         fontLineHeight: 1.15,
     },
-    displayLineupStats: false,
-    refreshTime: undefined,
+    followTicker: true,
 }

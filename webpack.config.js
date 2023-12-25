@@ -60,8 +60,17 @@ module.exports = {
       }),
       new CopyPlugin({
         patterns: [
-          { from: "public/manifest.json" },
-          env === "production" ? undefined : {from: "public/preview", to: "preview"}
+          {
+            from: "public/manifest.json",
+            transform: (content) => {
+              const manifest = JSON.parse(content);
+
+              manifest.version = process.env.npm_package_version
+
+              return JSON.stringify(manifest, null, 2);
+            }
+          },
+          env === "production" ? undefined : { from: "public/preview", to: "preview" }
 
         ].filter(Boolean)
       })
