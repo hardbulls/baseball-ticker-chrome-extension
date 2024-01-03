@@ -11,4 +11,5 @@ export interface State {
     homeLogo?: Image
     awayLogo?: Image
     followTicker: boolean
+    sponsors: string[]
 }

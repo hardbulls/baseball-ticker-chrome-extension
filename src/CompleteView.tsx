@@ -12,6 +12,7 @@ import { Team } from "./baseball/model/Team";
 import { getResizedImage } from "./service/assets";
 import { parseValues } from "./parse-values";
 import { TickerSettings } from "./TickerSettings";
+import { SponsorSettings } from "./SponsorSettings";
 
 let tickerInterval: number|undefined;
 
@@ -24,14 +25,16 @@ interface Props {
 function CompleteView({ state, setState }: Props) {
   const [scoreboard, setScoreboard] = useState<ScoreboardState>(state.scoreboard);
   const [followTicker, setFollowTicker] = useState<boolean>(state.followTicker || false);
+  const [sponsors, setSponsors] = useState<string[]>(state.sponsors);
 
   useEffect(() => {
     saveState({
       ...state,
       followTicker,
-      scoreboard
+      scoreboard,
+      sponsors
     });
-  }, [state, scoreboard, followTicker]);
+  }, [state, scoreboard, sponsors, followTicker]);
 
   useEffect(() => {
     if (!followTicker) {
@@ -104,7 +107,7 @@ function CompleteView({ state, setState }: Props) {
 
   return (
     <div>
-      <StickyScoreboardContainer state={state} scoreboard={scoreboard} />
+      <StickyScoreboardContainer state={state} scoreboard={scoreboard} sponsors={sponsors} />
       <TabSection
         items={[
           {
@@ -201,6 +204,12 @@ function CompleteView({ state, setState }: Props) {
                             handleSelect={updateTeamValues}
                             handleChange={(key, value) => setState({ ...state, [key]: value })}
               />
+            ),
+          },
+          {
+            label: "Sponsors",
+            component: (
+              <SponsorSettings handleLoadSponsors={(loadedSponsors) => setSponsors(loadedSponsors)}/>
             )
           }
         ]}

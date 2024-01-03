@@ -2,13 +2,15 @@ import { State } from "./baseball/model/State";
 import { ScoreboardState } from "./baseball/model/ScoreboardState";
 import { Scoreboard } from "./Scoreboard";
 import { Playerboard } from "./Playerboard";
+import { Sponsors } from "./Sponsors";
 
 interface Props {
   state: State;
   scoreboard: ScoreboardState;
+  sponsors: string[];
 }
 
-export const StickyScoreboardContainer = ({ state, scoreboard }: Props) => {
+export const StickyScoreboardContainer = ({ state, scoreboard, sponsors }: Props) => {
   return (
     <div
       style={{
@@ -23,6 +25,7 @@ export const StickyScoreboardContainer = ({ state, scoreboard }: Props) => {
     >
       <Scoreboard state={state} scoreboard={scoreboard} />
       <Playerboard state={state} scoreboard={scoreboard} />
+      <Sponsors sponsors={sponsors} displaySettings={state.displaySettings} />
     </div>
   );
 };

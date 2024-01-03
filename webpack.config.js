@@ -12,7 +12,10 @@ const useContentHash = false;
 
 module.exports = {
   mode: env,
-  entry: "./src/main.tsx",
+  entry: {
+    content: "./src/main.tsx",
+    background: "./src/background.ts"
+  },
   devtool: env === "production" ? "source-map" : "inline-source-map",
   module: {
     rules: [

@@ -6,6 +6,7 @@ import React from "react";
 import { InningHalfEnum } from "./baseball/model/InningHalfEnum";
 import { BaseEnum } from "./baseball/model/BasesEnum";
 import { Gradient } from "./baseball/model/Gradient";
+import { CONFIG } from "./config";
 
 interface Props {
   state: State;
@@ -53,6 +54,8 @@ export const Scoreboard = ({ state, scoreboard }: Props) => {
       awayLogoSrc={state.awayLogo?.data}
       homeLogoSrc={state.homeLogo?.data}
       awayLogoShadow={state.displaySettings.awayLogoShadow}
+      borderSize={CONFIG.borderSize}
+      borderColor={CONFIG.borderColor}
       homeLogoShadow={state.displaySettings.homeLogoShadow}
       activeInningColor={state.displaySettings.activeInningColor}
       inactiveInningColor={state.displaySettings.inactiveInningColor}

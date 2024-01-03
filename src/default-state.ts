@@ -71,4 +71,5 @@ export const DEFAULT_STATE: State = {
         fontLineHeight: 1.15,
     },
     followTicker: true,
+    sponsors: [],
 }
