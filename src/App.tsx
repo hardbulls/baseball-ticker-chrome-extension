@@ -1,40 +1,43 @@
 import { useEffect, useState } from "react";
-import { State } from "./baseball/model/State";
-import CompleteView from "./CompleteView";
-import Grid2 from "@mui/material/Unstable_Grid2";
-import { Copyright } from "./layout/Copyright";
-import { saveState } from "./state";
+import { ScoreboardState } from "./baseball/model/ScoreboardState";
+import { parseValues } from "./parse-values";
+import { CONFIG } from "./config";
 
 
 interface Props {
-  initialState: State;
+  initialScoreboard: ScoreboardState,
 }
 
-export function App({ initialState }: Props) {
-  const [state, setState] = useState<State>(initialState);
+export function App({ initialScoreboard }: Props) {
+  const [scoreboard, setScoreboard] = useState<ScoreboardState>(initialScoreboard);
+  const [followTicker, setFollowTicker] = useState<boolean>(false);
 
   useEffect(() => {
-    saveState({
-      ...state
+    chrome.storage.onChanged.addListener((changes) => {
+      if (changes.options) {
+        if (changes.options.newValue.followTicker !== undefined) {
+          setFollowTicker(changes.options.newValue.followTicker);
+        }
+      }
     });
-  }, [state]);
+  }, []);
 
-  const BottomSection = () => {
-    return (
-      <div>
-        <Grid2 container spacing={2}>
-          <Grid2 xs={12}>
-            <Copyright />
-          </Grid2>
-        </Grid2>
-      </div>
-    );
-  };
+  useEffect(() => {
+    if (followTicker) {
+      const intervalId = setInterval(() => {
+        setScoreboard({
+          ...scoreboard,
+          ...parseValues()
+        });
+      }, CONFIG.tickerInterval);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [followTicker, scoreboard]);
+
 
   return (
-    <>
-      <CompleteView state={state} setState={(updatedState) => setState(updatedState)} />
-      <BottomSection />
-    </>
+    <div>
+    </div>
   );
 }

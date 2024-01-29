@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { CONFIG } from "./config";
-import { DisplaySettingsState } from "./baseball/model/DisplaySettingsState";
+import { OptionsState } from "./options/OptionsState";
 
 type Props = {
   sponsors: string[],
-  displaySettings: DisplaySettingsState
+  options: OptionsState
 }
 
-export const Sponsors = ({ sponsors, displaySettings }: Props) => {
+export const Sponsors = ({ options, sponsors }: Props) => {
   const getRandomSponsor = useCallback(() => sponsors[Math.floor(Math.random() * sponsors.length)], [sponsors]);
   const [currentSponsor, setCurrentSponsor] = useState<string>(getRandomSponsor());
 
@@ -19,8 +19,8 @@ export const Sponsors = ({ sponsors, displaySettings }: Props) => {
     return () => clearInterval(intervalId);
   }, [sponsors, getRandomSponsor, setCurrentSponsor]);
 
-  const backgroundGradient = displaySettings.backgroundGradient;
-  const layoutGradient = displaySettings.layoutGradient;
+  const backgroundGradient = options.background1;
+  const layoutGradient = options.background2;
 
   return (<div style={{
     height: "208px",
@@ -32,8 +32,8 @@ export const Sponsors = ({ sponsors, displaySettings }: Props) => {
   }}>
     <div style={{
       background: `linear-gradient(${layoutGradient.angle}deg, ${layoutGradient.startColor}ff ${layoutGradient.startPercentage}%, ${layoutGradient.endColor}ff ${layoutGradient.endPercentage}%)`,
-      fontFamily: `${displaySettings.font?.name}`,
-      color: `${displaySettings.fontColorDark}`,
+      fontFamily: `${options.font.name}`,
+      color: `${options.fontColor2}`,
       fontSize: "24px",
       textAlign: "center"
     }}>

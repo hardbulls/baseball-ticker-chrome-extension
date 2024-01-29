@@ -1,14 +1,16 @@
 import { ScoreboardState } from "./baseball/model/ScoreboardState";
-import { State } from "./baseball/model/State";
 import { createComponent } from "@lit/react";
 import { BaseballPlayerboard } from "@hardbulls/baseball-scoreboard";
 import React from "react";
 import { InningHalfEnum } from "./baseball/model/InningHalfEnum";
 import { Gradient } from "./baseball/model/Gradient";
+import { TeamState } from "./teams/TeamState";
+import { OptionsState } from "./options/OptionsState";
 
 interface Props {
-  state: State;
+  options: OptionsState
   scoreboard: ScoreboardState;
+  teams: TeamState;
 }
 
 export const BaseballPlayerboardComponent = createComponent({
@@ -17,7 +19,7 @@ export const BaseballPlayerboardComponent = createComponent({
   react: React
 });
 
-export const Playerboard = ({ state, scoreboard }: Props) => {
+export const Playerboard = ({ options, teams, scoreboard }: Props) => {
   const inning = scoreboard.inning.half === InningHalfEnum.TOP ? scoreboard.inning.value : scoreboard.inning.value + 0.5;
 
   const toGradientValue = (gradient: Gradient) => {
@@ -31,14 +33,14 @@ export const Playerboard = ({ state, scoreboard }: Props) => {
       }}
       mode={"normal"}
       inning={inning}
-      awayGradient={toGradientValue(state.displaySettings.awayGradient)}
-      homeGradient={toGradientValue(state.displaySettings.homeGradient)}
-      layoutGradient={toGradientValue(state.displaySettings.layoutGradient)}
-      backgroundGradient={toGradientValue(state.displaySettings.backgroundGradient)}
-      fontColorDark={state.displaySettings.fontColorDark}
-      fontColorLight={state.displaySettings.fontColorLight}
-      fontName={state.displaySettings.font?.name}
-      fontLineHeight={state.displaySettings.fontLineHeight}
+      awayGradient={toGradientValue(teams.awayGradient)}
+      homeGradient={toGradientValue(teams.homeGradient)}
+      layoutGradient={toGradientValue(options.background2)}
+      backgroundGradient={toGradientValue(options.background1)}
+      fontColorDark={options.fontColor2}
+      fontColorLight={options.fontColor1}
+      fontName={options.font.name}
+      fontLineHeight={options.fontLineHeight}
       battingTeam={scoreboard.inning.half === InningHalfEnum.TOP ? "away" : "home"}
       pitcherName={scoreboard.pitcherName}
       batterName={scoreboard.batterName}

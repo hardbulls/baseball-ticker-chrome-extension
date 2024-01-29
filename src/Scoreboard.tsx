@@ -1,5 +1,4 @@
 import { ScoreboardState } from "./baseball/model/ScoreboardState";
-import { State } from "./baseball/model/State";
 import { createComponent } from "@lit/react";
 import { BaseballScoreboard} from "@hardbulls/baseball-scoreboard";
 import React from "react";
@@ -7,10 +6,13 @@ import { InningHalfEnum } from "./baseball/model/InningHalfEnum";
 import { BaseEnum } from "./baseball/model/BasesEnum";
 import { Gradient } from "./baseball/model/Gradient";
 import { CONFIG } from "./config";
+import { TeamState } from "./teams/TeamState";
+import { OptionsState } from "./options/OptionsState";
 
 interface Props {
-  state: State;
+  options: OptionsState
   scoreboard: ScoreboardState;
+  teams: TeamState;
 }
 
 export const BaseballScoreboardComponent = createComponent({
@@ -19,7 +21,7 @@ export const BaseballScoreboardComponent = createComponent({
   react: React
 });
 
-export const Scoreboard = ({ state, scoreboard }: Props) => {
+export const Scoreboard = ({ options, teams, scoreboard }: Props) => {
   const inning = scoreboard.inning.half === InningHalfEnum.TOP ? scoreboard.inning.value : scoreboard.inning.value + 0.5
   const bases = [
     scoreboard.bases.includes(BaseEnum.FIRST),
@@ -33,11 +35,11 @@ export const Scoreboard = ({ state, scoreboard }: Props) => {
 
   return (
     <BaseballScoreboardComponent
-      hideBases={`${state.displaySettings.hideBases}`}
-      hideCounts={`${state.displaySettings.hideCounts}`}
-      hideInning={`${state.displaySettings.hideInning}`}
-      leagueLogoShadow={`${state.displaySettings.leagueLogoShadow}`}
-      leagueLogoSrc={state.leagueLogo && `${state.leagueLogo?.data}`}
+      hideBases={`${options.hideBases}`}
+      hideCounts={`${options.hideCounts}`}
+      hideInning={`false`}
+      leagueLogoShadow={`${options.leagueLogoShadow}`}
+      leagueLogoSrc={options.league && `${options.league?.data}`}
       homeScore={scoreboard.score[0]}
       balls={scoreboard.balls}
       strikes={scoreboard.strikes}
@@ -45,26 +47,26 @@ export const Scoreboard = ({ state, scoreboard }: Props) => {
       awayScore={scoreboard.score[1]}
       inning={inning}
       bases={bases}
-      awayGradient={toGradientValue(state.displaySettings.awayGradient)}
-      homeGradient={toGradientValue(state.displaySettings.homeGradient)}
-      layoutGradient={toGradientValue(state.displaySettings.layoutGradient)}
-      backgroundGradient={toGradientValue(state.displaySettings.backgroundGradient)}
-      fontColorDark={state.displaySettings.fontColorDark}
-      fontColorLight={state.displaySettings.fontColorLight}
-      awayLogoSrc={state.awayLogo?.data}
-      homeLogoSrc={state.homeLogo?.data}
-      awayLogoShadow={state.displaySettings.awayLogoShadow}
+      awayGradient={toGradientValue(teams.awayGradient)}
+      homeGradient={toGradientValue(teams.homeGradient)}
+      layoutGradient={toGradientValue(options.background2)}
+      backgroundGradient={toGradientValue(options.background1)}
+      fontColorDark={options.fontColor2}
+      fontColorLight={options.fontColor1}
+      awayLogoSrc={teams.awayLogo}
+      homeLogoSrc={teams.homeLogo}
+      awayLogoShadow={teams.awayLogoShadow}
+      homeLogoShadow={teams.homeLogoShadow}
       borderSize={CONFIG.borderSize}
       borderColor={CONFIG.borderColor}
-      homeLogoShadow={state.displaySettings.homeLogoShadow}
-      activeInningColor={state.displaySettings.activeInningColor}
-      inactiveInningColor={state.displaySettings.inactiveInningColor}
-      activeBaseColor={state.displaySettings.activeBaseColor}
-      inactiveBaseColor={state.displaySettings.inactiveBaseColor}
-      awayName={state.away}
-      homeName={state.home}
-      fontName={state.displaySettings.font?.name}
-      fontLineHeight={state.displaySettings.fontLineHeight}
+      activeInningColor={options.activeInningColor}
+      inactiveInningColor={options.inactiveInningColor}
+      activeBaseColor={options.activeBaseColor}
+      inactiveBaseColor={options.inactiveBaseColor}
+      awayName={teams.away}
+      homeName={teams.home}
+      fontName={options.font?.name}
+      fontLineHeight={options.fontLineHeight}
     />
   );
 };

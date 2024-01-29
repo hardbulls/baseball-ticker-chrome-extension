@@ -2,17 +2,21 @@
   "name": "Hard Bulls Baseball Scoreboard",
   "manifest_version": 3,
   "host_permissions": ["https://www.hardbulls.com/*"],
-  "content_security_policy": {
-    "extension_pages": "default-src 'self'; connect-src https://* data: blob: filesystem:;"
-  },
   "background": {
     "service_worker": "background.js"
   },
+  "permissions": [
+    "storage"
+  ],
   "content_scripts": [
     {
       "matches": ["https://*.baseballsoftball.at/*"],
       "js": ["content.js"],
       "css": ["content.css"]
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html"
 }

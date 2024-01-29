@@ -1,25 +1,8 @@
-import '@webcomponents/custom-elements'
-import React from 'react'
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { loadState } from "./state";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { App } from "./App";
-
-const defaultTheme = createTheme({
-  components: {
-    MuiInput: {
-      defaultProps: {
-        fullWidth: true
-      }
-    },
-    MuiFormControl: {
-      defaultProps: {
-        fullWidth: true
-      }
-    }
-  }
-});
+import { ScoreboardState } from "./baseball/model/ScoreboardState";
 
 const rootElement = document.createElement("_scoreboard_root");
 const root = ReactDOM.createRoot(
@@ -28,16 +11,15 @@ const root = ReactDOM.createRoot(
 
 document.body.prepend(rootElement);
 
-
 (async () => {
+
   try {
-    const initialState = await loadState();
+    const loadedStorage = (await chrome.storage.local.get(["scoreboard"]));
+    const initialScoreboardState = loadedStorage.scoreboard as ScoreboardState;
 
     root.render(
       <React.StrictMode>
-        <ThemeProvider theme={defaultTheme}>
-          <App initialState={initialState} />
-        </ThemeProvider>
+        <App initialScoreboard={initialScoreboardState} />
       </React.StrictMode>
     );
   } catch (err) {
