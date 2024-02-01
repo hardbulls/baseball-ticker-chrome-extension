@@ -1,4 +1,4 @@
-import { Team } from "../baseball/model/Team"
+import { Team } from "../model/Team"
 import { TeamNotFoundError } from "../error/TeamNotFoundError"
 import Logo_hb from "../assets/teams/logo_hb.png"
 import Logo_di from "../assets/teams/logo_di.png"

@@ -1,5 +1,5 @@
 import font_EurostileBold from "../assets/fonts/EurostileBold.woff2"
-import font_EvastonTavern1846 from "../assets/fonts/EvanstonTavern1846Regular.woff2"
+import font_EvanstonTavern1846 from "../assets/fonts/EvanstonTavern1846Regular.woff2"
 import font_HudsonNYSemiBold from "../assets/fonts/HudsonNYSemiBold.woff2"
 import font_NeueAachenBlack from "../assets/fonts/NeueAachenBlack.woff2"
 import font_NovecentoBold from "../assets/fonts/NovecentoBold.woff2"
@@ -15,7 +15,7 @@ export abstract class FontsRepository {
         },
         evanston: {
             name: "Evanston Tavern 1846",
-            data: font_EvastonTavern1846,
+            data: font_EvanstonTavern1846,
         },
         hudson: {
             name: "Hudson NY",

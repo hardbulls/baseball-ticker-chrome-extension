@@ -3,7 +3,7 @@ import { createComponent } from "@lit/react";
 import { BaseballPlayerboard } from "@hardbulls/baseball-scoreboard";
 import React from "react";
 import { InningHalfEnum } from "./baseball/model/InningHalfEnum";
-import { Gradient } from "./baseball/model/Gradient";
+import { Gradient } from "./model/Gradient";
 import { TeamState } from "./teams/TeamState";
 import { OptionsState } from "./options/OptionsState";
 

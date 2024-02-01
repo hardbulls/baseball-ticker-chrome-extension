@@ -13,11 +13,11 @@ const useContentHash = false;
 module.exports = {
   mode: env,
   entry: {
-    content: "./src/main.tsx",
-    options: "./src/options.tsx",
-    teams: "./src/teams.tsx",
+    content: "./src/content.ts",
+    options: "./src/options.ts",
+    teams: "./src/teams.ts",
     control: "./src/control.tsx",
-    popup: "./src/popup.tsx",
+    popup: "./src/popup.ts",
     overlay: "./src/overlay.tsx",
     background: "./src/background.ts"
   },

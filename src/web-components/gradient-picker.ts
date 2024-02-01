@@ -1,4 +1,4 @@
-import { Gradient } from "../baseball/model/Gradient"
+import { Gradient } from "../model/Gradient"
 
 export class GradientPicker extends HTMLElement {
     private startColorInput = document.createElement("input")

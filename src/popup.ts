@@ -1,4 +1,3 @@
-import "@webcomponents/custom-elements";
 import "./index.css";
 import { PopupState } from "./popup/PopupState";
 import { SponsorsRepository } from "./api/SponsorsRepository";

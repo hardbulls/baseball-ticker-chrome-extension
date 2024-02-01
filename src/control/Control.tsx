@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ScoreControl } from "../ScoreControl";
 import { HomeAwayEnum } from "../baseball/model/HomeAwayEnum";
 import { ScoreboardState } from "../baseball/model/ScoreboardState";
-
+import { Local } from "../storage/Local";
 
 interface Props {
   initialState: ScoreboardState;
@@ -17,7 +17,7 @@ export function Control({ initialState }: Props) {
       [key]: value
     }
 
-    await chrome.storage.local.set({ "scoreboard": updatedScoreboard });
+    await Local.setScoreboard(updatedScoreboard);
 
     setState(updatedScoreboard)
   };
@@ -29,7 +29,7 @@ export function Control({ initialState }: Props) {
       strikes: 0
     };
 
-    await chrome.storage.local.set({ "scoreboard": updatedScoreboard });
+    await Local.setScoreboard(updatedScoreboard);
 
     setState(updatedScoreboard)
   };

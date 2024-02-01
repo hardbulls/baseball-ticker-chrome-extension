@@ -4,7 +4,7 @@ import { BaseballScoreboard} from "@hardbulls/baseball-scoreboard";
 import React from "react";
 import { InningHalfEnum } from "./baseball/model/InningHalfEnum";
 import { BaseEnum } from "./baseball/model/BasesEnum";
-import { Gradient } from "./baseball/model/Gradient";
+import { Gradient } from "./model/Gradient";
 import { CONFIG } from "./config";
 import { TeamState } from "./teams/TeamState";
 import { OptionsState } from "./options/OptionsState";

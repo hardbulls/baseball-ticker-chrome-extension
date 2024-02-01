@@ -5,7 +5,6 @@ import { TeamState } from "../teams/TeamState"
 import { TeamsRepository } from "../api/TeamsRepository"
 
 import font_EurostileBold from "../assets/fonts/EurostileBold.woff2"
-import logo_bbl from "../assets/leagues/bbl.svg"
 import { OptionsState } from "../options/OptionsState"
 
 export const DEFAULT_SCOREBOARD_STATE: ScoreboardState = {
@@ -67,11 +66,7 @@ export const DEFAULT_OPTIONS_STATE: OptionsState = {
     leagueLogoShadow: "#ffffff",
     hideCounts: false,
     hideBases: false,
-    league: {
-        id: "bbl",
-        name: "Baseball Bundesliga",
-        data: logo_bbl,
-    },
+    league: undefined,
     font: {
         id: "eurostile",
         name: "Eurostile",

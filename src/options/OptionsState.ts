@@ -1,5 +1,5 @@
 import { Font } from "../model/Font"
-import { Gradient } from "../baseball/model/Gradient"
+import { Gradient } from "../model/Gradient"
 import { League } from "../model/League"
 
 export type OptionsState = {

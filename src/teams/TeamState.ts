@@ -1,4 +1,4 @@
-import { Gradient } from "../baseball/model/Gradient"
+import { Gradient } from "../model/Gradient"
 
 export type TeamState = {
     home: string
