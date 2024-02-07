@@ -16,7 +16,7 @@ module.exports = {
     content: "./src/content.ts",
     options: "./src/options.ts",
     teams: "./src/teams.ts",
-    control: "./src/control.tsx",
+    control: "./src/control.ts",
     popup: "./src/popup.ts",
     overlay: "./src/overlay.tsx",
     background: "./src/background.ts"

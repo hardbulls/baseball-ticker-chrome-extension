@@ -1,7 +1,7 @@
 import "@webcomponents/custom-elements";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./reset.css";
 import { ScoreboardState } from "./baseball/model/ScoreboardState";
 import { Overlay } from "./overlay/Overlay";
 import { Local } from "./storage/Local";

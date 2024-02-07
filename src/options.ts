@@ -1,4 +1,4 @@
-import "./index.css"
+import "./reset.css"
 import "./web-components/gradient-picker"
 import { GradientPicker } from "./web-components/gradient-picker"
 import { Local } from "./storage/Local"

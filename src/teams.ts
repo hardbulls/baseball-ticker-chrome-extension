@@ -1,4 +1,4 @@
-import "./index.css"
+import "./reset.css"
 import { DEFAULT_TEAMS_STATE } from "./state/DefaultState"
 import { Local } from "./storage/Local"
 import { TeamState } from "./teams/TeamState"

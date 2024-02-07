@@ -1,0 +1,84 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    min-width: 400px;
+    min-height: 400px;
+}
+
+div.controller {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: stretch;
+    flex-direction: column;
+}
+
+div.controller-row {
+    display: flex;
+    justify-content: stretch;
+    flex-direction: row;
+    height: 25%;
+}
+
+.controller-row button {
+    width: 100%;
+    font-size: 2em;
+}
+
+#home-add-button {
+    background-color: #02ab6c;
+}
+
+#home-minus-button {
+    background-color: #d34332;
+
+}
+
+#away-add-button {
+    background-color: #02ab6c;
+}
+
+#away-minus-button {
+    background-color: #d34332;
+}
+
+.inactive-base {
+    background-color: #8f8f8f;
+}
+
+.active-base {
+    background-color: #c29d0b;
+}
+
+#strike-button {
+    background-color: #c77430;
+}
+
+#ball-button {
+    background-color: #395773;
+}
+
+#out-button {
+    background-color: #c73030;
+}
+
+#inning-add-button {
+    background-color: #00a1a6;
+
+}
+
+#inning-minus-button {
+    background-color: #02ab9d;
+}
+
+#reset-bases-button {
+    background-color: #efff11;
+}
+
+#reset-count-button {
+    background-color: #a116af;
+}
+
+.controller-row button:disabled {
+    background-color: #c4c4c4 !important;
+}
