@@ -30,6 +30,7 @@ export class SponsorsComponent extends HTMLElement {
         this.imageElement.style.height = "100%"
         this.imageElement.style.width = "100%"
         this.imageElement.alt = "Sponsor"
+        this.imageElement.style.maxHeight = `calc(${this.componentHeight}px - ${this.titleElementHeightOffset()})`
 
         this.imageContainerElement.append(this.imageElement)
 
@@ -62,7 +63,6 @@ export class SponsorsComponent extends HTMLElement {
         this.container.style.borderWidth = size
         this.container.style.height = `calc(${this.container}px - ${size} - ${size})`
 
-        this.imageContainerElement.style.height = `calc(${this.componentHeight}px - ${this.titleElementHeightOffset()})`
         this.imageContainerElement.style.paddingTop = size
     }
 
@@ -84,7 +84,8 @@ export class SponsorsComponent extends HTMLElement {
 
     set sponsorsTitle(title: string) {
         this.titleElement.textContent = title
-        this.imageContainerElement.style.height = `calc(208px - ${this.titleElementHeightOffset()})`
+        this.imageContainerElement.style.height = `calc(${this.componentHeight}px - ${this.titleElementHeightOffset()})`
+        this.imageElement.style.maxHeight = `calc(${this.componentHeight}px - ${this.titleElementHeightOffset()})`
     }
 
     private titleElementHeightOffset(): string {
