@@ -4,11 +4,12 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserJSPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const path = require("path");
+const webpack = require('webpack')
 const CopyPlugin = require("copy-webpack-plugin");
+const PACKAGE_JSON = require('./package.json')
 
 const env = process.env.NODE_ENV;
 const useContentHash = false;
-
 
 module.exports = {
   mode: env,
@@ -63,6 +64,9 @@ module.exports = {
   },
   plugins:
     [
+      new webpack.DefinePlugin({
+        'PACKAGE_VERSION': JSON.stringify(PACKAGE_JSON.version)
+      }),
       new MiniCssExtractPlugin({
         filename: env === "production" && useContentHash ? "[name].[contenthash].css" : "[name].css"
       }),
@@ -73,17 +77,14 @@ module.exports = {
             transform: (content) => {
               const manifest = JSON.parse(content);
 
-              manifest.version = process.env.npm_package_version
+              manifest.version = PACKAGE_JSON.version
+              manifest.description = PACKAGE_JSON.description
 
               return JSON.stringify(manifest, null, 2);
             }
           },
           env === "production" ? undefined : { from: "public/preview", to: "preview" },
-          { from: "public/options.html", to: "options.html" },
-          { from: "public/teams.html", to: "teams.html" },
-          { from: "public/popup.html", to: "popup.html" },
-          { from: "public/overlay.html", to: "overlay.html" },
-          { from: "public/control.html", to: "control.html" }
+          { from: "public/*", to: "[name][ext]" },
 
         ].filter(Boolean)
       })
