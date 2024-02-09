@@ -13,7 +13,12 @@ const useContentHash = false;
 module.exports = {
   mode: env,
   entry: {
-    content: "./src/main.tsx",
+    content: "./src/content.ts",
+    options: "./src/options.ts",
+    teams: "./src/teams.ts",
+    control: "./src/control.ts",
+    popup: "./src/popup.ts",
+    overlay: "./src/overlay.ts",
     background: "./src/background.ts"
   },
   devtool: env === "production" ? "source-map" : "inline-source-map",
@@ -73,7 +78,12 @@ module.exports = {
               return JSON.stringify(manifest, null, 2);
             }
           },
-          env === "production" ? undefined : { from: "public/preview", to: "preview" }
+          env === "production" ? undefined : { from: "public/preview", to: "preview" },
+          { from: "public/options.html", to: "options.html" },
+          { from: "public/teams.html", to: "teams.html" },
+          { from: "public/popup.html", to: "popup.html" },
+          { from: "public/overlay.html", to: "overlay.html" },
+          { from: "public/control.html", to: "control.html" }
 
         ].filter(Boolean)
       })
