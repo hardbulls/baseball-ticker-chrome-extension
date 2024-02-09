@@ -1,3 +1,4 @@
+import "./web-components"
 import "./reset.css"
 import { DEFAULT_TEAMS_STATE } from "./state/DefaultState"
 import { Local } from "./storage/Local"

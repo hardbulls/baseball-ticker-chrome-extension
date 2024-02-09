@@ -23,6 +23,13 @@ div.controller-row {
 .controller-row button {
     width: 100%;
     font-size: 2em;
+    position: relative;
+}
+
+.controller-row button .value {
+    display: block;
+    position: absolute;
+    top: 0;
 }
 
 #home-add-button {

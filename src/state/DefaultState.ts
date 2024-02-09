@@ -42,6 +42,8 @@ export const DEFAULT_TEAMS_STATE: TeamState = {
 }
 
 export const DEFAULT_OPTIONS_STATE: OptionsState = {
+    sponsorsTitle: "Hard Bulls are sponsored by",
+    sponsorsInterval: 5000,
     overlayFilterColor: "#00ff00",
     background1: {
         startColor: "#545454",

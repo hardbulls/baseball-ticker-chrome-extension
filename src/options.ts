@@ -1,5 +1,5 @@
+import "./web-components"
 import "./reset.css"
-import "./web-components/gradient-picker"
 import { GradientPicker } from "./web-components/gradient-picker"
 import { Local } from "./storage/Local"
 import { DEFAULT_OPTIONS_STATE } from "./state/DefaultState"
@@ -34,8 +34,6 @@ const convertAndResizeImage = async (file: File | Blob) => {
     const fontColor1 = document.querySelector("#font-color-1") as HTMLInputElement
     const fontColor2 = document.querySelector("#font-color-2") as HTMLInputElement
 
-    const fontLineHeight = document.querySelector("#font-line-height") as HTMLInputElement
-
     const fontSelect = document.querySelector("#font") as HTMLSelectElement
     const leagueLogoShadow = document.querySelector("#league-logo-shadow") as HTMLInputElement
     const leagueSelect = document.querySelector("#league-select") as HTMLSelectElement
@@ -43,6 +41,9 @@ const convertAndResizeImage = async (file: File | Blob) => {
 
     const hideBasesCheckbox = document.querySelector("#hide-bases") as HTMLInputElement
     const hideCountsCheckbox = document.querySelector("#hide-counts") as HTMLInputElement
+
+    const sponsorsTitleInput = document.querySelector("#sponsors-title") as HTMLInputElement
+    const sponsorsIntervalInput = document.querySelector("#sponsors-interval") as HTMLInputElement
 
     backgroundGradient1.gradient = INITIAL_STATE.background1
     backgroundGradient2.gradient = INITIAL_STATE.background2
@@ -56,7 +57,8 @@ const convertAndResizeImage = async (file: File | Blob) => {
     hideBasesCheckbox.checked = INITIAL_STATE.hideBases
     hideCountsCheckbox.checked = INITIAL_STATE.hideCounts
 
-    fontLineHeight.value = INITIAL_STATE.fontLineHeight.toString()
+    sponsorsTitleInput.value = INITIAL_STATE.sponsorsTitle
+    sponsorsIntervalInput.value = INITIAL_STATE.sponsorsInterval.toString()
 
     leagueLogoShadow.value = INITIAL_STATE.leagueLogoShadow
 
@@ -116,7 +118,6 @@ const convertAndResizeImage = async (file: File | Blob) => {
             leagueLogoShadow: leagueLogoShadow.value || INITIAL_STATE.leagueLogoShadow,
             fontColor1: fontColor1.value || INITIAL_STATE.fontColor1,
             fontColor2: fontColor2.value || INITIAL_STATE.fontColor2,
-            fontLineHeight: Number.parseFloat(fontLineHeight.value) || INITIAL_STATE.fontLineHeight,
             overlayFilterColor: overlayFilter.value || INITIAL_STATE.overlayFilterColor,
             background1: backgroundGradient1.gradient,
             background2: backgroundGradient2.gradient,
@@ -127,6 +128,8 @@ const convertAndResizeImage = async (file: File | Blob) => {
             font: selectedFont,
             hideBases: hideBasesCheckbox.checked,
             hideCounts: hideCountsCheckbox.checked,
+            sponsorsInterval: Number.parseInt(sponsorsIntervalInput.value) || INITIAL_STATE.sponsorsInterval,
+            sponsorsTitle: sponsorsTitleInput.value,
         }
 
         await Promise.all([Local.setOptions(state), sleep(300)])

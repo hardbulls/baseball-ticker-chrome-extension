@@ -27,6 +27,16 @@ export abstract class Local {
         })
     }
 
+    public static getSponsors = async (): Promise<string[]> => {
+        return (await chrome.storage.local.get(["sponsors"])).sponsors as string[]
+    }
+
+    public static setSponsors = async (sponsors: string[]): Promise<void> => {
+        await chrome.storage.local.set({
+            sponsors: sponsors,
+        })
+    }
+
     public static setPopup = async (popup: PopupState) => {
         await chrome.storage.local.set({
             popup: popup,

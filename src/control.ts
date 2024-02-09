@@ -65,11 +65,15 @@ function BaseButtonElement(
     secondBaseButton.setActive(scoreboard.bases.includes(BaseEnum.SECOND))
     thirdBaseButton.setActive(scoreboard.bases.includes(BaseEnum.THIRD))
 
+    updateValueLabels()
+
     const updateScoreValue = async <T extends keyof ScoreboardState>(key: T, value: ScoreboardState[T]) => {
         scoreboard = {
             ...scoreboard,
             [key]: value,
         }
+
+        updateValueLabels()
 
         await Local.setScoreboard(scoreboard)
     }
@@ -81,9 +85,22 @@ function BaseButtonElement(
             strikes: 0,
         }
 
+        updateValueLabels()
+
         await Local.setScoreboard(scoreboard)
 
         resetCountButton.disabled = scoreboard.balls === 0 && scoreboard.strikes === 0
+    }
+
+    function updateValueLabels() {
+        (homeAddButton.querySelector(".value") as HTMLSpanElement).textContent = scoreboard.score[0].toString()
+        ;(awayAddButton.querySelector(".value") as HTMLSpanElement).textContent = scoreboard.score[1].toString()
+        ;(inningAddButton.querySelector(".value") as HTMLSpanElement).textContent = `${
+            scoreboard.inning.half === InningHalfEnum.TOP ? "T" : "B"
+        }${scoreboard.inning.value}`
+        ;(strikeButton.querySelector(".value") as HTMLSpanElement).textContent = scoreboard.strikes.toString()
+        ;(ballButton.querySelector(".value") as HTMLSpanElement).textContent = scoreboard.balls.toString()
+        ;(outButton.querySelector(".value") as HTMLSpanElement).textContent = scoreboard.outs.toString()
     }
 
     const updateInning = (value: number) => {

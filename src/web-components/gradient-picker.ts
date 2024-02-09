@@ -53,5 +53,3 @@ export class GradientPicker extends HTMLElement {
         this.angleInput.value = gradient.angle.toString()
     }
 }
-
-window.customElements.define("gradient-picker", GradientPicker)

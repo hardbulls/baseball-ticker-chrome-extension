@@ -18,7 +18,7 @@ module.exports = {
     teams: "./src/teams.ts",
     control: "./src/control.ts",
     popup: "./src/popup.ts",
-    overlay: "./src/overlay.tsx",
+    overlay: "./src/overlay.ts",
     background: "./src/background.ts"
   },
   devtool: env === "production" ? "source-map" : "inline-source-map",
