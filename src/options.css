@@ -1,0 +1,48 @@
+.checkbox-group {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.settings-container {
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 32px;
+}
+
+
+.settings-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    max-width: 500px;
+    width: 33%;
+    row-gap: 8px;
+}
+
+.settings-row {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.save-section {
+    position: fixed;;
+    width: 100%;
+    bottom: 0;
+    background-color: #e2e2e2;
+}
+
+
+.save-section button {
+    width: 200px;
+    font-size: 18px;
+    margin: 4px;
+    background-color: #9aff8c;
+}
+
+input#sponsors-interval {
+    width: 6em;
+}

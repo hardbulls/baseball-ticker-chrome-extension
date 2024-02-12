@@ -1,5 +1,7 @@
 import "./web-components"
 import "./reset.css"
+import "./shared.css"
+import "./options.css"
 import { GradientPicker } from "./web-components/gradient-picker"
 import { Local } from "./storage/Local"
 import { DEFAULT_OPTIONS_STATE } from "./state/DefaultState"

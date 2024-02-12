@@ -1,113 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Hard Bulls WBSC Ticker - Options</title>
-    <link href="/options.css" rel="stylesheet" type="text/css">
-  </head>
-  <body>
+<head>
+  <title>Hard Bulls WBSC Ticker - Options</title>
+  <link href="/options.css" rel="stylesheet" type="text/css">
+</head>
+<body>
 
-  <div>
+<div class="settings-container">
+  <div class="settings-group">
     <div>
-      <label for="overlay-filter-color">Overlay Filter Color</label>
-      <input type="color" id="overlay-filter-color">
-    </div>
-    <div>
-      <label for="active-inning-color">Active Inning Color</label>
-      <input type="color" id="active-inning-color">
-    </div>
+      <h3>Scoreboard Style</h3>
+      <div>
+        <div class="settings-row">
+          <label for="overlay-filter-color">Overlay Filter Color</label>
+          <input type="color" id="overlay-filter-color">
+        </div>
+        <div class="settings-row">
+          <label for="active-inning-color">Active Inning Color</label>
+          <input type="color" id="active-inning-color">
+        </div>
 
-    <div>
-      <label for="inactive-inning-color">Inactive Inning Color</label>
-      <input type="color" id="inactive-inning-color">
-    </div>
+        <div class="settings-row">
+          <label for="inactive-inning-color">Inactive Inning Color</label>
+          <input type="color" id="inactive-inning-color">
+        </div>
 
-    <div>
-      <label for="active-base-color">Active Base Color</label>
-      <input type="color" id="active-base-color">
-    </div>
-
-
-    <div>
-      <label for="inactive-base-color">Inactive Base Color</label>
-      <input type="color" id="inactive-base-color">
-    </div>
-
-    <div>
-      <gradient-picker id="background-gradient-1"></gradient-picker>
-    </div>
-    <div>
-      <gradient-picker id="background-gradient-2"></gradient-picker>
-    </div>
+        <div class="settings-row">
+          <label for="active-base-color">Active Base Color</label>
+          <input type="color" id="active-base-color">
+        </div>
 
 
-    <div>
-      <label for="font-color-1">Font Color 1</label>
-      <input type="color" id="font-color-1">
-    </div>
+        <div class="settings-row">
+          <label for="inactive-base-color">Inactive Base Color</label>
+          <input type="color" id="inactive-base-color">
+        </div>
 
-    <div>
-      <label for="font-color-2">Font Color 2</label>
-      <input type="color" id="font-color-2">
-    </div>
+        <div class="settings-row">
+          <label>Background Gradient 1</label>
+          <gradient-picker id="background-gradient-1"></gradient-picker>
+        </div>
+        <div class="settings-row">
+          <label>Background Gradient 2</label>
+          <gradient-picker id="background-gradient-2"></gradient-picker>
+        </div>
 
-    <div>
-      <label for="font">Select Font</label>
-      <select id="font"></select>
-    </div>
 
-    <div>
-      <label for="font-line-height">Font Line Height</label>
-      <input type="number" min="0" step="0.05" max="2" id="font-line-height">
+        <div class="settings-row">
+          <label for="font-color-1">Font Color 1</label>
+          <input type="color" id="font-color-1">
+        </div>
+
+        <div class="settings-row">
+          <label for="font-color-2">Font Color 2</label>
+          <input type="color" id="font-color-2">
+        </div>
+
+        <div class="settings-row">
+          <label for="font">Select Font</label>
+          <select id="font"></select>
+        </div>
+
+        <div class="settings-row">
+          <label for="font-line-height">Font Line Height</label>
+          <input type="number" min="0" step="0.05" max="2" id="font-line-height">
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <div>
+          <label for="hide-bases">Hide Bases</label>
+          <input type="checkbox" id="hide-bases" />
+        </div>
+
+        <div>
+          <label for="hide-counts">Hide Counts</label>
+          <input type="checkbox" id="hide-counts" />
+        </div>
+      </div>
     </div>
   </div>
 
-  <div>
-    <div>
-      <label for="hide-bases">Hide Bases</label>
-      <input type="checkbox" id="hide-bases" />
-    </div>
-
-    <div>
-      <label for="hide-counts">Hide Counts</label>
-      <input type="checkbox" id="hide-counts" />
-    </div>
-  </div>
-
-  <div>
-    <div>
+  <div class="settings-group">
+    <h3>League Settings</h3>
+    <div class="settings-row">
       <label for="league-select">Select League</label>
       <select id="league-select">
         <option value="none">-</option>
       </select>
     </div>
 
-    <div>
+    <div class="settings-row">
       <label for="league-logo-upload">League Logo</label>
-      <input type="file" id="league-logo-upload"/>
+      <input type="file" id="league-logo-upload" />
     </div>
 
-    <div>
+    <div class="settings-row">
       <label for="league-logo-shadow">League Logo Shadow</label>
       <input type="color" id="league-logo-shadow">
     </div>
 
   </div>
 
-  <div>
-    <div>
+  <div class="settings-group">
+    <h3>Sponsor Settings</h3>
+    <div class="settings-row">
       <label for="sponsors-title">Sponsors Title</label>
-      <input type="text" id="sponsors-title"/>
+      <input type="text" id="sponsors-title" />
     </div>
-    <div>
+    <div class="settings-row">
       <label for="sponsors-interval">Sponsors Interval</label>
-      <input type="number" id="sponsors-interval" min="1000" step="1000"/>
+      <input type="number" id="sponsors-interval" min="1000" step="1000" />
     </div>
   </div>
+</div>
 
-  <div>
-    <button id="save-button">Save Options</button>
-  </div>
+<div class="save-section">
+  <button id="save-button">Save Options</button>
+</div>
 
-    <script src="/options.js"></script>
-  </body>
+<script src="/options.js"></script>
+</body>
 </html>

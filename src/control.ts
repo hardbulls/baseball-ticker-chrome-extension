@@ -1,5 +1,6 @@
-import "./control.css"
 import "./reset.css"
+import "./shared.css"
+import "./control.css"
 import { Local } from "./storage/Local"
 import { InningHalfEnum } from "./baseball/model/InningHalfEnum"
 import { ScoreboardState } from "./baseball/model/ScoreboardState"

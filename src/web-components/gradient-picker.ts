@@ -21,6 +21,10 @@ export class GradientPicker extends HTMLElement {
         this.endPercentageInput.max = "100"
         this.endPercentageInput.step = "5"
 
+        this.startPercentageInput.style.width = "70px"
+        this.endPercentageInput.style.width = "70px"
+        this.angleInput.style.width = "3em"
+
         this.angleInput.type = "number"
         this.angleInput.min = "0"
         this.angleInput.max = "360"
