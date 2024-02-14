@@ -1,4 +1,5 @@
 import "./reset.css"
+import "./shared.css"
 import { PopupState } from "./popup/PopupState"
 import { SponsorsRepository } from "./api/SponsorsRepository"
 import { sleep } from "./helper/sleep"
@@ -31,7 +32,6 @@ import { DEFAULT_POPUP_STATE } from "./state/DefaultState"
     const updateSponsorsButton = document.querySelector("#update-sponsors") as HTMLButtonElement
     const toggleControllerButton = document.querySelector("#toggle-controller") as HTMLButtonElement
     const toggleOverlayButton = document.querySelector("#toggle-overlay") as HTMLButtonElement
-    const toggleTeamsButton = document.querySelector("#toggle-teams") as HTMLButtonElement
 
     if (await Windows.exists(await Session.getControlPanelId())) {
         toggleControllerButton.textContent = "Close Controller"
@@ -40,39 +40,6 @@ import { DEFAULT_POPUP_STATE } from "./state/DefaultState"
     if (await Windows.exists(await Session.getOverlayPanelId())) {
         toggleOverlayButton.textContent = "Close Overlay"
     }
-
-    toggleTeamsButton.addEventListener("click", async () => {
-        toggleTeamsButton.disabled = true
-
-        const teamsPanelId = await Session.getTeamsPanelId()
-
-        if (!teamsPanelId) {
-            const teamsPanel = await chrome.windows.create({
-                type: "panel",
-                width: 500,
-                height: 500,
-                top: screen.height - 500,
-                left: screen.width - 500,
-                url: chrome.runtime.getURL("teams.html"),
-            })
-
-            if (teamsPanel.id) {
-                await chrome.storage.session.set({ teamsPanelId: teamsPanel.id })
-                toggleTeamsButton.textContent = "Close Teams"
-            }
-        } else {
-            toggleTeamsButton.textContent = "Open Teams"
-            await Session.resetTeamsPanelId()
-
-            if (await Windows.exists(teamsPanelId)) {
-                await chrome.windows.remove(teamsPanelId)
-            }
-        }
-
-        await sleep(300)
-
-        toggleTeamsButton.disabled = false
-    })
 
     toggleControllerButton.addEventListener("click", async () => {
         toggleControllerButton.disabled = true

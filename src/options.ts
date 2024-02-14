@@ -4,7 +4,7 @@ import "./shared.css"
 import "./options.css"
 import { GradientPicker } from "./web-components/gradient-picker"
 import { Local } from "./storage/Local"
-import { DEFAULT_OPTIONS_STATE } from "./state/DefaultState"
+import { DEFAULT_OPTIONS_STATE, DEFAULT_TEAMS_STATE } from "./state/DefaultState"
 import { FontsRepository } from "./api/FontsRepository"
 import { LeagueRepository } from "./api/LeagueRepository"
 import { resizeImage } from "./service/image-resize"
@@ -13,16 +13,27 @@ import { sleep } from "./helper/sleep"
 import { OptionsState } from "./options/OptionsState"
 import { League } from "./model/League"
 import { Font } from "./model/Font"
+import { TeamSection } from "./options/teams-section"
 
 const convertAndResizeImage = async (file: File | Blob) => {
     return await resizeImage(200, await convertFileToBase64(file))
 }
 
 ;(async () => {
-    const INITIAL_STATE = {
+    const OPTIONS_STATE = {
         ...DEFAULT_OPTIONS_STATE,
         ...(await Local.getOptions()),
     }
+
+    const TEAM_STATE = {
+        ...DEFAULT_TEAMS_STATE,
+        ...(await Local.getTeams()),
+    }
+
+    const teamSection = new TeamSection(TEAM_STATE)
+
+    ;(document.querySelector("#team-settings") as HTMLDivElement).append(teamSection)
+
     const saveButton = document.querySelector("#save-button") as HTMLButtonElement
     const overlayFilter = document.querySelector("#overlay-filter-color") as HTMLInputElement
     const backgroundGradient1 = document.querySelector("#background-gradient-1") as GradientPicker
@@ -47,25 +58,25 @@ const convertAndResizeImage = async (file: File | Blob) => {
     const sponsorsTitleInput = document.querySelector("#sponsors-title") as HTMLInputElement
     const sponsorsIntervalInput = document.querySelector("#sponsors-interval") as HTMLInputElement
 
-    backgroundGradient1.gradient = INITIAL_STATE.background1
-    backgroundGradient2.gradient = INITIAL_STATE.background2
-    overlayFilter.value = INITIAL_STATE.overlayFilterColor
-    inactiveInningColor.value = INITIAL_STATE.inactiveInningColor
-    activeInningColor.value = INITIAL_STATE.activeInningColor
-    inactiveBaseColor.value = INITIAL_STATE.inactiveBaseColor
-    activeBaseColor.value = INITIAL_STATE.activeBaseColor
-    fontColor1.value = INITIAL_STATE.fontColor1
-    fontColor2.value = INITIAL_STATE.fontColor2
-    hideBasesCheckbox.checked = INITIAL_STATE.hideBases
-    hideCountsCheckbox.checked = INITIAL_STATE.hideCounts
+    backgroundGradient1.gradient = OPTIONS_STATE.background1
+    backgroundGradient2.gradient = OPTIONS_STATE.background2
+    overlayFilter.value = OPTIONS_STATE.overlayFilterColor
+    inactiveInningColor.value = OPTIONS_STATE.inactiveInningColor
+    activeInningColor.value = OPTIONS_STATE.activeInningColor
+    inactiveBaseColor.value = OPTIONS_STATE.inactiveBaseColor
+    activeBaseColor.value = OPTIONS_STATE.activeBaseColor
+    fontColor1.value = OPTIONS_STATE.fontColor1
+    fontColor2.value = OPTIONS_STATE.fontColor2
+    hideBasesCheckbox.checked = OPTIONS_STATE.hideBases
+    hideCountsCheckbox.checked = OPTIONS_STATE.hideCounts
 
-    sponsorsTitleInput.value = INITIAL_STATE.sponsorsTitle
-    sponsorsIntervalInput.value = INITIAL_STATE.sponsorsInterval.toString()
+    sponsorsTitleInput.value = OPTIONS_STATE.sponsorsTitle
+    sponsorsIntervalInput.value = OPTIONS_STATE.sponsorsInterval.toString()
 
-    leagueLogoShadow.value = INITIAL_STATE.leagueLogoShadow
+    leagueLogoShadow.value = OPTIONS_STATE.leagueLogoShadow
 
-    let selectedFont: Font = INITIAL_STATE.font
-    let selectedLeague: League | undefined = INITIAL_STATE.league
+    let selectedFont: Font = OPTIONS_STATE.font
+    let selectedLeague: League | undefined = OPTIONS_STATE.league
 
     fontSelect.addEventListener("change", async (event) => {
         const select = event.target as HTMLSelectElement
@@ -83,13 +94,13 @@ const convertAndResizeImage = async (file: File | Blob) => {
     })
 
     for (const font of FontsRepository.findAll()) {
-        const selected = font.id === INITIAL_STATE.font.id
+        const selected = font.id === OPTIONS_STATE.font.id
 
         fontSelect.options.add(new Option(font.name, font.id, selected, selected))
     }
 
     for (const league of LeagueRepository.findAll()) {
-        const selected = league.id === INITIAL_STATE.league?.id
+        const selected = league.id === OPTIONS_STATE.league?.id
 
         leagueSelect.options.add(new Option(league.name, league.id, selected, selected))
 
@@ -114,13 +125,13 @@ const convertAndResizeImage = async (file: File | Blob) => {
     saveButton.addEventListener("click", async () => {
         saveButton.disabled = true
 
-        const state: OptionsState = {
-            ...INITIAL_STATE,
+        const optionsState: OptionsState = {
+            ...OPTIONS_STATE,
             league: selectedLeague,
-            leagueLogoShadow: leagueLogoShadow.value || INITIAL_STATE.leagueLogoShadow,
-            fontColor1: fontColor1.value || INITIAL_STATE.fontColor1,
-            fontColor2: fontColor2.value || INITIAL_STATE.fontColor2,
-            overlayFilterColor: overlayFilter.value || INITIAL_STATE.overlayFilterColor,
+            leagueLogoShadow: leagueLogoShadow.value || OPTIONS_STATE.leagueLogoShadow,
+            fontColor1: fontColor1.value || OPTIONS_STATE.fontColor1,
+            fontColor2: fontColor2.value || OPTIONS_STATE.fontColor2,
+            overlayFilterColor: overlayFilter.value || OPTIONS_STATE.overlayFilterColor,
             background1: backgroundGradient1.gradient,
             background2: backgroundGradient2.gradient,
             activeInningColor: activeInningColor.value,
@@ -130,11 +141,11 @@ const convertAndResizeImage = async (file: File | Blob) => {
             font: selectedFont,
             hideBases: hideBasesCheckbox.checked,
             hideCounts: hideCountsCheckbox.checked,
-            sponsorsInterval: Number.parseInt(sponsorsIntervalInput.value) || INITIAL_STATE.sponsorsInterval,
+            sponsorsInterval: Number.parseInt(sponsorsIntervalInput.value) || OPTIONS_STATE.sponsorsInterval,
             sponsorsTitle: sponsorsTitleInput.value,
         }
 
-        await Promise.all([Local.setOptions(state), sleep(300)])
+        await Promise.all([Local.setOptions(optionsState), Local.setTeams(teamSection.getState()), sleep(300)])
 
         saveButton.disabled = false
     })

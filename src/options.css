@@ -10,6 +10,10 @@
     column-gap: 32px;
 }
 
+.settings-column {
+    display: flex;
+}
+
 
 .settings-group {
     display: flex;
@@ -21,6 +25,7 @@
 }
 
 .settings-row {
+    margin: 4px;
     justify-content: space-between;
     display: flex;
     flex-direction: row;

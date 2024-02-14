@@ -16,7 +16,6 @@ module.exports = {
   entry: {
     content: "./src/content.ts",
     options: "./src/options.ts",
-    teams: "./src/teams.ts",
     control: "./src/control.ts",
     popup: "./src/popup.ts",
     overlay: "./src/overlay.ts",
