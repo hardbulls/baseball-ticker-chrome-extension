@@ -4,7 +4,7 @@ import "./shared.css"
 import "./options.css"
 import { GradientPicker } from "./web-components/gradient-picker"
 import { Local } from "./storage/Local"
-import { DEFAULT_OPTIONS_STATE, DEFAULT_TEAMS_STATE } from "./state/DefaultState"
+import { DEFAULT_OPTIONS_STATE, DEFAULT_PLAYERS_STATE, DEFAULT_TEAMS_STATE } from "./state/DefaultState"
 import { FontsRepository } from "./api/FontsRepository"
 import { LeagueRepository } from "./api/LeagueRepository"
 import { resizeImage } from "./service/image-resize"
@@ -14,6 +14,7 @@ import { OptionsState } from "./options/OptionsState"
 import { League } from "./model/League"
 import { Font } from "./model/Font"
 import { TeamSection } from "./options/teams-section"
+import { PlayersSection } from "./options/players-section"
 
 const convertAndResizeImage = async (file: File | Blob) => {
     return await resizeImage(200, await convertFileToBase64(file))
@@ -30,9 +31,16 @@ const convertAndResizeImage = async (file: File | Blob) => {
         ...(await Local.getTeams()),
     }
 
+    const PLAYERS_STATE = {
+        ...DEFAULT_PLAYERS_STATE,
+        ...(await Local.getPlayers()),
+    }
+
     const teamSection = new TeamSection(TEAM_STATE)
+    const playersSection = new PlayersSection(PLAYERS_STATE)
 
     ;(document.querySelector("#team-settings") as HTMLDivElement).append(teamSection)
+    ;(document.querySelector("#players-settings") as HTMLDivElement).append(playersSection)
 
     const saveButton = document.querySelector("#save-button") as HTMLButtonElement
     const overlayFilter = document.querySelector("#overlay-filter-color") as HTMLInputElement
@@ -145,7 +153,12 @@ const convertAndResizeImage = async (file: File | Blob) => {
             sponsorsTitle: sponsorsTitleInput.value,
         }
 
-        await Promise.all([Local.setOptions(optionsState), Local.setTeams(teamSection.getState()), sleep(300)])
+        await Promise.all([
+            Local.setOptions(optionsState),
+            Local.setPlayers(playersSection.getState()),
+            Local.setTeams(teamSection.getState()),
+            sleep(300),
+        ])
 
         saveButton.disabled = false
     })

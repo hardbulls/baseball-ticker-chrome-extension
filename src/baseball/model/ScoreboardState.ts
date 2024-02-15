@@ -8,8 +8,10 @@ export interface ScoreboardState {
     strikes: number
     balls: number
     bases: BaseEnum[]
-    pitcherName: string
-    batterName: string
+    homePitcherName: string
+    awayPitcherName: string
+    homeBatterName: string
+    awayBatterName: string
     batterAvg: number
     pitcherEra: number
 }

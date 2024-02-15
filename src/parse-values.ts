@@ -121,11 +121,19 @@ export const parseValues = (): Partial<ScoreboardState> => {
     }
 
     if (pitcherName) {
-        result.pitcherName = getLastname(pitcherName)
+        if (inning?.half === InningHalfEnum.TOP) {
+            result.homePitcherName = getLastname(pitcherName)
+        } else if (inning?.half === InningHalfEnum.BOTTOM) {
+            result.awayPitcherName = getLastname(pitcherName)
+        }
     }
 
     if (batterName) {
-        result.batterName = getLastname(batterName)
+        if (inning?.half === InningHalfEnum.TOP) {
+            result.awayBatterName = getLastname(batterName)
+        } else if (inning?.half === InningHalfEnum.BOTTOM) {
+            result.homeBatterName = getLastname(batterName)
+        }
     }
 
     if (pitcherEra) {

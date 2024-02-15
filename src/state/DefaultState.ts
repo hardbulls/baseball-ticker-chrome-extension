@@ -6,6 +6,7 @@ import { TeamsRepository } from "../api/TeamsRepository"
 
 import font_EurostileBold from "../assets/fonts/EurostileBold.woff2"
 import { OptionsState } from "../options/OptionsState"
+import { PlayersState } from "./PlayersState"
 
 export const DEFAULT_SCOREBOARD_STATE: ScoreboardState = {
     bases: [],
@@ -17,10 +18,19 @@ export const DEFAULT_SCOREBOARD_STATE: ScoreboardState = {
     outs: 0,
     strikes: 0,
     balls: 0,
-    batterName: "",
-    pitcherName: "",
+    homeBatterName: "",
+    awayBatterName: "",
+    homePitcherName: "",
+    awayPitcherName: "",
     batterAvg: 0,
     pitcherEra: 0,
+}
+
+export const DEFAULT_PLAYERS_STATE: PlayersState = {
+    hidePlayers: false,
+    hideStatistics: false,
+    homePlayers: [],
+    awayPlayers: [],
 }
 
 export const DEFAULT_POPUP_STATE: PopupState = {

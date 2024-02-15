@@ -2,6 +2,7 @@ import { ScoreboardState } from "../baseball/model/ScoreboardState"
 import { TeamState } from "../teams/TeamState"
 import { OptionsState } from "../options/OptionsState"
 import { PopupState } from "../popup/PopupState"
+import { PlayersState } from "../state/PlayersState"
 
 export abstract class Local {
     public static getScoreboard = async (): Promise<ScoreboardState> => {
@@ -17,6 +18,17 @@ export abstract class Local {
             teams: teams,
         })
     }
+
+    public static getPlayers = async (): Promise<PlayersState> => {
+        return (await chrome.storage.local.get(["players"])).players as PlayersState
+    }
+
+    public static setPlayers = async (players: PlayersState): Promise<void> => {
+        await chrome.storage.local.set({
+            players: players,
+        })
+    }
+
     public static getOptions = async (): Promise<OptionsState> => {
         return (await chrome.storage.local.get(["options"])).options as OptionsState
     }

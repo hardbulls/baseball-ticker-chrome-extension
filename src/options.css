@@ -1,3 +1,8 @@
+textarea {
+    resize: none;
+    width: 100%;
+}
+
 .checkbox-group {
     display: flex;
     justify-content: space-evenly;

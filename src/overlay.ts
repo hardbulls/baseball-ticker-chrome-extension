@@ -10,6 +10,7 @@ import { Gradient } from "./model/Gradient"
 import { InningHalfEnum } from "./baseball/model/InningHalfEnum"
 import { BaseEnum } from "./baseball/model/BasesEnum"
 import { SponsorsComponent } from "./web-components/sponsors-component"
+
 ;(async () => {
     for (const font of FontsRepository.findAll()) {
         const fontFace = new FontFace(font.name, `url("${font.data}") format("woff2")`)
@@ -23,6 +24,7 @@ import { SponsorsComponent } from "./web-components/sponsors-component"
     let sponsors = await Local.getSponsors()
     let options = await Local.getOptions()
     let teams = await Local.getTeams()
+    let playersState = await Local.getPlayers()
 
     chrome.storage.onChanged.addListener((changes) => {
         if (changes.teams) {
@@ -56,6 +58,14 @@ import { SponsorsComponent } from "./web-components/sponsors-component"
             }
         }
 
+        if (changes.players) {
+            if (changes.players.newValue !== undefined) {
+                playersState = changes.players.newValue
+
+                updatePlayerboard()
+            }
+        }
+
         if (changes.sponsors) {
             if (changes.sponsors.newValue !== undefined) {
                 sponsors = changes.sponsors.newValue
@@ -64,9 +74,6 @@ import { SponsorsComponent } from "./web-components/sponsors-component"
             }
         }
     })
-
-    scoreboard.pitcherName = "Pitcher"
-    scoreboard.batterName = "Batter"
 
     const toGradientValue = (gradient: Gradient) => {
         return `${gradient.angle},${gradient.startColor},${gradient.endColor},${gradient.startPercentage},${gradient.endPercentage}`
@@ -143,8 +150,9 @@ import { SponsorsComponent } from "./web-components/sponsors-component"
         const inning =
             scoreboard.inning.half === InningHalfEnum.TOP ? scoreboard.inning.value : scoreboard.inning.value + 0.5
 
-        playerboardElement.style.visibility =
-            scoreboard.pitcherName === "" || scoreboard.batterName === "" ? "hidden" : "visible"
+        const hidePlayerboard = playersState.hidePlayers
+
+        playerboardElement.style.visibility = hidePlayerboard ? "hidden" : "visible"
         playerboardElement.mode = "normal"
         playerboardElement.inning = inning
         playerboardElement.awayGradient = toGradientValue(teams.awayGradient)
@@ -156,13 +164,15 @@ import { SponsorsComponent } from "./web-components/sponsors-component"
         playerboardElement.fontName = options.font.name
         playerboardElement.fontLineHeight = options.fontLineHeight
         playerboardElement.battingTeam = scoreboard.inning.half === InningHalfEnum.TOP ? "away" : "home"
-        playerboardElement.pitcherName = scoreboard.pitcherName
-        playerboardElement.batterName = scoreboard.batterName
+        playerboardElement.pitcherName =
+            scoreboard.inning.half === InningHalfEnum.TOP ? scoreboard.homePitcherName : scoreboard.awayPitcherName
+        playerboardElement.batterName =
+            scoreboard.inning.half === InningHalfEnum.TOP ? scoreboard.awayBatterName : scoreboard.homeBatterName
         playerboardElement.pitcherEra = scoreboard.pitcherEra
         playerboardElement.batterAvg = scoreboard.batterAvg
         playerboardElement.borderColor = CONFIG.borderColor
         playerboardElement.borderSize = CONFIG.borderSize
-        playerboardElement.hideStats = "false"
+        playerboardElement.hideStats = `${playersState.hideStatistics}`
     }
 
     updateScoreboard()

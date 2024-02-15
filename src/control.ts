@@ -5,6 +5,7 @@ import { Local } from "./storage/Local"
 import { InningHalfEnum } from "./baseball/model/InningHalfEnum"
 import { ScoreboardState } from "./baseball/model/ScoreboardState"
 import { BaseEnum } from "./baseball/model/BasesEnum"
+import { removeOptions } from "./service/select"
 
 function BaseButtonElement(
     id: string
@@ -34,6 +35,7 @@ function BaseButtonElement(
 
 (async () => {
     let scoreboard = await Local.getScoreboard()
+    let playerState = await Local.getPlayers()
 
     const homeAddButton = document.querySelector("#home-add-button") as HTMLButtonElement
     const homeMinusButton = document.querySelector("#home-minus-button") as HTMLButtonElement
@@ -54,6 +56,46 @@ function BaseButtonElement(
     const resetBasesButton = document.querySelector("#reset-bases-button") as HTMLButtonElement
     const resetCountButton = document.querySelector("#reset-count-button") as HTMLButtonElement
 
+    const homeBatterSelect = document.querySelector("#home-batter") as HTMLSelectElement
+    const awayBatterSelect = document.querySelector("#away-batter") as HTMLSelectElement
+    const homePitcherSelect = document.querySelector("#home-pitcher") as HTMLSelectElement
+    const awayPitcherSelect = document.querySelector("#away-pitcher") as HTMLSelectElement
+
+    function updatePlayerSelects() {
+        removeOptions(homeBatterSelect)
+        removeOptions(homePitcherSelect)
+        removeOptions(awayBatterSelect)
+        removeOptions(awayPitcherSelect)
+
+        for (const player of playerState.homePlayers) {
+            const selectedBatter = player.name === scoreboard.homeBatterName
+            const selectedPitcher = player.name === scoreboard.homePitcherName
+
+            if (player.isPlaying) {
+                homeBatterSelect.options.add(
+                    new Option(`${player.number}: ${player.name}`, player.name, selectedBatter, selectedBatter)
+                )
+                homePitcherSelect.options.add(
+                    new Option(`${player.number}: ${player.name}`, player.name, selectedPitcher, selectedPitcher)
+                )
+            }
+        }
+
+        for (const player of playerState.awayPlayers) {
+            const selectedBatter = player.name === scoreboard.awayBatterName
+            const selectedPitcher = player.name === scoreboard.awayPitcherName
+
+            if (player.isPlaying) {
+                awayBatterSelect.options.add(
+                    new Option(`${player.number}: ${player.name}`, player.name, selectedBatter, selectedBatter)
+                )
+                awayPitcherSelect.options.add(
+                    new Option(`${player.number}: ${player.name}`, player.name, selectedPitcher, selectedPitcher)
+                )
+            }
+        }
+    }
+
     homeMinusButton.disabled = scoreboard.score[0] === 0
     awayMinusButton.disabled = scoreboard.score[1] === 0
 
@@ -66,7 +108,62 @@ function BaseButtonElement(
     secondBaseButton.setActive(scoreboard.bases.includes(BaseEnum.SECOND))
     thirdBaseButton.setActive(scoreboard.bases.includes(BaseEnum.THIRD))
 
+    homeBatterSelect.addEventListener("change", async (event) => {
+        const select = event.target as HTMLSelectElement
+
+        scoreboard = {
+            ...scoreboard,
+            homeBatterName: select.value,
+        }
+
+        await Local.setScoreboard(scoreboard)
+    })
+
+    awayBatterSelect.addEventListener("change", async (event) => {
+        const select = event.target as HTMLSelectElement
+
+        scoreboard = {
+            ...scoreboard,
+            awayBatterName: select.value,
+        }
+
+        await Local.setScoreboard(scoreboard)
+    })
+
+    homePitcherSelect.addEventListener("change", async (event) => {
+        const select = event.target as HTMLSelectElement
+
+        scoreboard = {
+            ...scoreboard,
+            homePitcherName: select.value,
+        }
+
+        await Local.setScoreboard(scoreboard)
+    })
+
+    awayPitcherSelect.addEventListener("change", async (event) => {
+        const select = event.target as HTMLSelectElement
+
+        scoreboard = {
+            ...scoreboard,
+            awayPitcherName: select.value,
+        }
+
+        await Local.setScoreboard(scoreboard)
+    })
+
+    chrome.storage.onChanged.addListener((changes) => {
+        if (changes.players) {
+            if (changes.players.newValue !== undefined) {
+                playerState = changes.players.newValue
+
+                updatePlayerSelects()
+            }
+        }
+    })
+
     updateValueLabels()
+    updatePlayerSelects()
 
     const updateScoreValue = async <T extends keyof ScoreboardState>(key: T, value: ScoreboardState[T]) => {
         scoreboard = {

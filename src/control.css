@@ -3,12 +3,39 @@ body, html {
     min-height: 400px;
 }
 
-div.controller {
+div.controller-scoreboard {
     width: 100%;
-    height: 100%;
+    height: 90%;
     display: flex;
     justify-content: stretch;
     flex-direction: column;
+}
+
+div.controller-playerboard {
+    height: 10%;
+}
+
+div.controller-playerboard div.player-label {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+div.controller-playerboard select.player-select {
+    width: 30%;
+    font-size: 1.3em;
+}
+
+div.controller-playerboard > div {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: stretch;
+    flex-direction: row;
 }
 
 div.controller-row {
@@ -86,4 +113,12 @@ div.controller-row {
 
 .controller-row button:disabled {
     background-color: #c4c4c4 !important;
+}
+
+
+#home-batter::before {
+    content: 'Home Batter';
+    position: absolute;
+    left: 0;
+    z-index: 100;
 }
