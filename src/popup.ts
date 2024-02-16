@@ -1,7 +1,6 @@
 import "./reset.css"
 import "./shared.css"
 import { PopupState } from "./popup/PopupState"
-import { SponsorsRepository } from "./api/SponsorsRepository"
 import { sleep } from "./helper/sleep"
 import { Session } from "./storage/Session"
 import { Windows } from "./windows/Windows"
@@ -10,10 +9,6 @@ import { DEFAULT_POPUP_STATE } from "./state/DefaultState"
     const INITIAL_STATE = {
         ...DEFAULT_POPUP_STATE,
         ...((await chrome.storage.local.get(["popup"])).popup as PopupState),
-    }
-
-    const loadSponsors = async () => {
-        await chrome.storage.local.set({ sponsors: await SponsorsRepository.download() })
     }
 
     chrome.windows.onRemoved.addListener(async (windowId) => {
@@ -29,7 +24,6 @@ import { DEFAULT_POPUP_STATE } from "./state/DefaultState"
     })
 
     const followTickerCheckbox = document.querySelector("#follow-ticker") as HTMLInputElement
-    const updateSponsorsButton = document.querySelector("#update-sponsors") as HTMLButtonElement
     const toggleControllerButton = document.querySelector("#toggle-controller") as HTMLButtonElement
     const toggleOverlayButton = document.querySelector("#toggle-overlay") as HTMLButtonElement
 
@@ -121,13 +115,5 @@ import { DEFAULT_POPUP_STATE } from "./state/DefaultState"
         await sleep(300)
 
         followTickerCheckbox.disabled = false
-    })
-
-    updateSponsorsButton.addEventListener("click", async () => {
-        updateSponsorsButton.disabled = true
-
-        await loadSponsors()
-
-        updateSponsorsButton.disabled = false
     })
 })()

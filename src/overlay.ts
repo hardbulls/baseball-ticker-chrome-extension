@@ -10,7 +10,6 @@ import { Gradient } from "./model/Gradient"
 import { InningHalfEnum } from "./baseball/model/InningHalfEnum"
 import { BaseEnum } from "./baseball/model/BasesEnum"
 import { SponsorsComponent } from "./web-components/sponsors-component"
-
 ;(async () => {
     for (const font of FontsRepository.findAll()) {
         const fontFace = new FontFace(font.name, `url("${font.data}") format("woff2")`)
@@ -45,7 +44,7 @@ import { SponsorsComponent } from "./web-components/sponsors-component"
                 updateFilterColor()
                 updateSponsorsOptions()
 
-                sponsorsElement.updateSponsors(sponsors, options.sponsorsInterval)
+                sponsorsElement.updateSponsors(sponsors.sponsors, sponsors.sponsorsInterval)
             }
         }
 
@@ -70,7 +69,7 @@ import { SponsorsComponent } from "./web-components/sponsors-component"
             if (changes.sponsors.newValue !== undefined) {
                 sponsors = changes.sponsors.newValue
 
-                sponsorsElement.updateSponsors(sponsors, options.sponsorsInterval)
+                sponsorsElement.updateSponsors(sponsors.sponsors, sponsors.sponsorsInterval)
             }
         }
     })
@@ -84,7 +83,7 @@ import { SponsorsComponent } from "./web-components/sponsors-component"
     const sponsorsElement = document.querySelector("#sponsors") as SponsorsComponent
     const bodyElement = document.querySelector("body") as HTMLBodyElement
 
-    sponsorsElement.updateSponsors(sponsors, options.sponsorsInterval)
+    sponsorsElement.updateSponsors(sponsors.sponsors, sponsors.sponsorsInterval)
 
     function updateSponsorsOptions() {
         sponsorsElement.layoutGradient = options.background2
@@ -93,7 +92,7 @@ import { SponsorsComponent } from "./web-components/sponsors-component"
         sponsorsElement.fontName = options.font.name
         sponsorsElement.borderColor = CONFIG.borderColor
         sponsorsElement.borderSize = CONFIG.borderSize
-        sponsorsElement.sponsorsTitle = options.sponsorsTitle
+        sponsorsElement.sponsorsTitle = sponsors.sponsorsTitle
         sponsorsElement.fontLineHeight = options.fontLineHeight
     }
 

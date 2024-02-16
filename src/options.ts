@@ -4,7 +4,12 @@ import "./shared.css"
 import "./options.css"
 import { GradientPicker } from "./web-components/gradient-picker"
 import { Local } from "./storage/Local"
-import { DEFAULT_OPTIONS_STATE, DEFAULT_PLAYERS_STATE, DEFAULT_TEAMS_STATE } from "./state/DefaultState"
+import {
+    DEFAULT_OPTIONS_STATE,
+    DEFAULT_PLAYERS_STATE,
+    DEFAULT_SPONSORS_STATE,
+    DEFAULT_TEAMS_STATE,
+} from "./state/DefaultState"
 import { FontsRepository } from "./api/FontsRepository"
 import { LeagueRepository } from "./api/LeagueRepository"
 import { resizeImage } from "./service/image-resize"
@@ -15,6 +20,7 @@ import { League } from "./model/League"
 import { Font } from "./model/Font"
 import { TeamSection } from "./options/teams-section"
 import { PlayersSection } from "./options/players-section"
+import { SponsorsSection } from "./options/sponsors-section"
 
 const convertAndResizeImage = async (file: File | Blob) => {
     return await resizeImage(200, await convertFileToBase64(file))
@@ -35,12 +41,18 @@ const convertAndResizeImage = async (file: File | Blob) => {
         ...DEFAULT_PLAYERS_STATE,
         ...(await Local.getPlayers()),
     }
+    const SPONSORS_STATE = {
+        ...DEFAULT_SPONSORS_STATE,
+        ...(await Local.getSponsors()),
+    }
 
     const teamSection = new TeamSection(TEAM_STATE)
     const playersSection = new PlayersSection(PLAYERS_STATE)
+    const sponsorsSection = new SponsorsSection(SPONSORS_STATE)
 
     ;(document.querySelector("#team-settings") as HTMLDivElement).append(teamSection)
     ;(document.querySelector("#players-settings") as HTMLDivElement).append(playersSection)
+    ;(document.querySelector("#sponsors-settings") as HTMLDivElement).append(sponsorsSection)
 
     const saveButton = document.querySelector("#save-button") as HTMLButtonElement
     const overlayFilter = document.querySelector("#overlay-filter-color") as HTMLInputElement
@@ -63,9 +75,6 @@ const convertAndResizeImage = async (file: File | Blob) => {
     const hideBasesCheckbox = document.querySelector("#hide-bases") as HTMLInputElement
     const hideCountsCheckbox = document.querySelector("#hide-counts") as HTMLInputElement
 
-    const sponsorsTitleInput = document.querySelector("#sponsors-title") as HTMLInputElement
-    const sponsorsIntervalInput = document.querySelector("#sponsors-interval") as HTMLInputElement
-
     backgroundGradient1.gradient = OPTIONS_STATE.background1
     backgroundGradient2.gradient = OPTIONS_STATE.background2
     overlayFilter.value = OPTIONS_STATE.overlayFilterColor
@@ -77,10 +86,6 @@ const convertAndResizeImage = async (file: File | Blob) => {
     fontColor2.value = OPTIONS_STATE.fontColor2
     hideBasesCheckbox.checked = OPTIONS_STATE.hideBases
     hideCountsCheckbox.checked = OPTIONS_STATE.hideCounts
-
-    sponsorsTitleInput.value = OPTIONS_STATE.sponsorsTitle
-    sponsorsIntervalInput.value = OPTIONS_STATE.sponsorsInterval.toString()
-
     leagueLogoShadow.value = OPTIONS_STATE.leagueLogoShadow
 
     let selectedFont: Font = OPTIONS_STATE.font
@@ -149,14 +154,13 @@ const convertAndResizeImage = async (file: File | Blob) => {
             font: selectedFont,
             hideBases: hideBasesCheckbox.checked,
             hideCounts: hideCountsCheckbox.checked,
-            sponsorsInterval: Number.parseInt(sponsorsIntervalInput.value) || OPTIONS_STATE.sponsorsInterval,
-            sponsorsTitle: sponsorsTitleInput.value,
         }
 
         await Promise.all([
             Local.setOptions(optionsState),
             Local.setPlayers(playersSection.getState()),
             Local.setTeams(teamSection.getState()),
+            Local.setSponsors(sponsorsSection.getState()),
             sleep(300),
         ])
 

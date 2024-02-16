@@ -7,6 +7,7 @@ import { TeamsRepository } from "../api/TeamsRepository"
 import font_EurostileBold from "../assets/fonts/EurostileBold.woff2"
 import { OptionsState } from "../options/OptionsState"
 import { PlayersState } from "./PlayersState"
+import { SponsorsState } from "../options/SponsorsState"
 
 export const DEFAULT_SCOREBOARD_STATE: ScoreboardState = {
     bases: [],
@@ -51,9 +52,13 @@ export const DEFAULT_TEAMS_STATE: TeamState = {
     awayLogoShadow: defaultAwayTeam.logoShadow,
 }
 
-export const DEFAULT_OPTIONS_STATE: OptionsState = {
+export const DEFAULT_SPONSORS_STATE: SponsorsState = {
     sponsorsTitle: "Hard Bulls are sponsored by",
     sponsorsInterval: 5000,
+    sponsors: [],
+}
+
+export const DEFAULT_OPTIONS_STATE: OptionsState = {
     overlayFilterColor: "#00ff00",
     background1: {
         startColor: "#545454",

@@ -3,6 +3,7 @@ import { TeamState } from "../teams/TeamState"
 import { OptionsState } from "../options/OptionsState"
 import { PopupState } from "../popup/PopupState"
 import { PlayersState } from "../state/PlayersState"
+import { SponsorsState } from "../options/SponsorsState"
 
 export abstract class Local {
     public static getScoreboard = async (): Promise<ScoreboardState> => {
@@ -39,11 +40,11 @@ export abstract class Local {
         })
     }
 
-    public static getSponsors = async (): Promise<string[]> => {
-        return (await chrome.storage.local.get(["sponsors"])).sponsors as string[]
+    public static getSponsors = async (): Promise<SponsorsState> => {
+        return (await chrome.storage.local.get(["sponsors"])).sponsors as SponsorsState
     }
 
-    public static setSponsors = async (sponsors: string[]): Promise<void> => {
+    public static setSponsors = async (sponsors: SponsorsState): Promise<void> => {
         await chrome.storage.local.set({
             sponsors: sponsors,
         })

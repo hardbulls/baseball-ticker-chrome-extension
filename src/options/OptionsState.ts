@@ -18,6 +18,4 @@ export type OptionsState = {
     league?: League
     font: Font
     fontLineHeight: number
-    sponsorsTitle: string
-    sponsorsInterval: number
 }
