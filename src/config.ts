@@ -3,4 +3,4 @@ export const CONFIG = {
     borderColor: "#000000",
     sponsorInterval: 20000,
     tickerInterval: 1000,
-}
+};

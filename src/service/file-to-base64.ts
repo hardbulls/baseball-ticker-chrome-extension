@@ -1,27 +1,27 @@
-import { arrayBufferToString } from "./array-buffer-to-string"
+import { arrayBufferToString } from "./array-buffer-to-string";
 
 export const convertFileToBase64 = (file: Blob | string): Promise<string> => {
     return new Promise((resolve, reject) => {
         if (typeof file === "string") {
-            resolve(file)
+            resolve(file);
 
-            return
+            return;
         }
 
-        const reader = new FileReader()
+        const reader = new FileReader();
 
-        reader.readAsDataURL(file)
+        reader.readAsDataURL(file);
         reader.onload = () => {
             if (reader.result) {
-                resolve(arrayBufferToString(reader.result))
+                resolve(arrayBufferToString(reader.result));
 
-                return
+                return;
             }
 
-            reject(new Error("Cannot load file."))
-        }
+            reject(new Error("Cannot load file."));
+        };
         reader.onerror = (error) => {
-            reject(error)
-        }
-    })
-}
+            reject(error);
+        };
+    });
+};

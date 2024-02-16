@@ -1,37 +1,49 @@
-import { SponsorsRepository } from "../api/SponsorsRepository"
-import { sleep } from "../helper/sleep"
-import { SponsorsState } from "./SponsorsState"
+import { SponsorsRepository } from "../api/SponsorsRepository";
+import { sleep } from "../helper/sleep";
+import { SponsorsState } from "./SponsorsState";
 
 export class SponsorsSection extends HTMLElement {
-    private updateSponsorsButton: HTMLButtonElement
-    private sponsorsTitleInput: HTMLInputElement
-    private sponsorsIntervalInput: HTMLInputElement
-    private sponsors: string[] = []
+    private updateSponsorsButton: HTMLButtonElement;
+    private sponsorsTitleInput: HTMLInputElement;
+    private sponsorsIntervalInput: HTMLInputElement;
+    private sponsorsCountElement: HTMLSpanElement;
+    private sponsors: string[] = [];
 
     constructor(private state: SponsorsState) {
-        super()
+        super();
 
-        this.sponsors = this.state.sponsors
-        this.innerHTML = this.render()
+        this.sponsors = this.state.sponsors;
+        this.innerHTML = this.render();
 
-        this.sponsorsTitleInput = this.querySelector("#sponsors-title") as HTMLInputElement
-        this.sponsorsIntervalInput = this.querySelector("#sponsors-interval") as HTMLInputElement
-        this.updateSponsorsButton = this.querySelector("#update-sponsors") as HTMLButtonElement
+        this.sponsorsTitleInput = this.querySelector("#sponsors-title") as HTMLInputElement;
+        this.sponsorsIntervalInput = this.querySelector("#sponsors-interval") as HTMLInputElement;
+        this.updateSponsorsButton = this.querySelector("#update-sponsors") as HTMLButtonElement;
+        this.sponsorsCountElement = this.querySelector("#sponsors-count") as HTMLSpanElement;
 
-        this.sponsorsTitleInput.value = state.sponsorsTitle
-        this.sponsorsIntervalInput.value = state.sponsorsInterval.toString()
+        this.sponsorsTitleInput.value = state.sponsorsTitle;
+        this.sponsorsIntervalInput.value = state.sponsorsInterval.toString();
 
         this.updateSponsorsButton.addEventListener("click", async () => {
-            this.updateSponsorsButton.disabled = true
+            this.updateSponsorsButton.disabled = true;
+            this.sponsorsCountElement.textContent = "Downloading";
+            this.sponsorsCountElement.style.opacity = "0.5";
 
-            await Promise.all([this.loadSponsors(), sleep(300)])
+            await Promise.all([this.loadSponsors(), sleep(300)]);
+            this.sponsorsCountElement.style.opacity = "1";
+            this.updateSponsorCountLabel();
 
-            this.updateSponsorsButton.disabled = false
-        })
+            this.updateSponsorsButton.disabled = false;
+        });
+
+        this.updateSponsorCountLabel();
+    }
+
+    private updateSponsorCountLabel() {
+        this.sponsorsCountElement.textContent = `${this.sponsors.length} Sponsors`;
     }
 
     private async loadSponsors() {
-        this.sponsors = await SponsorsRepository.download()
+        this.sponsors = await SponsorsRepository.download();
     }
 
     public getState(): SponsorsState {
@@ -39,7 +51,7 @@ export class SponsorsSection extends HTMLElement {
             sponsors: this.sponsors,
             sponsorsInterval: Number.parseInt(this.sponsorsIntervalInput.value) || this.state.sponsorsInterval,
             sponsorsTitle: this.sponsorsTitleInput.value,
-        }
+        };
     }
 
     private render(): string {
@@ -50,13 +62,22 @@ export class SponsorsSection extends HTMLElement {
         <input type="text" id="sponsors-title" />
       </div>
       <div class="settings-row">
-        <label for="sponsors-interval">Sponsors Interval</label>
-        <input type="number" id="sponsors-interval" min="1000" step="1000" />
+        <div class="settings-column">
+            <label for="sponsors-interval">Sponsors Interval</label>
+        </div>
+        <div class="settings-column">
+            <input type="number" id="sponsors-interval" min="1000" step="1000" />
+        </div>
       </div>
 
       <div class="settings-row">
-        <button id="update-sponsors">Download Sponsors</button>
+        <div class="settings-column">
+            <button id="update-sponsors">Download Sponsors</button>
+        </div>
+        <div class="settings-column">
+          <span id="sponsors-count"></span>
+        </div>
       </div>
-   `
+   `;
     }
 }

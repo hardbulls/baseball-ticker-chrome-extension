@@ -1,11 +1,11 @@
 chrome.runtime.onMessage.addListener(function (message, _, senderResponse) {
     fetch(message.url)
         .then((res) => {
-            return res.text()
+            return res.text();
         })
         .then((res) => {
-            senderResponse(res)
-        })
+            senderResponse(res);
+        });
 
-    return true
-})
+    return true;
+});

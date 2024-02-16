@@ -1,5 +1,5 @@
 export interface Font {
-    id: string
-    name: string
-    data: string
+    id: string;
+    name: string;
+    data: string;
 }

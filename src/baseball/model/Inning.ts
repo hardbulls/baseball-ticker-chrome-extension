@@ -1,6 +1,6 @@
-import { InningHalfEnum } from "./InningHalfEnum"
+import { InningHalfEnum } from "./InningHalfEnum";
 
 export interface InningValue {
-    value: number
-    half: InningHalfEnum
+    value: number;
+    half: InningHalfEnum;
 }

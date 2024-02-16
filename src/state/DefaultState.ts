@@ -1,13 +1,13 @@
-import { InningHalfEnum } from "../baseball/model/InningHalfEnum"
-import { ScoreboardState } from "../baseball/model/ScoreboardState"
-import { PopupState } from "../popup/PopupState"
-import { TeamState } from "../teams/TeamState"
-import { TeamsRepository } from "../api/TeamsRepository"
+import { InningHalfEnum } from "../baseball/model/InningHalfEnum";
+import { ScoreboardState } from "../baseball/model/ScoreboardState";
+import { PopupState } from "../popup/PopupState";
+import { TeamState } from "../teams/TeamState";
+import { TeamsRepository } from "../api/TeamsRepository";
 
-import font_EurostileBold from "../assets/fonts/EurostileBold.woff2"
-import { OptionsState } from "../options/OptionsState"
-import { PlayersState } from "./PlayersState"
-import { SponsorsState } from "../options/SponsorsState"
+import font_EurostileBold from "../assets/fonts/EurostileBold.woff2";
+import { OptionsState } from "../options/OptionsState";
+import { PlayersState } from "./PlayersState";
+import { SponsorsState } from "../options/SponsorsState";
 
 export const DEFAULT_SCOREBOARD_STATE: ScoreboardState = {
     bases: [],
@@ -25,21 +25,21 @@ export const DEFAULT_SCOREBOARD_STATE: ScoreboardState = {
     awayPitcherName: "",
     batterAvg: 0,
     pitcherEra: 0,
-}
+};
 
 export const DEFAULT_PLAYERS_STATE: PlayersState = {
     hidePlayers: false,
     hideStatistics: false,
     homePlayers: [],
     awayPlayers: [],
-}
+};
 
 export const DEFAULT_POPUP_STATE: PopupState = {
     followTicker: false,
-}
+};
 
-const defaultHomeTeam = TeamsRepository.findById("hb_1")
-const defaultAwayTeam = TeamsRepository.findById("hb_2")
+const defaultHomeTeam = TeamsRepository.findById("hb_1");
+const defaultAwayTeam = TeamsRepository.findById("hb_2");
 
 export const DEFAULT_TEAMS_STATE: TeamState = {
     home: "Away",
@@ -50,13 +50,13 @@ export const DEFAULT_TEAMS_STATE: TeamState = {
     awayGradient: defaultAwayTeam.gradient,
     homeLogoShadow: defaultHomeTeam.logoShadow,
     awayLogoShadow: defaultAwayTeam.logoShadow,
-}
+};
 
 export const DEFAULT_SPONSORS_STATE: SponsorsState = {
     sponsorsTitle: "Hard Bulls are sponsored by",
     sponsorsInterval: 5000,
     sponsors: [],
-}
+};
 
 export const DEFAULT_OPTIONS_STATE: OptionsState = {
     overlayFilterColor: "#00ff00",
@@ -90,4 +90,4 @@ export const DEFAULT_OPTIONS_STATE: OptionsState = {
         data: font_EurostileBold,
     },
     fontLineHeight: 1.05,
-}
+};

@@ -1,5 +1,5 @@
 export type Player = {
-    name: string
-    number?: number
-    isPlaying: boolean
-}
+    name: string;
+    number?: number;
+    isPlaying: boolean;
+};

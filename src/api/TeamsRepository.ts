@@ -1,14 +1,14 @@
-import { Team } from "../model/Team"
-import { TeamNotFoundError } from "../error/TeamNotFoundError"
-import Logo_hb from "../assets/teams/logo_hb.png"
-import Logo_di from "../assets/teams/logo_di.png"
-import Logo_vw from "../assets/teams/logo_vw.png"
-import Logo_dd from "../assets/teams/logo_dd.png"
-import Logo_gh from "../assets/teams/logo_gh.png"
-import Logo_kv from "../assets/teams/logo_kv.png"
-import Logo_bb from "../assets/teams/logo_bb.png"
-import Logo_fc from "../assets/teams/logo_fc.png"
-import Logo_vm from "../assets/teams/logo_vm.png"
+import { Team } from "../model/Team";
+import { TeamNotFoundError } from "../error/TeamNotFoundError";
+import Logo_hb from "../assets/teams/logo_hb.png";
+import Logo_di from "../assets/teams/logo_di.png";
+import Logo_vw from "../assets/teams/logo_vw.png";
+import Logo_dd from "../assets/teams/logo_dd.png";
+import Logo_gh from "../assets/teams/logo_gh.png";
+import Logo_kv from "../assets/teams/logo_kv.png";
+import Logo_bb from "../assets/teams/logo_bb.png";
+import Logo_fc from "../assets/teams/logo_fc.png";
+import Logo_vm from "../assets/teams/logo_vm.png";
 
 export abstract class TeamsRepository {
     private static TEAMS: { [key: string]: Team } = {
@@ -132,19 +132,19 @@ export abstract class TeamsRepository {
             },
             logoShadow: "#a48746",
         },
-    }
+    };
 
     public static findById = (id: string): Team => {
-        const team = TeamsRepository.TEAMS[id]
+        const team = TeamsRepository.TEAMS[id];
 
         if (!team) {
-            throw new TeamNotFoundError(id)
+            throw new TeamNotFoundError(id);
         }
 
-        return team
-    }
+        return team;
+    };
 
     public static findAll = (): { [key: string]: Team } => {
-        return TeamsRepository.TEAMS
-    }
+        return TeamsRepository.TEAMS;
+    };
 }

@@ -1,3 +1,3 @@
 export type PopupState = {
-    followTicker: boolean
-}
+    followTicker: boolean;
+};

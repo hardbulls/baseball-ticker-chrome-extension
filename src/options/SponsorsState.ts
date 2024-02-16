@@ -1,5 +1,5 @@
 export type SponsorsState = {
-    sponsors: string[]
-    sponsorsInterval: number
-    sponsorsTitle: string
-}
+    sponsors: string[];
+    sponsorsInterval: number;
+    sponsorsTitle: string;
+};
