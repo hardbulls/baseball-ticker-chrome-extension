@@ -1,14 +1,16 @@
 import "./reset.css";
 import "./shared.css";
-import { PopupState } from "./popup/PopupState";
+import "./popup.css";
 import { sleep } from "./helper/sleep";
 import { Session } from "./storage/Session";
 import { Windows } from "./windows/Windows";
 import { DEFAULT_POPUP_STATE } from "./state/DefaultState";
+import { Local } from "./storage/Local";
+
 (async () => {
     const INITIAL_STATE = {
         ...DEFAULT_POPUP_STATE,
-        ...((await chrome.storage.local.get(["popup"])).popup as PopupState),
+        ...(await Local.getPopup()),
     };
 
     chrome.windows.onRemoved.addListener(async (windowId) => {
@@ -23,7 +25,7 @@ import { DEFAULT_POPUP_STATE } from "./state/DefaultState";
         }
     });
 
-    const followTickerCheckbox = document.querySelector("#follow-ticker") as HTMLInputElement;
+    const followTickerButton = document.querySelector("#follow-ticker") as HTMLButtonElement;
     const toggleControllerButton = document.querySelector("#toggle-controller") as HTMLButtonElement;
     const toggleOverlayButton = document.querySelector("#toggle-overlay") as HTMLButtonElement;
 
@@ -101,19 +103,33 @@ import { DEFAULT_POPUP_STATE } from "./state/DefaultState";
         toggleOverlayButton.disabled = false;
     });
 
-    followTickerCheckbox.checked = INITIAL_STATE.followTicker;
+    let followTicker = INITIAL_STATE.followTicker;
 
-    followTickerCheckbox.addEventListener("click", async () => {
-        followTickerCheckbox.disabled = true;
+    function updateFollowTickerButton() {
+        if (followTicker) {
+            followTickerButton.style.backgroundColor = "#e04444";
+            followTickerButton.textContent = "Follow Ticker: ON";
+        } else {
+            followTickerButton.style.backgroundColor = "#41af30";
+            followTickerButton.textContent = "Follow Ticker: OFF";
+        }
+    }
 
-        await chrome.storage.local.set({
-            popup: {
-                followTicker: followTickerCheckbox.checked,
-            },
-        });
+    updateFollowTickerButton();
 
-        await sleep(300);
+    followTickerButton.addEventListener("click", async () => {
+        followTickerButton.disabled = true;
+        followTicker = !followTicker;
 
-        followTickerCheckbox.disabled = false;
+        updateFollowTickerButton();
+
+        await Promise.all([
+            Local.setPopup({
+                followTicker: followTicker,
+            }),
+            sleep(300),
+        ]);
+
+        followTickerButton.disabled = false;
     });
 })();

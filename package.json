@@ -1,7 +1,7 @@
 {
   "name": "@hardbulls/wbsc-ticker-chrome-extension",
   "description": "WBSC Live Ticker Chrome Extension",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "author": {
     "name": "Arjan Frans",
@@ -15,7 +15,6 @@
     "@types/chrome": "^0.0.254",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
-    "@webcomponents/custom-elements": "^1.6.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.1",

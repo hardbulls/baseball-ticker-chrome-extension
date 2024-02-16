@@ -1,0 +1,26 @@
+body {
+    width: 200px;
+    height: 200px;
+}
+
+.popup {
+   height: 100%;
+}
+
+button {
+    font-size: 18px;
+    width: 100%;
+    min-height: 2em;
+}
+
+button#follow-ticker {
+    height: 32%;
+}
+
+button#toggle-overlay {
+    height: 34%;
+}
+
+button#toggle-controller {
+    height: 34%;
+}
