@@ -38,10 +38,6 @@ export class TeamSection extends HTMLElement {
         this.homeLogoInput = this.querySelector("#home-logo") as HTMLInputElement;
         this.awayLogoInput = this.querySelector("#away-logo") as HTMLInputElement;
 
-        this.init();
-    }
-
-    init() {
         this.homeNameInput.value = this.state.home;
         this.awayNameInput.value = this.state.away;
 
@@ -82,7 +78,7 @@ export class TeamSection extends HTMLElement {
 
             this.homeGradient.gradient = homeTeam.gradient;
             this.homeShadowInput.value = homeTeam.logoShadow;
-            this.homeNameInput.value = homeTeam.name;
+            this.homeNameInput.value = homeTeam.nameShort;
             this.uploadedHomeFile = homeTeam.logo;
         });
 
@@ -92,7 +88,7 @@ export class TeamSection extends HTMLElement {
 
             this.awayGradient.gradient = awayTeam.gradient;
             this.awayShadowInput.value = awayTeam.logoShadow;
-            this.awayNameInput.value = awayTeam.name;
+            this.awayNameInput.value = awayTeam.nameShort;
             this.uploadedAwayFile = awayTeam.logo;
         });
     }

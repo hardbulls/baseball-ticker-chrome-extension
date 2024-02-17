@@ -6,6 +6,7 @@ import { InningHalfEnum } from "./baseball/model/InningHalfEnum";
 import { ScoreboardState } from "./baseball/model/ScoreboardState";
 import { BaseEnum } from "./baseball/model/BasesEnum";
 import { removeOptions } from "./service/select";
+import { DEFAULT_PLAYERS_STATE, DEFAULT_SCOREBOARD_STATE } from "./state/DefaultState";
 
 function BaseButtonElement(
     id: string
@@ -34,8 +35,14 @@ function BaseButtonElement(
 }
 
 (async () => {
-    let scoreboard = await Local.getScoreboard();
-    let playerState = await Local.getPlayers();
+    let scoreboard = {
+        ...DEFAULT_SCOREBOARD_STATE,
+        ...(await Local.getScoreboard()),
+    };
+    let playerState = {
+        ...DEFAULT_PLAYERS_STATE,
+        ...(await Local.getPlayers()),
+    };
 
     const homeAddButton = document.querySelector("#home-add-button") as HTMLButtonElement;
     const homeMinusButton = document.querySelector("#home-minus-button") as HTMLButtonElement;

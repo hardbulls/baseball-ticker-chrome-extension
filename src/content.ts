@@ -1,6 +1,7 @@
 import { Local } from "./storage/Local";
 import { parseValues } from "./parse-values";
 import { CONFIG } from "./config";
+import { DEFAULT_POPUP_STATE, DEFAULT_SCOREBOARD_STATE } from "./state/DefaultState";
 
 function IndicatorElement(): HTMLDivElement & { on: () => void; off: () => void } {
     const indicator = document.createElement("div") as HTMLDivElement & { on: () => void; off: () => void };
@@ -29,9 +30,15 @@ function IndicatorElement(): HTMLDivElement & { on: () => void; off: () => void 
 }
 
 (async () => {
-    const INITIAL_STATE = await Local.getPopup();
+    const INITIAL_STATE = {
+        ...DEFAULT_POPUP_STATE,
+        ...(await Local.getPopup()),
+    };
 
-    let scoreboard = await Local.getScoreboard();
+    let scoreboard = {
+        ...DEFAULT_SCOREBOARD_STATE,
+        ...(await Local.getScoreboard()),
+    };
     let followInterval: number | undefined;
     const bodyElement = document.querySelector("body") as HTMLBodyElement;
     const indicatorElement = IndicatorElement();

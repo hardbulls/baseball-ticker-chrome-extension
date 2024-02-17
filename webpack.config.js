@@ -43,11 +43,11 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|jpeg|svg|gif)$/i,
-        type: "asset/inline"
+        type: "asset/resource"
       },
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        type: "asset/inline"
+        type: "asset/resource"
       }
     ]
   },

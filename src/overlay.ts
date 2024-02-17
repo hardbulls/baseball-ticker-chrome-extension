@@ -10,6 +10,14 @@ import { Gradient } from "./model/Gradient";
 import { InningHalfEnum } from "./baseball/model/InningHalfEnum";
 import { BaseEnum } from "./baseball/model/BasesEnum";
 import { SponsorsComponent } from "./web-components/sponsors-component";
+import {
+    DEFAULT_OPTIONS_STATE,
+    DEFAULT_PLAYERS_STATE,
+    DEFAULT_SCOREBOARD_STATE,
+    DEFAULT_SPONSORS_STATE,
+    DEFAULT_TEAMS_STATE,
+} from "./state/DefaultState";
+
 (async () => {
     for (const font of FontsRepository.findAll()) {
         const fontFace = new FontFace(font.name, `url("${font.data}") format("woff2")`);
@@ -19,11 +27,11 @@ import { SponsorsComponent } from "./web-components/sponsors-component";
         document.fonts.add(fontFace);
     }
 
-    let scoreboard = await Local.getScoreboard();
-    let sponsors = await Local.getSponsors();
-    let options = await Local.getOptions();
-    let teams = await Local.getTeams();
-    let playersState = await Local.getPlayers();
+    let scoreboard = { ...DEFAULT_SCOREBOARD_STATE, ...(await Local.getScoreboard()) };
+    let sponsors = { ...DEFAULT_SPONSORS_STATE, ...(await Local.getSponsors()) };
+    let options = { ...DEFAULT_OPTIONS_STATE, ...(await Local.getOptions()) };
+    let teams = { ...DEFAULT_TEAMS_STATE, ...(await Local.getTeams()) };
+    let playersState = { ...DEFAULT_PLAYERS_STATE, ...(await Local.getPlayers()) };
 
     chrome.storage.onChanged.addListener((changes) => {
         if (changes.teams) {
