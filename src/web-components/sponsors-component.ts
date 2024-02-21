@@ -22,9 +22,7 @@ export class SponsorsComponent extends HTMLElement {
 
         this.imageContainerElement.style.display = "flex";
         this.imageContainerElement.style.justifyContent = "center";
-        this.imageContainerElement.style.height = `calc(${
-            this.componentHeight
-        }px - ${this.titleElementHeightOffset()})`;
+        this.imageContainerElement.style.height = `calc(${this.componentHeight}px - ${this.titleElementHeightOffset()})`;
         this.imageContainerElement.style.padding = "0";
 
         this.imageElement.style.objectFit = "contain";
@@ -86,9 +84,7 @@ export class SponsorsComponent extends HTMLElement {
 
     set sponsorsTitle(title: string) {
         this.titleElement.textContent = title;
-        this.imageContainerElement.style.height = `calc(${
-            this.componentHeight
-        }px - ${this.titleElementHeightOffset()})`;
+        this.imageContainerElement.style.height = `calc(${this.componentHeight}px - ${this.titleElementHeightOffset()})`;
         this.imageElement.style.maxHeight = `calc(${this.componentHeight}px - ${this.titleElementHeightOffset()})`;
     }
 

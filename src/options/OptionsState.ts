@@ -18,4 +18,5 @@ export type OptionsState = {
     league?: League;
     font: Font;
     fontLineHeight: number;
+    minimumPlayerNameWidth: number;
 };

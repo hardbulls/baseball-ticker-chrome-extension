@@ -20,14 +20,12 @@ const getStatistic = (value: string, index: number = 0): number | undefined => {
 
 export const parseValues = (): Partial<ScoreboardState> => {
     const homeScore = Number.parseInt(
-        document.querySelector(
-            "#app > div > div.box-score-top-bar > div.left-box > div.actual-teams > div:nth-child(3) > span"
-        )?.textContent || "0"
+        document.querySelector("#app > div > div.box-score-top-bar > div.left-box > div.actual-teams > div:nth-child(3) > span")
+            ?.textContent || "0"
     );
     const awayScore = Number.parseInt(
-        document.querySelector(
-            "#app > div > div.box-score-top-bar > div.left-box > div.actual-teams > div:nth-child(1) > span"
-        )?.textContent || "0"
+        document.querySelector("#app > div > div.box-score-top-bar > div.left-box > div.actual-teams > div:nth-child(1) > span")
+            ?.textContent || "0"
     );
     const pitcherName =
         document.querySelector(

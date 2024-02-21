@@ -109,8 +109,7 @@ import {
     }
 
     function updateScoreboard() {
-        const inning =
-            scoreboard.inning.half === InningHalfEnum.TOP ? scoreboard.inning.value : scoreboard.inning.value + 0.5;
+        const inning = scoreboard.inning.half === InningHalfEnum.TOP ? scoreboard.inning.value : scoreboard.inning.value + 0.5;
         const bases = [
             scoreboard.bases.includes(BaseEnum.FIRST),
             scoreboard.bases.includes(BaseEnum.SECOND),
@@ -154,8 +153,7 @@ import {
     }
 
     function updatePlayerboard() {
-        const inning =
-            scoreboard.inning.half === InningHalfEnum.TOP ? scoreboard.inning.value : scoreboard.inning.value + 0.5;
+        const inning = scoreboard.inning.half === InningHalfEnum.TOP ? scoreboard.inning.value : scoreboard.inning.value + 0.5;
 
         const hidePlayerboard = playersState.hidePlayers;
 
@@ -180,6 +178,7 @@ import {
         playerboardElement.borderColor = CONFIG.borderColor;
         playerboardElement.borderSize = CONFIG.borderSize;
         playerboardElement.hideStats = `${playersState.hideStatistics}`;
+        playerboardElement.minNameWidth = options.minimumPlayerNameWidth;
     }
 
     updateScoreboard();

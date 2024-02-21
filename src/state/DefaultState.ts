@@ -90,4 +90,5 @@ export const DEFAULT_OPTIONS_STATE: OptionsState = {
         data: font_EurostileBold,
     },
     fontLineHeight: 1.05,
+    minimumPlayerNameWidth: 18,
 };

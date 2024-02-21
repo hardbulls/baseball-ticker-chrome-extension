@@ -30,13 +30,7 @@ export class GradientPicker extends HTMLElement {
         this.angleInput.max = "360";
         this.angleInput.step = "5";
 
-        shadow.append(
-            this.startColorInput,
-            this.endColorInput,
-            this.startPercentageInput,
-            this.endPercentageInput,
-            this.angleInput
-        );
+        shadow.append(this.startColorInput, this.endColorInput, this.startPercentageInput, this.endPercentageInput, this.angleInput);
     }
 
     get gradient(): Gradient {

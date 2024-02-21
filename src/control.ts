@@ -8,9 +8,7 @@ import { BaseEnum } from "./baseball/model/BasesEnum";
 import { removeOptions } from "./service/select";
 import { DEFAULT_PLAYERS_STATE, DEFAULT_SCOREBOARD_STATE } from "./state/DefaultState";
 
-function BaseButtonElement(
-    id: string
-): HTMLButtonElement & { toggle: () => void; setActive: (active: boolean) => void } {
+function BaseButtonElement(id: string): HTMLButtonElement & { toggle: () => void; setActive: (active: boolean) => void } {
     const button = document.querySelector(id) as HTMLButtonElement & {
         toggle: () => void;
         setActive: (active: boolean) => void;
@@ -79,9 +77,7 @@ function BaseButtonElement(
             const selectedPitcher = player.name === scoreboard.homePitcherName;
 
             if (player.isPlaying) {
-                homeBatterSelect.options.add(
-                    new Option(`${player.number}: ${player.name}`, player.name, selectedBatter, selectedBatter)
-                );
+                homeBatterSelect.options.add(new Option(`${player.number}: ${player.name}`, player.name, selectedBatter, selectedBatter));
                 homePitcherSelect.options.add(
                     new Option(`${player.number}: ${player.name}`, player.name, selectedPitcher, selectedPitcher)
                 );
@@ -93,9 +89,7 @@ function BaseButtonElement(
             const selectedPitcher = player.name === scoreboard.awayPitcherName;
 
             if (player.isPlaying) {
-                awayBatterSelect.options.add(
-                    new Option(`${player.number}: ${player.name}`, player.name, selectedBatter, selectedBatter)
-                );
+                awayBatterSelect.options.add(new Option(`${player.number}: ${player.name}`, player.name, selectedBatter, selectedBatter));
                 awayPitcherSelect.options.add(
                     new Option(`${player.number}: ${player.name}`, player.name, selectedPitcher, selectedPitcher)
                 );

@@ -4,12 +4,7 @@ import "./shared.css";
 import "./options.css";
 import { GradientPicker } from "./web-components/gradient-picker";
 import { Local } from "./storage/Local";
-import {
-    DEFAULT_OPTIONS_STATE,
-    DEFAULT_PLAYERS_STATE,
-    DEFAULT_SPONSORS_STATE,
-    DEFAULT_TEAMS_STATE,
-} from "./state/DefaultState";
+import { DEFAULT_OPTIONS_STATE, DEFAULT_PLAYERS_STATE, DEFAULT_SPONSORS_STATE, DEFAULT_TEAMS_STATE } from "./state/DefaultState";
 import { FontsRepository } from "./api/FontsRepository";
 import { LeagueRepository } from "./api/LeagueRepository";
 import { resizeImage } from "./service/image-resize";
@@ -68,6 +63,9 @@ const convertAndResizeImage = async (file: File | Blob) => {
     const fontColor2 = document.querySelector("#font-color-2") as HTMLInputElement;
 
     const fontSelect = document.querySelector("#font") as HTMLSelectElement;
+    const fontLineHeightInput = document.querySelector("#font-line-height") as HTMLInputElement;
+    const minimumPlayerNameWidth = document.querySelector("#minimum-player-name-width") as HTMLInputElement;
+
     const leagueLogoShadow = document.querySelector("#league-logo-shadow") as HTMLInputElement;
     const leagueSelect = document.querySelector("#league-select") as HTMLSelectElement;
     const leagueLogoUpload = document.querySelector("#league-logo-upload") as HTMLInputElement;
@@ -87,6 +85,8 @@ const convertAndResizeImage = async (file: File | Blob) => {
     hideBasesCheckbox.checked = OPTIONS_STATE.hideBases;
     hideCountsCheckbox.checked = OPTIONS_STATE.hideCounts;
     leagueLogoShadow.value = OPTIONS_STATE.leagueLogoShadow;
+    fontLineHeightInput.value = OPTIONS_STATE.fontLineHeight.toString();
+    minimumPlayerNameWidth.value = OPTIONS_STATE.minimumPlayerNameWidth.toString();
 
     let selectedFont: Font = OPTIONS_STATE.font;
     let selectedLeague: League | undefined = OPTIONS_STATE.league;
@@ -154,6 +154,8 @@ const convertAndResizeImage = async (file: File | Blob) => {
             font: selectedFont,
             hideBases: hideBasesCheckbox.checked,
             hideCounts: hideCountsCheckbox.checked,
+            fontLineHeight: fontLineHeightInput.valueAsNumber,
+            minimumPlayerNameWidth: minimumPlayerNameWidth.valueAsNumber,
         };
 
         await Promise.all([
