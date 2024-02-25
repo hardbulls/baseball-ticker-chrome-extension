@@ -16,6 +16,7 @@ import { Font } from "./model/Font";
 import { TeamSection } from "./options/teams-section";
 import { PlayersSection } from "./options/players-section";
 import { SponsorsSection } from "./options/sponsors-section";
+import { RemoteSection } from "./options/remote-section";
 
 const convertAndResizeImage = async (file: File | Blob) => {
     return await resizeImage(200, await convertFileToBase64(file));
@@ -44,10 +45,12 @@ const convertAndResizeImage = async (file: File | Blob) => {
     const teamSection = new TeamSection(TEAM_STATE);
     const playersSection = new PlayersSection(PLAYERS_STATE);
     const sponsorsSection = new SponsorsSection(SPONSORS_STATE);
+    const remoteSection = new RemoteSection(OPTIONS_STATE.remote);
 
     (document.querySelector("#team-settings") as HTMLDivElement).append(teamSection);
     (document.querySelector("#players-settings") as HTMLDivElement).append(playersSection);
     (document.querySelector("#sponsors-settings") as HTMLDivElement).append(sponsorsSection);
+    (document.querySelector("#remote-settings") as HTMLDivElement).append(remoteSection);
 
     const saveButton = document.querySelector("#save-button") as HTMLButtonElement;
     const overlayFilter = document.querySelector("#overlay-filter-color") as HTMLInputElement;
@@ -159,7 +162,10 @@ const convertAndResizeImage = async (file: File | Blob) => {
         };
 
         await Promise.all([
-            Local.setOptions(optionsState),
+            Local.setOptions({
+                ...optionsState,
+                remote: remoteSection.getState(),
+            }),
             Local.setPlayers(playersSection.getState()),
             Local.setTeams(teamSection.getState()),
             Local.setSponsors(sponsorsSection.getState()),

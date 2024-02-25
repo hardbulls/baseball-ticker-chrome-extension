@@ -13,14 +13,18 @@ button {
     min-height: 2em;
 }
 
+button#enable-remote {
+    height: 25%;
+}
+
 button#follow-ticker {
-    height: 32%;
+    height: 25%;
 }
 
 button#toggle-overlay {
-    height: 34%;
+    height: 25%;
 }
 
 button#toggle-controller {
-    height: 34%;
+    height: 25%;
 }

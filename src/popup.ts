@@ -4,14 +4,25 @@ import "./popup.css";
 import { sleep } from "./helper/sleep";
 import { Session } from "./storage/Session";
 import { Windows } from "./windows/Windows";
-import { DEFAULT_POPUP_STATE } from "./state/DefaultState";
+import { DEFAULT_OPTIONS_STATE, DEFAULT_POPUP_STATE } from "./state/DefaultState";
 import { Local } from "./storage/Local";
+import { FirebaseUpdater } from "./remote/firebase";
+import { RemoteState } from "./options/RemoteState";
 
 (async () => {
+    let firebaseUpdater: FirebaseUpdater | undefined = undefined;
+
     const INITIAL_STATE = {
         ...DEFAULT_POPUP_STATE,
         ...(await Local.getPopup()),
     };
+
+    let remoteState = {
+        ...DEFAULT_OPTIONS_STATE,
+        ...(await Local.getOptions()),
+    }.remote;
+
+    let enableRemote = INITIAL_STATE.enableRemote;
 
     chrome.windows.onRemoved.addListener(async (windowId) => {
         if (windowId === (await Session.getControlPanelId())) {
@@ -25,6 +36,31 @@ import { Local } from "./storage/Local";
         }
     });
 
+    chrome.storage.onChanged.addListener(async (changes) => {
+        if (changes.options) {
+            if (changes.options?.newValue.remote !== undefined) {
+                remoteState = changes.options.newValue.remote as RemoteState;
+
+                await toggleFirebaseUpdated();
+            }
+        }
+    });
+
+    async function toggleFirebaseUpdated() {
+        if (enableRemote) {
+            if (!firebaseUpdater) {
+                firebaseUpdater = new FirebaseUpdater();
+            }
+
+            if (remoteState.username && remoteState.password && remoteState.firebaseConfig) {
+                await firebaseUpdater.enable(remoteState.username, remoteState.password, remoteState.firebaseConfig);
+            }
+        } else {
+            await firebaseUpdater?.disable();
+        }
+    }
+
+    const enableRemoteButton = document.querySelector("#enable-remote") as HTMLButtonElement;
     const followTickerButton = document.querySelector("#follow-ticker") as HTMLButtonElement;
     const toggleControllerButton = document.querySelector("#toggle-controller") as HTMLButtonElement;
     const toggleOverlayButton = document.querySelector("#toggle-overlay") as HTMLButtonElement;
@@ -115,7 +151,18 @@ import { Local } from "./storage/Local";
         }
     }
 
+    function updateEnableRemoteButton() {
+        if (enableRemote) {
+            enableRemoteButton.style.backgroundColor = "#e04444";
+            enableRemoteButton.textContent = "Enable Remote: ON";
+        } else {
+            enableRemoteButton.style.backgroundColor = "#41af30";
+            enableRemoteButton.textContent = "Enable Remote: OFF";
+        }
+    }
+
     updateFollowTickerButton();
+    updateEnableRemoteButton();
 
     followTickerButton.addEventListener("click", async () => {
         followTickerButton.disabled = true;
@@ -126,10 +173,32 @@ import { Local } from "./storage/Local";
         await Promise.all([
             Local.setPopup({
                 followTicker: followTicker,
+                enableRemote: enableRemote,
             }),
             sleep(300),
         ]);
 
         followTickerButton.disabled = false;
+    });
+
+    enableRemoteButton.addEventListener("click", async () => {
+        enableRemoteButton.disabled = true;
+        enableRemote = !enableRemote;
+
+        updateEnableRemoteButton();
+
+        if (enableRemote && firebaseUpdater && remoteState.username && remoteState.password && remoteState.firebaseConfig) {
+            await firebaseUpdater.enable(remoteState.username, remoteState.password, remoteState.firebaseConfig);
+        }
+
+        await Promise.all([
+            Local.setPopup({
+                followTicker: followTicker,
+                enableRemote: enableRemote,
+            }),
+            sleep(300),
+        ]);
+
+        enableRemoteButton.disabled = false;
     });
 })();

@@ -1,6 +1,7 @@
 import { Font } from "../model/Font";
 import { Gradient } from "../model/Gradient";
 import { League } from "../model/League";
+import { RemoteState } from "./RemoteState";
 
 export type OptionsState = {
     overlayFilterColor: string;
@@ -19,4 +20,5 @@ export type OptionsState = {
     font: Font;
     fontLineHeight: number;
     minimumPlayerNameWidth: number;
+    remote: RemoteState;
 };

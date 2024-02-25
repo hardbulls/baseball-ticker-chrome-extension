@@ -36,6 +36,7 @@ export const DEFAULT_PLAYERS_STATE: PlayersState = {
 
 export const DEFAULT_POPUP_STATE: PopupState = {
     followTicker: false,
+    enableRemote: false,
 };
 
 const defaultHomeTeam = TeamsRepository.findById("hb_1");
@@ -91,4 +92,9 @@ export const DEFAULT_OPTIONS_STATE: OptionsState = {
     },
     fontLineHeight: 1.05,
     minimumPlayerNameWidth: 18,
+    remote: {
+        firebaseConfig: undefined,
+        username: undefined,
+        password: undefined,
+    },
 };
