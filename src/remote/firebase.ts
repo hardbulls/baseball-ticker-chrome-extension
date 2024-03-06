@@ -7,7 +7,7 @@ import { Local } from "../storage/Local";
 import { ScoreboardState } from "../baseball/model/ScoreboardState";
 import { DEFAULT_SCOREBOARD_STATE } from "../state/DefaultState";
 
-const DATABASE_NAME = "scoreboards";
+export const DATABASE_NAME = "scoreboards";
 
 export class FirebaseUpdater {
     private auth?: Auth = undefined;
