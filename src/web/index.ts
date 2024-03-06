@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { DatabaseReference, getDatabase, onValue, ref } from "firebase/database";
 import { browserLocalPersistence, getAuth, signInWithEmailAndPassword, User } from "firebase/auth";
 import { FirebaseOptions } from "@firebase/app";
+import { FirebaseError } from "@firebase/util";
 import { LoginComponent } from "./login-component";
 import { ScoreboardState } from "../baseball/model/ScoreboardState";
 import { DEFAULT_SCOREBOARD_STATE } from "../state/DefaultState";
@@ -41,20 +42,47 @@ const firebaseConfig: FirebaseConfig = {
         ...DEFAULT_SCOREBOARD_STATE,
     };
 
-    async function handleLogin(username: string, password: string) {
-        const userCredential = await signInWithEmailAndPassword(auth, username, password);
+    async function handleLogin(username: string, password: string): Promise<undefined | Error> {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, username, password);
+            const user = userCredential.user;
 
-        const user = userCredential.user;
+            LocalStorage.setDefaultCredentials(username, password);
 
-        localStorage.setItem("__scoreboard_user", JSON.stringify({ username: username, password }));
+            renderScoreboardController();
 
-        if (!scoreboardRef) {
-            getFirebaseData(user);
+            if (!scoreboardRef) {
+                getFirebaseData(user);
 
-            return true;
+                return undefined;
+            }
+
+            return undefined;
+        } catch (error) {
+            if (error instanceof FirebaseError) {
+                if (error.code === "auth/invalid-email") {
+                    return new Error("Invalid E-Mail");
+                }
+
+                if (error.code === "auth/missing-password") {
+                    return new Error("Missing Password.");
+                }
+
+                if (error.code === "auth/user-not-found") {
+                    return new Error("User was not found.");
+                }
+
+                if (error.code === "auth/wrong-password") {
+                    return new Error("Incorrect Password");
+                }
+
+                if (error.code === "auth/too-many-requests") {
+                    return new Error("Too many login attempts.");
+                }
+            }
+
+            throw error;
         }
-
-        return false;
     }
 
     function getFirebaseData(user: User) {
@@ -76,21 +104,22 @@ const firebaseConfig: FirebaseConfig = {
         );
     }
 
-    if (user) {
-        getFirebaseData(user);
+    function renderScoreboardController() {
         const scoreboardController = new ScoreboardController(scoreboardState);
 
         document.body.append(scoreboardController);
+    }
+
+    if (user) {
+        getFirebaseData(user);
+        renderScoreboardController();
     } else {
-        const defaultCredentials = JSON.parse(localStorage.getItem("__scoreboard_user") || "{}") as {
-            username?: string;
-            password?: string;
-        };
+        const defaultCredentials = LocalStorage.getDefaultCredentials();
 
         const loginComponent = new LoginComponent(defaultCredentials, async (username, password) => {
-            await Promise.all([handleLogin(username, password), sleep(300)]);
+            const [error] = await Promise.all([handleLogin(username, password), sleep(300)]);
 
-            return true;
+            return error;
         });
 
         document.body.append(loginComponent);

@@ -1,3 +1,4 @@
-#login-component #login-button.error {
+#login-form input.has-error {
     color: red;
+    border-color: red;
 }

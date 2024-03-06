@@ -160,7 +160,7 @@ export class ScoreboardController extends HTMLElement {
         (this.outButton.querySelector(".value") as HTMLSpanElement).textContent = this.scoreboardState.outs.toString();
     }
 
-    private updateScoreValue = async <T extends keyof ScoreboardState>(key: T, value: ScoreboardState[T]) => {
+    private updateScoreValue = <T extends keyof ScoreboardState>(key: T, value: ScoreboardState[T]) => {
         this.scoreboardState = {
             ...this.scoreboardState,
             [key]: value,
@@ -193,7 +193,7 @@ export class ScoreboardController extends HTMLElement {
         this.resetBasesButton.disabled = this.scoreboardState.bases.length === 0;
     }
 
-    private resetCounts = async () => {
+    private resetCounts = () => {
         this.scoreboardState = {
             ...this.scoreboardState,
             balls: 0,
