@@ -7,6 +7,7 @@ import logo_u13 from "../assets/leagues/u13.svg";
 import logo_u14 from "../assets/leagues/u14.svg";
 import logo_u16 from "../assets/leagues/u16.svg";
 import logo_vsl from "../assets/leagues/vsl.svg";
+import logo_bbl_preseason from "../assets/leagues/bbl-preseason.png";
 import { League } from "../model/League";
 import { LeagueNotFoundError } from "../error/LeagueNotFoundError";
 
@@ -19,6 +20,10 @@ export abstract class LeagueRepository {
         bbl: {
             name: "Baseball Bundesliga",
             data: logo_bbl,
+        },
+        "bbl-preseason": {
+            name: "BBL Preseason",
+            data: logo_bbl_preseason,
         },
         llv: {
             name: "Landesliga Vorarlberg",
