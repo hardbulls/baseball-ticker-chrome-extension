@@ -1,0 +1,38 @@
+#login-form {
+    margin-inline: 24px;
+    font-size: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: stretch;
+    height: 100%;
+}
+
+label {
+    font-size: 24px;
+    color: #545454;
+}
+
+#login-form input.has-error {
+    color: red;
+    border-color: red;
+}
+
+#login-error {
+    font-size: 24px;
+    color: red;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    font-size: 32px;
+}
+
+#login-button {
+    margin-top: 24px;
+    width: 100%;
+    font-size: 32px;
+    padding: 8px;
+}

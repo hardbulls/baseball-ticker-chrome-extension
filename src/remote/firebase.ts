@@ -7,7 +7,7 @@ import { Local } from "../storage/Local";
 import { ScoreboardState } from "../baseball/model/ScoreboardState";
 import { DEFAULT_SCOREBOARD_STATE } from "../state/DefaultState";
 
-const DATABASE_NAME = "scoreboards";
+export const DATABASE_NAME = "scoreboards";
 
 export class FirebaseUpdater {
     private auth?: Auth = undefined;
@@ -42,20 +42,28 @@ export class FirebaseUpdater {
             this.user = userCredential.user;
 
             if (!this.scoreboardRef) {
-                const db = getDatabase();
-
-                this.scoreboardRef = ref(db, `${DATABASE_NAME}/${this.user.uid}`);
-
-                this.unsubscribe = onValue(this.scoreboardRef, async (snapshot) => {
-                    const data = snapshot.val() as ScoreboardState;
-
-                    await Local.setScoreboard({
-                        ...DEFAULT_SCOREBOARD_STATE,
-                        ...data,
-                    });
-                });
+                this.listen(this.user);
             }
+        } else if (user) {
+            this.listen(user);
         }
+    }
+
+    private listen(user: User) {
+        if (!this.scoreboardRef) {
+            const db = getDatabase();
+
+            this.scoreboardRef = ref(db, `${DATABASE_NAME}/${user.uid}`);
+        }
+
+        this.unsubscribe = onValue(this.scoreboardRef, async (snapshot) => {
+            const data = snapshot.val() as ScoreboardState;
+
+            await Local.setScoreboard({
+                ...DEFAULT_SCOREBOARD_STATE,
+                ...data,
+            });
+        });
     }
 
     public async disable(): Promise<void> {

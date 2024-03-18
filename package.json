@@ -31,8 +31,10 @@
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
-    "start": "NODE_ENV=development webpack --watch",
-    "build": "NODE_ENV=production webpack",
+    "start": "NODE_ENV=development webpack --config webpack.cxt.config.js --watch",
+    "build": "NODE_ENV=production webpack --config webpack.cxt.config.js",
+    "start:web": "NODE_ENV=development webpack --config webpack.web.config.js --watch",
+    "build:web": "NODE_ENV=production webpack --config webpack.web.config.js",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "cs-format": "prettier 'src/**/*.ts' --write --tab-width 4 --print-width=140",
     "cs-css": "stylelint src/**/*.css --fix",
@@ -54,6 +56,7 @@
     ]
   },
   "dependencies": {
-    "firebase": "^10.8.0"
+    "firebase": "^10.8.0",
+    "html-webpack-plugin": "^5.6.0"
   }
 }

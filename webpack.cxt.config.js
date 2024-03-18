@@ -59,7 +59,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".ts"]
   },
   plugins:
     [
@@ -90,7 +90,7 @@ module.exports = {
     ],
   output: {
     filename: env === "production" && useContentHash ? "[name].[contenthash].js" : "[name].js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "dist", 'cxt'),
     clean: true
   },
   performance: {
