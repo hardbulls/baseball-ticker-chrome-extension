@@ -13,17 +13,7 @@ import { LocalStorage } from "../storage/LocalStorage";
 import { ScoreboardContainer } from "./scoreboard-container";
 import { LoginContainer } from "./login-container";
 
-// const firebaseConfig = JSON.parse(FIREBASE_CONFIG) as FirebaseConfig;
-
-const firebaseConfig: FirebaseConfig = {
-    apiKey: "AIzaSyC4-U1Z4irYRnYk6S2wGjOUOCTW-gkTNH4",
-    authDomain: "hardbulls-livestream.firebaseapp.com",
-    databaseURL: "https://hardbulls-livestream-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "hardbulls-livestream",
-    storageBucket: "hardbulls-livestream.appspot.com",
-    messagingSenderId: "672919965109",
-    appId: "1:672919965109:web:6efa9ea69eea842b131dfc",
-};
+const firebaseConfig = FIREBASE_CONFIG as FirebaseConfig;
 
 (async () => {
     const config = {

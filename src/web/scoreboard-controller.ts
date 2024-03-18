@@ -5,7 +5,6 @@ import { InningHalfEnum } from "../baseball/model/InningHalfEnum";
 import { ScoreboardState } from "../baseball/model/ScoreboardState";
 import { BaseEnum } from "../baseball/model/BasesEnum";
 import { BaseButton } from "./base-button";
-import { LocalStorage } from "../storage/LocalStorage";
 import { setComponent } from "../framework";
 
 export class ScoreboardController extends HTMLElement {
@@ -61,6 +60,7 @@ export class ScoreboardController extends HTMLElement {
         this.homeAddButton.addEventListener("click", () => {
             const value = this.scoreboardState.score[0] + 1;
             this.updateScoreValue("score", [value, scoreboardState.score[1]]);
+            this.sync();
 
             this.homeMinusButton.disabled = value === 0;
         });
@@ -68,6 +68,7 @@ export class ScoreboardController extends HTMLElement {
         this.homeMinusButton.addEventListener("click", () => {
             const value = Math.max(0, scoreboardState.score[0] - 1);
             this.updateScoreValue("score", [value, scoreboardState.score[1]]);
+            this.sync();
 
             this.homeMinusButton.disabled = value === 0;
         });
@@ -76,6 +77,7 @@ export class ScoreboardController extends HTMLElement {
             const value = this.scoreboardState.score[1] + 1;
 
             this.updateScoreValue("score", [this.scoreboardState.score[0], value]);
+            this.sync();
 
             this.awayMinusButton.disabled = value === 0;
         });
@@ -84,6 +86,7 @@ export class ScoreboardController extends HTMLElement {
             const value = Math.max(0, this.scoreboardState.score[1] - 1);
 
             this.updateScoreValue("score", [this.scoreboardState.score[0], value]);
+            this.sync();
 
             this.awayMinusButton.disabled = value === 0;
         });
@@ -92,6 +95,7 @@ export class ScoreboardController extends HTMLElement {
             const value = this.scoreboardState.strikes === 2 ? 0 : this.scoreboardState.strikes + 1;
 
             this.updateScoreValue("strikes", value);
+            this.sync();
 
             this.resetCountButton.disabled = this.scoreboardState.balls === 0 && value === 0;
         });
@@ -100,6 +104,7 @@ export class ScoreboardController extends HTMLElement {
             const value = this.scoreboardState.balls === 3 ? 0 : this.scoreboardState.balls + 1;
 
             this.updateScoreValue("balls", value);
+            this.sync();
 
             this.resetCountButton.disabled = value === 0 && this.scoreboardState.strikes === 0;
         });
@@ -107,19 +112,23 @@ export class ScoreboardController extends HTMLElement {
         this.outButton.addEventListener("click", () => {
             if (this.scoreboardState.outs === 2) {
                 this.updateScoreValue("outs", 0);
+                this.sync();
 
                 return;
             }
 
             this.updateScoreValue("outs", this.scoreboardState.outs + 1);
+            this.sync();
         });
 
         this.resetBasesButton.addEventListener("click", () => {
             this.clearBases();
+            this.sync();
         });
 
         this.resetCountButton.addEventListener("click", () => {
             this.resetCounts();
+            this.sync();
         });
 
         this.inningAddButton.addEventListener("click", () => {
@@ -127,12 +136,14 @@ export class ScoreboardController extends HTMLElement {
             this.clearBases();
             this.resetCounts();
             this.updateScoreValue("outs", 0);
+            this.sync();
 
             this.inningMinusButton.disabled = false;
         });
 
         this.inningMinusButton.addEventListener("click", () => {
             this.updateInning(-1);
+            this.sync();
 
             this.inningMinusButton.disabled =
                 this.scoreboardState.inning.value === 1 && this.scoreboardState.inning.half === InningHalfEnum.TOP;
@@ -141,10 +152,15 @@ export class ScoreboardController extends HTMLElement {
         this.setState(scoreboardState);
     }
 
+    private sync() {
+        this.handleUpdate(this.scoreboardState);
+    }
+
     private handleBaseClick = (button: BaseButton) => {
         const active = !this.scoreboardState.bases.includes(button.base);
 
         this.updateBase(button.base, active);
+        this.sync();
 
         button.setActive(active);
         this.resetBasesButton.disabled = this.scoreboardState.bases.length === 0;
@@ -193,7 +209,6 @@ export class ScoreboardController extends HTMLElement {
         };
 
         this.updateValueLabels();
-        this.handleUpdate(this.scoreboardState);
     };
 
     private updateBase(base: BaseEnum, active: boolean) {
@@ -226,8 +241,7 @@ export class ScoreboardController extends HTMLElement {
         };
 
         this.updateValueLabels();
-
-        LocalStorage.setScoreboard(this.scoreboardState);
+        this.sync();
 
         this.resetCountButton.disabled = this.scoreboardState.balls === 0 && this.scoreboardState.strikes === 0;
     };

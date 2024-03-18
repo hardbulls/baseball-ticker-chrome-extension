@@ -4,23 +4,14 @@ import "./popup.css";
 import { sleep } from "./helper/sleep";
 import { Session } from "./storage/Session";
 import { Windows } from "./windows/Windows";
-import { DEFAULT_OPTIONS_STATE, DEFAULT_POPUP_STATE } from "./state/DefaultState";
+import { DEFAULT_POPUP_STATE } from "./state/DefaultState";
 import { Local } from "./storage/Local";
-import { FirebaseUpdater } from "./remote/firebase";
-import { RemoteState } from "./options/RemoteState";
 
 (async () => {
-    let firebaseUpdater: FirebaseUpdater | undefined = undefined;
-
     const INITIAL_STATE = {
         ...DEFAULT_POPUP_STATE,
         ...(await Local.getPopup()),
     };
-
-    let remoteState = {
-        ...DEFAULT_OPTIONS_STATE,
-        ...(await Local.getOptions()),
-    }.remote;
 
     let enableRemote = INITIAL_STATE.enableRemote;
 
@@ -35,30 +26,6 @@ import { RemoteState } from "./options/RemoteState";
             toggleOverlayButton.textContent = "Open Overlay";
         }
     });
-
-    chrome.storage.onChanged.addListener(async (changes) => {
-        if (changes.options) {
-            if (changes.options?.newValue.remote !== undefined) {
-                remoteState = changes.options.newValue.remote as RemoteState;
-
-                await toggleFirebaseUpdated();
-            }
-        }
-    });
-
-    async function toggleFirebaseUpdated() {
-        if (enableRemote) {
-            if (!firebaseUpdater) {
-                firebaseUpdater = new FirebaseUpdater();
-            }
-
-            if (remoteState.username && remoteState.password && remoteState.firebaseConfig) {
-                await firebaseUpdater.enable(remoteState.username, remoteState.password, remoteState.firebaseConfig);
-            }
-        } else {
-            await firebaseUpdater?.disable();
-        }
-    }
 
     const enableRemoteButton = document.querySelector("#enable-remote") as HTMLButtonElement;
     const followTickerButton = document.querySelector("#follow-ticker") as HTMLButtonElement;
@@ -186,10 +153,6 @@ import { RemoteState } from "./options/RemoteState";
         enableRemote = !enableRemote;
 
         updateEnableRemoteButton();
-
-        if (enableRemote && remoteState.username && remoteState.password && remoteState.firebaseConfig) {
-            await toggleFirebaseUpdated();
-        }
 
         await Promise.all([
             Local.setPopup({

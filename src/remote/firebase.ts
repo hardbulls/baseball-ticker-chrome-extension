@@ -1,7 +1,7 @@
 import { FirebaseConfig } from "./FirebaseConfig";
 import { initializeApp } from "firebase/app";
 import { DatabaseReference, getDatabase, Unsubscribe, onValue, ref } from "firebase/database";
-import { Auth, browserLocalPersistence, getAuth, signInWithEmailAndPassword, User } from "firebase/auth";
+import { Auth, inMemoryPersistence, getAuth, signInWithEmailAndPassword, User } from "firebase/auth";
 import { FirebaseOptions } from "@firebase/app";
 import { Local } from "../storage/Local";
 import { ScoreboardState } from "../baseball/model/ScoreboardState";
@@ -20,14 +20,14 @@ export class FirebaseUpdater {
 
         const firebaseConfig = {
             ...config,
-            persistence: browserLocalPersistence,
+            persistence: inMemoryPersistence,
         } as FirebaseOptions;
 
         initializeApp(firebaseConfig);
 
         if (!this.auth) {
             this.auth = getAuth();
-            await this.auth.setPersistence(browserLocalPersistence);
+            await this.auth.setPersistence(inMemoryPersistence);
         }
 
         await this.login(email, password);
