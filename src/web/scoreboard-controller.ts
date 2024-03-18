@@ -33,13 +33,13 @@ export class ScoreboardController extends HTMLElement {
         this.awayAddButton = this.querySelector("#away-add-button") as HTMLButtonElement;
         this.awayMinusButton = this.querySelector("#away-minus-button") as HTMLButtonElement;
 
-        this.firstBaseButton = new BaseButton(BaseEnum.FIRST, scoreboardState.bases.includes(BaseEnum.FIRST), () =>
+        this.firstBaseButton = new BaseButton(BaseEnum.FIRST, this.scoreboardState.bases.includes(BaseEnum.FIRST), () =>
             this.handleBaseClick(this.firstBaseButton)
         );
-        this.secondBaseButton = new BaseButton(BaseEnum.SECOND, scoreboardState.bases.includes(BaseEnum.SECOND), () =>
+        this.secondBaseButton = new BaseButton(BaseEnum.SECOND, this.scoreboardState.bases.includes(BaseEnum.SECOND), () =>
             this.handleBaseClick(this.secondBaseButton)
         );
-        this.thirdBaseButton = new BaseButton(BaseEnum.THIRD, scoreboardState.bases.includes(BaseEnum.THIRD), () =>
+        this.thirdBaseButton = new BaseButton(BaseEnum.THIRD, this.scoreboardState.bases.includes(BaseEnum.THIRD), () =>
             this.handleBaseClick(this.thirdBaseButton)
         );
 
@@ -59,15 +59,15 @@ export class ScoreboardController extends HTMLElement {
 
         this.homeAddButton.addEventListener("click", () => {
             const value = this.scoreboardState.score[0] + 1;
-            this.updateScoreValue("score", [value, scoreboardState.score[1]]);
+            this.updateScoreValue("score", [value, this.scoreboardState.score[1]]);
             this.sync();
 
             this.homeMinusButton.disabled = value === 0;
         });
 
         this.homeMinusButton.addEventListener("click", () => {
-            const value = Math.max(0, scoreboardState.score[0] - 1);
-            this.updateScoreValue("score", [value, scoreboardState.score[1]]);
+            const value = Math.max(0, this.scoreboardState.score[0] - 1);
+            this.updateScoreValue("score", [value, this.scoreboardState.score[1]]);
             this.sync();
 
             this.homeMinusButton.disabled = value === 0;

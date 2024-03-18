@@ -3,6 +3,9 @@ name: Deploy build
 on:
   push:
     branches: [ "main" ]
+env:
+  FIREBASE_CONFIG: ${{ vars.FIREBASE_CONFIG }}
+
 
 jobs:
   cxt:
