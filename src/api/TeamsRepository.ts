@@ -10,6 +10,7 @@ import Logo_bb from "../assets/teams/logo_bb.png";
 import Logo_fc from "../assets/teams/logo_fc.png";
 import Logo_vm from "../assets/teams/logo_vm.png";
 import Logo_st from "../assets/teams/logo_st.png";
+import Logo_ch_pirates from "../assets/teams/logo_ch_pirates.png";
 import Logo_highlanders from "../assets/teams/logo_highlanders.png";
 import Logo_aa from "../assets/teams/logo_athletics.png";
 import Logo_centurions from "../assets/teams/logo_centurions.png";
@@ -252,6 +253,19 @@ export abstract class TeamsRepository {
                 endColor: "#2851da",
             },
             logoShadow: "#286dc8",
+        },
+        wp_1: {
+            name: "Wil Pirates",
+            nameShort: "Pirates",
+            logo: Logo_ch_pirates,
+            gradient: {
+                angle: 180,
+                startPercentage: 30,
+                endPercentage: 50,
+                startColor: "#a51d22",
+                endColor: "#b12b31",
+            },
+            logoShadow: "#2e2e2e",
         },
     };
 
