@@ -137,6 +137,15 @@ export class ScoreboardController extends HTMLElement {
             this.inningMinusButton.disabled =
                 this.scoreboardState.inning.value === 1 && this.scoreboardState.inning.half === InningHalfEnum.TOP;
         });
+
+        this.updateValueLabels();
+
+        this.resetBasesButton.disabled = this.scoreboardState.bases.length === 0;
+        this.resetCountButton.disabled = this.scoreboardState.balls === 0 && this.scoreboardState.strikes === 0;
+        this.homeMinusButton.disabled = this.scoreboardState.score[0] === 0;
+        this.awayMinusButton.disabled = this.scoreboardState.score[1] === 0;
+        this.inningMinusButton.disabled =
+            this.scoreboardState.inning.value === 1 && this.scoreboardState.inning.half === InningHalfEnum.TOP;
     }
 
     private handleBaseClick = (button: BaseButton) => {

@@ -13,6 +13,8 @@ export class LoginComponent extends HTMLElement {
     ) {
         super();
 
+        this.style.height = "100%";
+
         this.innerHTML = this.render();
 
         this.usernameInput = this.querySelector("#login-username") as HTMLInputElement;
@@ -55,15 +57,17 @@ export class LoginComponent extends HTMLElement {
         return `
     <form id="login-form">
       <div>
+          <label for="login-username">Username</label>
         <input autocomplete="username" required type="email" id="login-username"/>
       </div>
       <div>
+          <label for="login-password">Password</label>
         <input autocomplete="current-password" required type="password" id="login-password"/>
       </div>
-      <div id="login-error"></div>
       <div>
         <button id="login-button">Login</button>
       </div>
+      <div id="login-error"></div>
     </form>
     `;
     }

@@ -1,16 +1,17 @@
+import "../reset.css";
 import { FirebaseConfig } from "../remote/FirebaseConfig";
 import { initializeApp } from "firebase/app";
 import { DatabaseReference, getDatabase, onValue, ref } from "firebase/database";
-import { browserLocalPersistence, getAuth, signInWithEmailAndPassword, User } from "firebase/auth";
+import { browserLocalPersistence, getAuth, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import { FirebaseOptions } from "@firebase/app";
 import { FirebaseError } from "@firebase/util";
-import { LoginComponent } from "./login-component";
 import { ScoreboardState } from "../baseball/model/ScoreboardState";
 import { DEFAULT_SCOREBOARD_STATE } from "../state/DefaultState";
 import { DATABASE_NAME } from "../remote/firebase";
 import { sleep } from "../helper/sleep";
-import { ScoreboardController } from "./scoreboard-controller";
 import { LocalStorage } from "../storage/LocalStorage";
+import { ScoreboardContainer } from "./scoreboard-container";
+import { LoginContainer } from "./login-container";
 
 // const firebaseConfig = JSON.parse(FIREBASE_CONFIG) as FirebaseConfig;
 
@@ -34,7 +35,7 @@ const firebaseConfig: FirebaseConfig = {
 
     const auth = getAuth();
     await auth.setPersistence(browserLocalPersistence);
-    const user = getAuth().currentUser;
+    let user = getAuth().currentUser;
 
     let scoreboardRef: DatabaseReference | undefined;
     let scoreboardState = {
@@ -42,14 +43,18 @@ const firebaseConfig: FirebaseConfig = {
         ...DEFAULT_SCOREBOARD_STATE,
     };
 
+    async function handleLogout() {
+        await signOut(auth);
+
+        user = null;
+    }
+
     async function handleLogin(username: string, password: string): Promise<undefined | Error> {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, username, password);
             const user = userCredential.user;
 
             LocalStorage.setDefaultCredentials(username, password);
-
-            renderScoreboardController();
 
             if (!scoreboardRef) {
                 getFirebaseData(user);
@@ -104,24 +109,29 @@ const firebaseConfig: FirebaseConfig = {
         );
     }
 
-    function renderScoreboardController() {
-        const scoreboardController = new ScoreboardController(scoreboardState);
+    const scoreboardContainer = new ScoreboardContainer(async () => {
+        await Promise.all([handleLogout(), sleep(300)]);
 
-        document.body.append(scoreboardController);
-    }
+        document.body.append(loginContainer);
+        document.body.removeChild(scoreboardContainer);
+    }, scoreboardState);
+
+    const loginContainer = new LoginContainer(async (username, password) => {
+        const [error] = await Promise.all([handleLogin(username, password), sleep(300)]);
+
+        if (!error) {
+            document.body.append(scoreboardContainer);
+            document.body.removeChild(loginContainer);
+        }
+
+        return error;
+    }, LocalStorage.getDefaultCredentials());
 
     if (user) {
         getFirebaseData(user);
-        renderScoreboardController();
+
+        document.body.append(scoreboardContainer);
     } else {
-        const defaultCredentials = LocalStorage.getDefaultCredentials();
-
-        const loginComponent = new LoginComponent(defaultCredentials, async (username, password) => {
-            const [error] = await Promise.all([handleLogin(username, password), sleep(300)]);
-
-            return error;
-        });
-
-        document.body.append(loginComponent);
+        document.body.append(loginContainer);
     }
 })();
