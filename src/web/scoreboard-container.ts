@@ -4,7 +4,13 @@ import { ScoreboardController } from "./scoreboard-controller";
 import { ScoreboardState } from "../baseball/model/ScoreboardState";
 
 export class ScoreboardContainer extends HTMLElement {
-    constructor(handleLogout: () => void, scoreboardState: ScoreboardState) {
+    private readonly scoreboardController: ScoreboardController;
+
+    constructor(
+        handleLogout: () => void,
+        scoreboardState: ScoreboardState,
+        handleScoreboardUpdate: (scoreboardState: ScoreboardState) => Promise<void>
+    ) {
         super();
 
         const logoutComponent = new LogoutComponent(() => {
@@ -13,17 +19,21 @@ export class ScoreboardContainer extends HTMLElement {
 
         logoutComponent.style.height = "10%";
 
-        const scoreboardController = new ScoreboardController(scoreboardState);
+        this.scoreboardController = new ScoreboardController(scoreboardState, (state) => handleScoreboardUpdate(state));
 
-        scoreboardController.style.height = "90%";
+        this.scoreboardController.style.height = "90%";
 
         this.style.height = "100%";
         this.style.display = "flex";
         this.style.flexDirection = "column";
         this.style.justifyContent = "stretch";
 
-        this.append(scoreboardController);
+        this.append(this.scoreboardController);
         this.append(logoutComponent);
+    }
+
+    public setScoreboardState(scoreboardState: ScoreboardState): void {
+        this.scoreboardController.setState(scoreboardState);
     }
 }
 

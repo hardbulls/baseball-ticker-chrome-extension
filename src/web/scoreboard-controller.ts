@@ -24,7 +24,7 @@ export class ScoreboardController extends HTMLElement {
     private inningMinusButton: HTMLButtonElement;
     private resetCountButton: HTMLButtonElement;
 
-    constructor(private scoreboardState: ScoreboardState) {
+    constructor(private scoreboardState: ScoreboardState, private handleUpdate: (scoreboardState: ScoreboardState) => Promise<void>) {
         super();
 
         this.innerHTML = this.render();
@@ -138,14 +138,7 @@ export class ScoreboardController extends HTMLElement {
                 this.scoreboardState.inning.value === 1 && this.scoreboardState.inning.half === InningHalfEnum.TOP;
         });
 
-        this.updateValueLabels();
-
-        this.resetBasesButton.disabled = this.scoreboardState.bases.length === 0;
-        this.resetCountButton.disabled = this.scoreboardState.balls === 0 && this.scoreboardState.strikes === 0;
-        this.homeMinusButton.disabled = this.scoreboardState.score[0] === 0;
-        this.awayMinusButton.disabled = this.scoreboardState.score[1] === 0;
-        this.inningMinusButton.disabled =
-            this.scoreboardState.inning.value === 1 && this.scoreboardState.inning.half === InningHalfEnum.TOP;
+        this.setState(scoreboardState);
     }
 
     private handleBaseClick = (button: BaseButton) => {
@@ -156,6 +149,30 @@ export class ScoreboardController extends HTMLElement {
         button.setActive(active);
         this.resetBasesButton.disabled = this.scoreboardState.bases.length === 0;
     };
+
+    public setState(scoreboardState: ScoreboardState): void {
+        this.scoreboardState = scoreboardState;
+        this.updateValueLabels();
+
+        this.resetBasesButton.disabled = this.scoreboardState.bases.length === 0;
+        this.resetCountButton.disabled = this.scoreboardState.balls === 0 && this.scoreboardState.strikes === 0;
+        this.homeMinusButton.disabled = this.scoreboardState.score[0] === 0;
+        this.awayMinusButton.disabled = this.scoreboardState.score[1] === 0;
+        this.inningMinusButton.disabled =
+            this.scoreboardState.inning.value === 1 && this.scoreboardState.inning.half === InningHalfEnum.TOP;
+
+        if (this.scoreboardState.bases.includes(BaseEnum.FIRST)) {
+            this.firstBaseButton.setActive(true);
+        }
+
+        if (this.scoreboardState.bases.includes(BaseEnum.SECOND)) {
+            this.secondBaseButton.setActive(true);
+        }
+
+        if (this.scoreboardState.bases.includes(BaseEnum.THIRD)) {
+            this.thirdBaseButton.setActive(true);
+        }
+    }
 
     private updateValueLabels() {
         (this.homeAddButton.querySelector(".value") as HTMLSpanElement).textContent = this.scoreboardState.score[0].toString();
@@ -176,8 +193,7 @@ export class ScoreboardController extends HTMLElement {
         };
 
         this.updateValueLabels();
-
-        LocalStorage.setScoreboard(this.scoreboardState);
+        this.handleUpdate(this.scoreboardState);
     };
 
     private updateBase(base: BaseEnum, active: boolean) {

@@ -187,8 +187,8 @@ import { RemoteState } from "./options/RemoteState";
 
         updateEnableRemoteButton();
 
-        if (enableRemote && firebaseUpdater && remoteState.username && remoteState.password && remoteState.firebaseConfig) {
-            await firebaseUpdater.enable(remoteState.username, remoteState.password, remoteState.firebaseConfig);
+        if (enableRemote && remoteState.username && remoteState.password && remoteState.firebaseConfig) {
+            await toggleFirebaseUpdated();
         }
 
         await Promise.all([

@@ -1,7 +1,7 @@
 import "../reset.css";
 import { FirebaseConfig } from "../remote/FirebaseConfig";
 import { initializeApp } from "firebase/app";
-import { DatabaseReference, getDatabase, onValue, ref } from "firebase/database";
+import { DatabaseReference, getDatabase, onValue, ref, set } from "firebase/database";
 import { browserLocalPersistence, getAuth, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import { FirebaseOptions } from "@firebase/app";
 import { FirebaseError } from "@firebase/util";
@@ -38,7 +38,7 @@ const firebaseConfig: FirebaseConfig = {
     let user = getAuth().currentUser;
 
     let scoreboardRef: DatabaseReference | undefined;
-    let scoreboardState = {
+    const scoreboardState = {
         ...LocalStorage.getScoreboard(),
         ...DEFAULT_SCOREBOARD_STATE,
     };
@@ -90,6 +90,21 @@ const firebaseConfig: FirebaseConfig = {
         }
     }
 
+    const scoreboardContainer = new ScoreboardContainer(
+        async () => {
+            await Promise.all([handleLogout(), sleep(300)]);
+
+            document.body.append(loginContainer);
+            document.body.removeChild(scoreboardContainer);
+        },
+        scoreboardState,
+        async (scoreboardState) => {
+            const db = getDatabase();
+
+            await set(ref(db, `${DATABASE_NAME}/${user?.uid}`), scoreboardState);
+        }
+    );
+
     function getFirebaseData(user: User) {
         const db = getDatabase();
 
@@ -100,21 +115,14 @@ const firebaseConfig: FirebaseConfig = {
             async (snapshot) => {
                 const data = snapshot.val() as ScoreboardState;
 
-                scoreboardState = {
+                scoreboardContainer.setScoreboardState({
                     ...scoreboardState,
                     ...data,
-                };
+                });
             },
             { onlyOnce: true }
         );
     }
-
-    const scoreboardContainer = new ScoreboardContainer(async () => {
-        await Promise.all([handleLogout(), sleep(300)]);
-
-        document.body.append(loginContainer);
-        document.body.removeChild(scoreboardContainer);
-    }, scoreboardState);
 
     const loginContainer = new LoginContainer(async (username, password) => {
         const [error] = await Promise.all([handleLogin(username, password), sleep(300)]);
