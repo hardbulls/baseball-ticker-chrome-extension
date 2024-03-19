@@ -1,7 +1,7 @@
 import { FirebaseConfig } from "./FirebaseConfig";
 import { initializeApp } from "firebase/app";
 import { DatabaseReference, getDatabase, Unsubscribe, onValue, ref } from "firebase/database";
-import { Auth, inMemoryPersistence, getAuth, signInWithEmailAndPassword, User } from "firebase/auth";
+import { Auth, indexedDBLocalPersistence, getAuth, signInWithEmailAndPassword, User } from "firebase/auth";
 import { FirebaseOptions } from "@firebase/app";
 import { Local } from "../storage/Local";
 import { ScoreboardState } from "../baseball/model/ScoreboardState";
@@ -20,32 +20,24 @@ export class FirebaseUpdater {
 
         const firebaseConfig = {
             ...config,
-            persistence: inMemoryPersistence,
+            persistence: indexedDBLocalPersistence,
         } as FirebaseOptions;
 
         initializeApp(firebaseConfig);
 
-        if (!this.auth) {
-            this.auth = getAuth();
-            await this.auth.setPersistence(inMemoryPersistence);
-        }
+        this.auth = getAuth();
+        await this.auth.setPersistence(indexedDBLocalPersistence);
 
         await this.login(email, password);
     }
 
     private async login(email: string, password: string): Promise<void> {
-        const user = this.auth?.currentUser;
-
-        if (this.auth && !user) {
+        if (this.auth) {
             const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
 
             this.user = userCredential.user;
 
-            if (!this.scoreboardRef) {
-                this.listen(this.user);
-            }
-        } else if (user) {
-            this.listen(user);
+            this.listen(this.user);
         }
     }
 
@@ -55,6 +47,8 @@ export class FirebaseUpdater {
 
             this.scoreboardRef = ref(db, `${DATABASE_NAME}/${user.uid}`);
         }
+
+        this.disable();
 
         this.unsubscribe = onValue(this.scoreboardRef, async (snapshot) => {
             const data = snapshot.val() as ScoreboardState;

@@ -22,7 +22,7 @@ export abstract class LeagueRepository {
             data: logo_bbl,
         },
         "bbl-preseason": {
-            name: "BBL Preseason",
+            name: "Preseason",
             data: logo_bbl_preseason,
         },
         llv: {

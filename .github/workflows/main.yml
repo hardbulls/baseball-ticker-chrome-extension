@@ -47,6 +47,9 @@ jobs:
       matrix:
         node-version: [20.x]
 
+    needs:
+      - cxt
+
     steps:
       - uses: actions/checkout@v3
 
@@ -55,8 +58,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - uses: actions/download-artifact@master
+        with:
+          name: 'wbsc-ticker-chrome-extension'
+          path: './cxt'
+
       - name: Build
         run: |
+          cd cxt && zip -r -q wbsc-ticker-cxt.zip . * && mv wbsc-ticker-cxt.zip ./dist/web/ && cd -
+          ls
           npm ci
           npm run build:web
       - name: Setup Pages

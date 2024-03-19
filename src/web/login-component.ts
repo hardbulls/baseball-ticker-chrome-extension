@@ -55,21 +55,21 @@ export class LoginComponent extends HTMLElement {
 
     private render(): string {
         return `
-    <form id="login-form">
-      <div>
-          <label for="login-username">Username</label>
-        <input autocomplete="username" required type="email" id="login-username"/>
-      </div>
-      <div>
-          <label for="login-password">Password</label>
-        <input autocomplete="current-password" required type="password" id="login-password"/>
-      </div>
-      <div>
-        <button id="login-button">Login</button>
-      </div>
-      <div id="login-error"></div>
-    </form>
-    `;
+            <form id="login-form">
+              <div>
+                  <label for="login-username">Username</label>
+                <input autocomplete="username" required type="email" id="login-username"/>
+              </div>
+              <div>
+                  <label for="login-password">Password</label>
+                <input autocomplete="current-password" required type="password" id="login-password"/>
+              </div>
+              <div>
+                <button id="login-button">Login</button>
+              </div>
+              <div id="login-error"></div>
+            </form>
+        `;
     }
 }
 
