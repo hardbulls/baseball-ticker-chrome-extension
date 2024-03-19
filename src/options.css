@@ -9,6 +9,7 @@ textarea {
 }
 
 .settings-container {
+    overflow: scroll;
     padding: 16px;
     display: flex;
     flex-wrap: wrap;
