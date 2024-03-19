@@ -8,35 +8,6 @@ env:
 
 
 jobs:
-  cxt:
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-
-    strategy:
-      matrix:
-        node-version: [20.x]
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Build
-      run: |
-        npm ci
-        npm run build
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        # Upload dist directory
-        name: 'wbsc-ticker-chrome-extension'
-        path: './dist/cxt/'
-
   web:
     runs-on: ubuntu-latest
     permissions:
@@ -47,9 +18,6 @@ jobs:
       matrix:
         node-version: [20.x]
 
-    needs:
-      - cxt
-
     steps:
       - uses: actions/checkout@v3
 
@@ -58,17 +26,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - uses: actions/download-artifact@master
-        with:
-          name: 'wbsc-ticker-chrome-extension'
-          path: './cxt'
-
       - name: Build
         run: |
-          cd cxt && zip -r -q wbsc-ticker-cxt.zip . * && mv wbsc-ticker-cxt.zip ./dist/web/ && cd -
           ls
           npm ci
+          npm run build
           npm run build:web
+          cd ./dist/cxt && zip -r -q wbsc-ticker-cxt.zip . && mv wbsc-ticker-cxt.zip ../web/
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
