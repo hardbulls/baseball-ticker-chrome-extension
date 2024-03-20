@@ -5,7 +5,14 @@ html {
 body {
     font-family: sans-serif;
     height: 100%;
+    color: black;
+    touch-action: manipulation;
 }
+
+button {
+    color: black;
+}
+
 
 div.controller-scoreboard {
     width: 100%;
