@@ -1,6 +1,7 @@
 import { FirebaseUpdater } from "./remote/firebase";
 import { DEFAULT_OPTIONS_STATE, DEFAULT_POPUP_STATE } from "./state/DefaultState";
 import { Local } from "./storage/Local";
+import { MessageType } from "./chrome/MessageType";
 
 (async () => {
     let firebaseUpdater: FirebaseUpdater | undefined = undefined;
@@ -10,16 +11,24 @@ import { Local } from "./storage/Local";
     let enableRemote = popupState.enableRemote;
     let isRemoteEnabled = false;
 
-    chrome.runtime.onMessage.addListener(function (message, _, senderResponse) {
-        fetch(message.url)
-            .then((res) => {
-                return res.text();
-            })
-            .then((res) => {
-                senderResponse(res);
-            });
+    chrome.runtime.onMessage.addListener(function (message, _, sendResponse) {
+        if (message.type === MessageType.FETCH) {
+            fetch(message.url)
+                .then((res) => {
+                    return res.text();
+                })
+                .then((res) => {
+                    sendResponse(res);
+                });
 
-        return true;
+            return;
+        }
+
+        if (message.type === MessageType.PING) {
+            sendResponse(true);
+
+            return;
+        }
     });
 
     chrome.storage.onChanged.addListener((changes) => {

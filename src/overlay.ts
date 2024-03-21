@@ -17,6 +17,7 @@ import {
     DEFAULT_SPONSORS_STATE,
     DEFAULT_TEAMS_STATE,
 } from "./state/DefaultState";
+import { MessageType } from "./chrome/MessageType";
 
 (async () => {
     for (const font of FontsRepository.findAll()) {
@@ -32,6 +33,10 @@ import {
     let options = { ...DEFAULT_OPTIONS_STATE, ...(await Local.getOptions()) };
     let teams = { ...DEFAULT_TEAMS_STATE, ...(await Local.getTeams()) };
     let playersState = { ...DEFAULT_PLAYERS_STATE, ...(await Local.getPlayers()) };
+
+    setInterval(async () => {
+        await chrome.runtime.sendMessage({ type: MessageType.PING, ping: "ping" });
+    }, 29000);
 
     chrome.storage.onChanged.addListener((changes) => {
         if (changes.teams) {

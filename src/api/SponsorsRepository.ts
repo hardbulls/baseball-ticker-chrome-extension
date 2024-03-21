@@ -1,10 +1,12 @@
+import { MessageType } from "../chrome/MessageType";
+
 export abstract class SponsorsRepository {
     private static domParser = new DOMParser();
 
     public static download = async () => {
         const html = (await Promise.resolve(
             new Promise((resolve) => {
-                chrome.runtime.sendMessage({ url: "https://www.hardbulls.com/" }, (response) => {
+                chrome.runtime.sendMessage({ type: MessageType.FETCH, url: "https://www.hardbulls.com/" }, (response) => {
                     resolve(response);
                 });
             })
