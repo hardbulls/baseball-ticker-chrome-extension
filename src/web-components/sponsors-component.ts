@@ -29,7 +29,6 @@ export class SponsorsComponent extends HTMLElement {
         this.imageElement.style.backgroundColor = "#ffffff"; // todo blur oder detect best background color
         this.imageElement.style.height = "100%";
         this.imageElement.style.width = "100%";
-        this.imageElement.alt = "Sponsor";
         this.imageElement.style.maxHeight = `calc(${this.componentHeight}px - ${this.titleElementHeightOffset()})`;
 
         this.imageContainerElement.append(this.imageElement);

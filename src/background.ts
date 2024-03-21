@@ -21,14 +21,16 @@ import { MessageType } from "./chrome/MessageType";
                     sendResponse(res);
                 });
 
-            return;
+            return true;
         }
 
         if (message.type === MessageType.PING) {
             sendResponse(true);
 
-            return;
+            return true;
         }
+
+        return false;
     });
 
     chrome.storage.onChanged.addListener((changes) => {

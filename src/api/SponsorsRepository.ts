@@ -6,7 +6,7 @@ export abstract class SponsorsRepository {
     public static download = async () => {
         const html = (await Promise.resolve(
             new Promise((resolve) => {
-                chrome.runtime.sendMessage({ type: MessageType.FETCH, url: "https://www.hardbulls.com/" }, (response) => {
+                chrome.runtime.sendMessage({ type: MessageType.FETCH, url: "https://www.hardbulls.com/sponsoren" }, (response) => {
                     resolve(response);
                 });
             })
