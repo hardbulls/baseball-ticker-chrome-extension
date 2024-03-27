@@ -1,7 +1,7 @@
 {
   "name": "@hardbulls/wbsc-ticker-chrome-extension",
   "description": "WBSC Live Ticker Chrome Extension",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "private": true,
   "author": {
     "name": "Arjan Frans",
@@ -11,7 +11,7 @@
   "license": "UNLICENSED",
   "homepage": "https://www.hardbulls.com",
   "devDependencies": {
-    "@hardbulls/baseball-scoreboard": "^1.3.2",
+    "@hardbulls/baseball-scoreboard": "^1.4.1",
     "@types/chrome": "^0.0.254",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",

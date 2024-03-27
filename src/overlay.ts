@@ -124,7 +124,6 @@ import { MessageType } from "./chrome/MessageType";
         scoreboardElement.hideBases = `${options.hideBases}`;
         scoreboardElement.hideCounts = `${options.hideCounts}`;
 
-        scoreboardElement.mode = "normal";
         scoreboardElement.hideInning = `false`;
         scoreboardElement.leagueLogoShadow = `${options.leagueLogoShadow}`;
         scoreboardElement.leagueLogoSrc = options.league && `${options.league?.data}`;
@@ -163,7 +162,6 @@ import { MessageType } from "./chrome/MessageType";
         const hidePlayerboard = playersState.hidePlayers;
 
         playerboardElement.style.visibility = hidePlayerboard ? "hidden" : "visible";
-        playerboardElement.mode = "normal";
         playerboardElement.inning = inning;
         playerboardElement.awayGradient = toGradientValue(teams.awayGradient);
         playerboardElement.homeGradient = toGradientValue(teams.homeGradient);
