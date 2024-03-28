@@ -42,11 +42,9 @@ export class FirebaseUpdater {
     }
 
     private listen(user: User) {
-        if (!this.scoreboardRef) {
-            const db = getDatabase();
+        const db = getDatabase();
 
-            this.scoreboardRef = ref(db, `${DATABASE_NAME}/${user.uid}`);
-        }
+        this.scoreboardRef = ref(db, `${DATABASE_NAME}/${user.uid}`);
 
         this.disable();
 

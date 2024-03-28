@@ -9,7 +9,7 @@ import { MessageType } from "./chrome/MessageType";
     const options = { ...DEFAULT_OPTIONS_STATE, ...(await Local.getOptions()) };
     let remoteState = options.remote;
     let enableRemote = popupState.enableRemote;
-    let isRemoteEnabled = false;
+    let shouldReconnect = true;
 
     chrome.runtime.onMessage.addListener(function (message, _, sendResponse) {
         if (message.type === MessageType.FETCH) {
@@ -37,6 +37,11 @@ import { MessageType } from "./chrome/MessageType";
         if (changes.options) {
             if (changes.options.newValue !== undefined) {
                 if (changes.options?.newValue.remote !== undefined) {
+                    const newRemoteState = changes.options.newValue.remote;
+                    if (newRemoteState.username !== remoteState.username || newRemoteState.password !== remoteState.password) {
+                        shouldReconnect = true;
+                    }
+
                     remoteState = changes.options.newValue.remote;
 
                     toggleFirebaseUpdated();
@@ -59,17 +64,17 @@ import { MessageType } from "./chrome/MessageType";
                 firebaseUpdater = new FirebaseUpdater();
             }
 
-            if (isRemoteEnabled) {
+            if (!shouldReconnect) {
                 return;
             }
 
             if (remoteState.username && remoteState.password && remoteState.firebaseConfig) {
                 await firebaseUpdater.enable(remoteState.username, remoteState.password, remoteState.firebaseConfig);
-                isRemoteEnabled = true;
+                shouldReconnect = false;
             }
         } else {
             await firebaseUpdater?.disable();
-            isRemoteEnabled = false;
+            shouldReconnect = true;
         }
     }
 

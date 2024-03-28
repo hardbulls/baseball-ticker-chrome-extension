@@ -42,7 +42,7 @@ const firebaseConfig = FIREBASE_CONFIG as FirebaseConfig;
     async function handleLogin(username: string, password: string): Promise<undefined | Error> {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, username, password);
-            const user = userCredential.user;
+            user = userCredential.user;
 
             LocalStorage.setDefaultCredentials(username, password);
 
