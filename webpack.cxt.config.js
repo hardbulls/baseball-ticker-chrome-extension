@@ -1,15 +1,12 @@
 "use strict";
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TerserJSPlugin = require("terser-webpack-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const path = require("path");
-const webpack = require('webpack')
+const webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
-const PACKAGE_JSON = require('./package.json')
+const PACKAGE_JSON = require("./package.json");
 
 const env = process.env.NODE_ENV;
-const useContentHash = false;
 
 module.exports = {
   mode: env,
@@ -21,7 +18,7 @@ module.exports = {
     overlay: "./src/overlay.ts",
     background: "./src/background.ts"
   },
-  devtool: env === "production" ? "source-map" : "inline-source-map",
+  devtool: env === "production" ? undefined : "eval",
   module: {
     rules: [
       {
@@ -51,46 +48,39 @@ module.exports = {
       }
     ]
   },
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserJSPlugin({}),
-      new CssMinimizerPlugin()
-    ]
-  },
   resolve: {
     extensions: [".ts"]
   },
   plugins:
     [
       new webpack.DefinePlugin({
-        'PACKAGE_VERSION': JSON.stringify(PACKAGE_JSON.version)
+        "PACKAGE_VERSION": JSON.stringify(PACKAGE_JSON.version)
       }),
       new MiniCssExtractPlugin({
-        filename: env === "production" && useContentHash ? "[name].[contenthash].css" : "[name].css"
+        filename: "[name].css"
       }),
       new CopyPlugin({
         patterns: [
           {
-            from: "public/manifest.json",
+            from: "public/cxt/manifest.json",
             transform: (content) => {
               const manifest = JSON.parse(content);
 
-              manifest.version = PACKAGE_JSON.version
-              manifest.description = PACKAGE_JSON.description
+              manifest.version = PACKAGE_JSON.version;
+              manifest.description = PACKAGE_JSON.description;
 
               return JSON.stringify(manifest, null, 2);
             }
           },
-          env === "production" ? undefined : { from: "public/preview", to: "preview" },
-          { from: "public/*", to: "[name][ext]" },
+          env === "production" ? undefined : { from: "public/cxt/preview", to: "preview" },
+          { from: "public/cxt/*", to: "[name][ext]" }
 
         ].filter(Boolean)
-      })
+      }),
     ],
   output: {
-    filename: env === "production" && useContentHash ? "[name].[contenthash].js" : "[name].js",
-    path: path.resolve(__dirname, "dist", 'cxt'),
+    filename: "[name].js",
+    path: path.resolve(__dirname, "dist", "cxt"),
     clean: true
   },
   performance: {

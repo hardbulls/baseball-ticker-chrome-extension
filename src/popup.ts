@@ -7,6 +7,8 @@ import { Windows } from "./windows/Windows";
 import { DEFAULT_POPUP_STATE } from "./state/DefaultState";
 import { Local } from "./storage/Local";
 
+document.title = `${document.title} | Version ${PACKAGE_VERSION}`;
+
 (async () => {
     const INITIAL_STATE = {
         ...DEFAULT_POPUP_STATE,

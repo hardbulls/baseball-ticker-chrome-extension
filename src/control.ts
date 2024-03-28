@@ -8,6 +8,8 @@ import { BaseEnum } from "./baseball/model/BasesEnum";
 import { removeOptions } from "./service/select";
 import { DEFAULT_PLAYERS_STATE, DEFAULT_SCOREBOARD_STATE } from "./state/DefaultState";
 
+document.title = `${document.title} | Version ${PACKAGE_VERSION}`;
+
 function BaseButtonElement(id: string): HTMLButtonElement & { toggle: () => void; setActive: (active: boolean) => void } {
     const button = document.querySelector(id) as HTMLButtonElement & {
         toggle: () => void;

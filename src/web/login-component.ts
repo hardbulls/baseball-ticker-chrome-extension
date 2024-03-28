@@ -40,9 +40,7 @@ export class LoginComponent extends HTMLElement {
 
         const error = await this.onSubmit(this.usernameInput.value, this.passwordInput.value);
 
-        if (!error) {
-            this.style.display = "none";
-        } else {
+        if (error) {
             this.usernameInput.classList.add("has-error");
             this.passwordInput.classList.add("has-error");
             this.loginErrorDiv.textContent = (error as Error).message;

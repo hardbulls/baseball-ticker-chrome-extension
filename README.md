@@ -1,1 +1,1 @@
-# wbsc-ticker-chrome-extension
+# Hard Bulls Baseball Ticke - Chrome Extension

@@ -1,5 +1,5 @@
 {
-  "name": "Hard Bulls Baseball Scoreboard",
+  "name": "Hard Bulls Baseball Ticker",
   "manifest_version": 3,
   "host_permissions": [
     "https://www.hardbulls.com/*"

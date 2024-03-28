@@ -23,7 +23,7 @@ export class LoginContainer extends HTMLElement {
         const downloadCxtButton = this.querySelector("#download-cxt-button") as HTMLButtonElement;
 
         downloadCxtButton.addEventListener("click", () => {
-            window.open("./wbsc-ticker-cxt.zip");
+            window.open("./hard-bulls-baseball-ticker-cxt.zip");
         });
     }
 

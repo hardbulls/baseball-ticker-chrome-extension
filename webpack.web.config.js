@@ -8,6 +8,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const path = require('path');
 const webpack = require('webpack')
 const PACKAGE_JSON = require("./package.json");
+const CopyPlugin = require("copy-webpack-plugin");
 const useContentHash = false;
 
 
@@ -63,7 +64,12 @@ module.exports = {
             new MiniCssExtractPlugin({
                 filename: env === 'production' ? '[name].[contenthash].css' : '[name].css'
             }),
-            new HtmlWebpackPlugin({template: './public/web/index.html'})
+            new HtmlWebpackPlugin({template: './public/web/index.html'}),
+            new CopyPlugin({
+                patterns: [
+                    { from: "public/web/favicon.ico", to: "[name][ext]" }
+                ]
+            }),
         ],
     output: {
         filename: env === 'production' && useContentHash ? '[name].[contenthash].js' : '[name].js',

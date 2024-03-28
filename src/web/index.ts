@@ -15,6 +15,8 @@ import { LoginContainer } from "./login-container";
 
 const firebaseConfig = FIREBASE_CONFIG as FirebaseConfig;
 
+document.title = `${document.title} | Version ${PACKAGE_VERSION}`;
+
 (async () => {
     const config = {
         ...firebaseConfig,

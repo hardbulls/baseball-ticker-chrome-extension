@@ -19,6 +19,8 @@ import {
 } from "./state/DefaultState";
 import { MessageType } from "./chrome/MessageType";
 
+document.title = `${document.title} | Version ${PACKAGE_VERSION}`;
+
 (async () => {
     for (const font of FontsRepository.findAll()) {
         const fontFace = new FontFace(font.name, `url("${font.data}") format("woff2")`);
