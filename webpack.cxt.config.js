@@ -18,7 +18,7 @@ module.exports = {
     overlay: "./src/overlay.ts",
     background: "./src/background.ts"
   },
-  devtool: env === "production" ? undefined : "eval",
+  devtool: env === "production" ? "source-map" : "inline-source-map",
   module: {
     rules: [
       {
