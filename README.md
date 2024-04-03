@@ -1,1 +1,1 @@
-# Hard Bulls Baseball Ticke - Chrome Extension
+# Hard Bulls Baseball Ticker - Chrome Extension
