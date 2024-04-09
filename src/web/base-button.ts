@@ -1,5 +1,5 @@
-import { setComponent } from "../framework";
-import { BaseEnum } from "../baseball/model/BasesEnum";
+import { setComponent } from "../lib/framework";
+import { BaseEnum } from "../lib/model/BasesEnum";
 
 export class BaseButton extends HTMLElement {
     private button: HTMLButtonElement;

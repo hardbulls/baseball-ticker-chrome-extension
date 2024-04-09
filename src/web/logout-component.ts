@@ -1,4 +1,4 @@
-import { setComponent } from "../framework";
+import { setComponent } from "../lib/framework";
 import "./logout-component.css";
 
 export class LogoutComponent extends HTMLElement {

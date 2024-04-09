@@ -1,5 +1,5 @@
 import "./login-container.css";
-import { setComponent } from "../framework";
+import { setComponent } from "../lib/framework";
 import { LoginComponent } from "./login-component";
 
 export class LoginContainer extends HTMLElement {

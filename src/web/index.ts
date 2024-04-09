@@ -1,19 +1,18 @@
 import "../reset.css";
-import { FirebaseConfig } from "../remote/FirebaseConfig";
 import { initializeApp } from "firebase/app";
 import { DatabaseReference, getDatabase, onValue, ref, set } from "firebase/database";
 import { browserLocalPersistence, getAuth, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import { FirebaseOptions } from "@firebase/app";
 import { FirebaseError } from "@firebase/util";
-import { ScoreboardState } from "../baseball/model/ScoreboardState";
-import { DEFAULT_SCOREBOARD_STATE } from "../state/DefaultState";
-import { DATABASE_NAME } from "../remote/firebase";
-import { sleep } from "../helper/sleep";
-import { LocalStorage } from "../storage/LocalStorage";
+import { ScoreboardState } from "../lib/state/ScoreboardState";
+import { DEFAULT_SCOREBOARD_STATE } from "../lib/state/DefaultState";
+import { sleep } from "../lib/helper/sleep";
+import { LocalStorage } from "./storage/LocalStorage";
 import { ScoreboardContainer } from "./scoreboard-container";
 import { LoginContainer } from "./login-container";
+import { CONFIG } from "../config";
 
-const firebaseConfig = FIREBASE_CONFIG as FirebaseConfig;
+const firebaseConfig = FIREBASE_CONFIG as FirebaseOptions;
 
 document.title = `${document.title} | Version ${PACKAGE_VERSION}`;
 
@@ -93,14 +92,14 @@ document.title = `${document.title} | Version ${PACKAGE_VERSION}`;
         async (scoreboardState) => {
             const db = getDatabase();
 
-            await set(ref(db, `${DATABASE_NAME}/${user?.uid}`), scoreboardState);
+            await set(ref(db, `${CONFIG.FirebaseDatabaseName}/${user?.uid}`), scoreboardState);
         }
     );
 
     function getFirebaseData(user: User) {
         const db = getDatabase();
 
-        scoreboardRef = ref(db, `${DATABASE_NAME}/${user.uid}`);
+        scoreboardRef = ref(db, `${CONFIG.FirebaseDatabaseName}/${user.uid}`);
 
         onValue(
             scoreboardRef,

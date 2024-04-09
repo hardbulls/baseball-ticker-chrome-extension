@@ -11,14 +11,14 @@ const env = process.env.NODE_ENV;
 module.exports = {
   mode: env,
   entry: {
-    content: "./src/content.ts",
-    options: "./src/options.ts",
-    control: "./src/control.ts",
-    popup: "./src/popup.ts",
-    overlay: "./src/overlay.ts",
-    background: "./src/background.ts"
+    content: "./src/cxt/content.ts",
+    options: "./src/cxt/options.ts",
+    control: "./src/cxt/control.ts",
+    popup: "./src/cxt/popup.ts",
+    overlay: "./src/cxt/overlay.ts",
+    background: "./src/cxt/background.ts"
   },
-  devtool: env === "production" ? "source-map" : "inline-source-map",
+  devtool: env === "production" ? undefined : "inline-source-map",
   module: {
     rules: [
       {
@@ -47,6 +47,9 @@ module.exports = {
         type: "asset/resource"
       }
     ]
+  },
+  optimization: {
+    minimize: false
   },
   resolve: {
     extensions: [".ts"]

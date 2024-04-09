@@ -1,4 +1,4 @@
-import { setComponent } from "../framework";
+import { setComponent } from "../lib/framework";
 import "./login-component.css";
 
 export class LoginComponent extends HTMLElement {

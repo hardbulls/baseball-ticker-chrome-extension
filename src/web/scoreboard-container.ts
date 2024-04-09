@@ -1,7 +1,7 @@
-import { setComponent } from "../framework";
+import { setComponent } from "../lib/framework";
 import { LogoutComponent } from "./logout-component";
 import { ScoreboardController } from "./scoreboard-controller";
-import { ScoreboardState } from "../baseball/model/ScoreboardState";
+import { ScoreboardState } from "../lib/state/ScoreboardState";
 
 export class ScoreboardContainer extends HTMLElement {
     private readonly scoreboardController: ScoreboardController;

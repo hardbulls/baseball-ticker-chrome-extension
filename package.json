@@ -1,7 +1,7 @@
 {
   "name": "@hardbulls/baseball-ticker-cxt",
   "description": "Baseball Ticker - Chrome Extension",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "author": {
     "name": "Arjan Frans",
@@ -57,6 +57,6 @@
     ]
   },
   "dependencies": {
-    "firebase": "^10.8.0"
+    "firebase": "^10.6.0"
   }
 }

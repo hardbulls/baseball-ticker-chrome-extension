@@ -1,11 +1,11 @@
 import "../reset.css";
 import "../shared.css";
 import "./index.css";
-import { InningHalfEnum } from "../baseball/model/InningHalfEnum";
-import { ScoreboardState } from "../baseball/model/ScoreboardState";
-import { BaseEnum } from "../baseball/model/BasesEnum";
+import { InningHalfEnum } from "../lib/model/InningHalfEnum";
+import { ScoreboardState } from "../lib/state/ScoreboardState";
+import { BaseEnum } from "../lib/model/BasesEnum";
 import { BaseButton } from "./base-button";
-import { setComponent } from "../framework";
+import { setComponent } from "../lib/framework";
 
 export class ScoreboardController extends HTMLElement {
     private homeAddButton: HTMLButtonElement;
