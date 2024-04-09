@@ -294,6 +294,24 @@ export abstract class TeamsRepository {
     };
 
     public static findAll = (): { [key: string]: Team } => {
-        return TeamsRepository.TEAMS;
+        return Object.keys(TeamsRepository.TEAMS)
+            .sort((a: string, b: string) => {
+                const teamA = TeamsRepository.TEAMS[a];
+                const teamB = TeamsRepository.TEAMS[b];
+
+                if (teamA.name < teamB.name) {
+                    return -1;
+                }
+                if (teamA.name > teamB.name) {
+                    return 1;
+                }
+
+                return 0;
+            })
+            .reduce((result: { [key: string]: Team }, key) => {
+                result[key] = TeamsRepository.TEAMS[key];
+
+                return result;
+            }, {});
     };
 }
