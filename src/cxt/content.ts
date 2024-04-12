@@ -2,8 +2,14 @@ import { Local } from "./storage/Local";
 import { parseValues } from "./content/parse-values";
 import { DEFAULT_OPTIONS_STATE, DEFAULT_POPUP_STATE, DEFAULT_SCOREBOARD_STATE } from "../lib/state/DefaultState";
 
-function IndicatorElement(): HTMLDivElement & { on: () => void; off: () => void } {
-    const indicator = document.createElement("div") as HTMLDivElement & { on: () => void; off: () => void };
+interface IndicatorElementOptions {
+    on: () => void;
+    off: () => void;
+    hasStarted: (hasStarted: boolean) => void;
+}
+
+function IndicatorElement(): HTMLDivElement & IndicatorElementOptions {
+    const indicator = document.createElement("div") as HTMLDivElement & IndicatorElementOptions;
 
     indicator.style.width = "200px";
     indicator.style.pointerEvents = "none";
@@ -21,6 +27,14 @@ function IndicatorElement(): HTMLDivElement & { on: () => void; off: () => void 
     indicator["off"] = () => {
         indicator.style.backgroundColor = "rgba(0,255,0,0.5)";
         indicator.textContent = "Following Ticker: OFF";
+    };
+
+    indicator["hasStarted"] = (hasStarted: boolean) => {
+        if (hasStarted) {
+            indicator.textContent = "Following Ticker: OFF";
+        } else {
+            indicator.textContent = "No Ticker detected";
+        }
     };
 
     indicator.off();
@@ -44,8 +58,11 @@ function IndicatorElement(): HTMLDivElement & { on: () => void; off: () => void 
         ...(await Local.getScoreboard()),
     };
     let followInterval: number | undefined;
+    let refreshInterval: number | undefined;
+
     const bodyElement = document.querySelector("body") as HTMLBodyElement;
     const indicatorElement = IndicatorElement();
+    let startedIndicator = document.querySelector(".box-score-top-bar");
 
     bodyElement.appendChild(indicatorElement);
 
@@ -59,6 +76,19 @@ function IndicatorElement(): HTMLDivElement & { on: () => void; off: () => void 
         }, OPTIONS_STATE.tickerInterval);
     }
 
+    function refreshCheck() {
+        return setInterval(async () => {
+            startedIndicator = document.querySelector(".box-score-top-bar");
+
+            if (startedIndicator && refreshInterval) {
+                indicatorElement.hasStarted(true);
+                clearInterval(refreshInterval);
+            } else {
+                window.location.reload();
+            }
+        }, OPTIONS_STATE.refreshInterval);
+    }
+
     chrome.storage.onChanged.addListener((changes) => {
         if (changes.popup) {
             if (changes.popup.newValue.followTicker !== undefined) {
@@ -69,12 +99,21 @@ function IndicatorElement(): HTMLDivElement & { on: () => void; off: () => void 
 
                     if (!followTicker) {
                         indicatorElement.off();
+
+                        if (refreshInterval) {
+                            clearInterval(refreshInterval);
+                        }
                     }
                 }
 
                 if (followTicker) {
                     followInterval = follow();
                     indicatorElement.on();
+
+                    if (!startedIndicator) {
+                        indicatorElement.hasStarted(false);
+                        refreshInterval = refreshCheck();
+                    }
                 }
             }
         }
@@ -89,5 +128,10 @@ function IndicatorElement(): HTMLDivElement & { on: () => void; off: () => void 
     if (INITIAL_STATE.followTicker) {
         followInterval = follow();
         indicatorElement.on();
+
+        if (!startedIndicator) {
+            indicatorElement.hasStarted(false);
+            refreshInterval = refreshCheck();
+        }
     }
 })();

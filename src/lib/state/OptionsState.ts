@@ -8,4 +8,5 @@ export type OptionsState = {
     style: StyleState;
     remote: RemoteState;
     tickerInterval: number;
+    refreshInterval: number;
 };
