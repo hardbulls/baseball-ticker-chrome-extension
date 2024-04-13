@@ -45,6 +45,7 @@ export const parseValues = (): Partial<ScoreboardState> => {
             "#app > div > div:nth-child(2) > div.active-panel > div > div.live-data > div.actual-players > div:nth-child(2) > div.player-stats > p.player-avg"
         )?.textContent || ""
     );
+
     const outs = Number.parseInt(
         document.querySelector(
             "#app > div > div.box-score-top-bar > div.left-box > div.indicators-container > div > div.outs-indicator > p:nth-child(2) > strong"
@@ -114,33 +115,39 @@ export const parseValues = (): Partial<ScoreboardState> => {
         bases,
     };
 
-    if (inning) {
-        result.inning = inning;
-    }
+    result.inning = inning || { value: 1, half: InningHalfEnum.TOP };
 
-    if (pitcherName) {
-        if (inning?.half === InningHalfEnum.TOP) {
+    if (inning?.half === InningHalfEnum.TOP) {
+        if (pitcherName) {
             result.homePitcherName = getLastname(pitcherName);
-        } else if (inning?.half === InningHalfEnum.BOTTOM) {
+        } else {
+            result.homePitcherName = "";
+        }
+    } else if (inning?.half === InningHalfEnum.BOTTOM) {
+        if (pitcherName) {
             result.awayPitcherName = getLastname(pitcherName);
+        } else {
+            result.awayPitcherName = "";
         }
     }
 
-    if (batterName) {
-        if (inning?.half === InningHalfEnum.TOP) {
+    if (inning?.half === InningHalfEnum.TOP) {
+        if (batterName) {
             result.awayBatterName = getLastname(batterName);
-        } else if (inning?.half === InningHalfEnum.BOTTOM) {
+        } else {
+            result.awayBatterName = "";
+        }
+    } else if (inning?.half === InningHalfEnum.BOTTOM) {
+        if (batterName) {
             result.homeBatterName = getLastname(batterName);
+        } else {
+            result.homeBatterName = "";
         }
     }
 
-    if (pitcherEra) {
-        result.pitcherEra = pitcherEra;
-    }
+    result.pitcherEra = pitcherEra || 0;
 
-    if (batterAvg) {
-        result.batterAvg = batterAvg;
-    }
+    result.batterAvg = batterAvg || 0;
 
     return result;
 };
