@@ -126,8 +126,9 @@ import { MessageType } from "../lib/model/MessageType";
         const hidePlayerboard = playersState.hidePlayers;
 
         playerboardElement.style.visibility = hidePlayerboard ? "hidden" : "visible";
-        playerboardElement.awayGradient = toGradientValue(teams.awayGradient);
-        playerboardElement.homeGradient = toGradientValue(teams.homeGradient);
+        // todo fix home away reversed
+        playerboardElement.homeGradient = toGradientValue(teams.awayGradient);
+        playerboardElement.awayGradient = toGradientValue(teams.homeGradient);
         playerboardElement.layoutGradient = toGradientValue(options.style.background2);
         playerboardElement.backgroundGradient = toGradientValue(options.style.background1);
         playerboardElement.fontColorDark = options.style.fontColor2;
