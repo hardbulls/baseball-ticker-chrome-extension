@@ -1,6 +1,7 @@
 import { Local } from "./storage/Local";
 import { parseValues } from "./content/parse-values";
 import { DEFAULT_OPTIONS_STATE, DEFAULT_POPUP_STATE, DEFAULT_SCOREBOARD_STATE } from "../lib/state/DefaultState";
+import { MessageType } from "../lib/model/MessageType";
 
 interface IndicatorElementOptions {
     on: () => void;
@@ -89,6 +90,25 @@ function IndicatorElement(): HTMLDivElement & IndicatorElementOptions {
         }, OPTIONS_STATE.refreshInterval);
     }
 
+    function startFollowing() {
+        followInterval = follow();
+        indicatorElement.on();
+        sendKeepTabAwakeMessage();
+
+        if (!startedIndicator) {
+            indicatorElement.hasStarted(false);
+            refreshInterval = refreshCheck();
+        }
+    }
+
+    function sendKeepTabAwakeMessage() {
+        chrome.runtime.sendMessage({ type: MessageType.KEEP_AWAKE });
+    }
+
+    function sendAllowSleepMessage() {
+        chrome.runtime.sendMessage({ type: MessageType.ALLOW_SLEEP });
+    }
+
     chrome.storage.onChanged.addListener((changes) => {
         if (changes.popup) {
             if (changes.popup.newValue.followTicker !== undefined) {
@@ -99,6 +119,7 @@ function IndicatorElement(): HTMLDivElement & IndicatorElementOptions {
 
                     if (!followTicker) {
                         indicatorElement.off();
+                        sendAllowSleepMessage();
 
                         if (refreshInterval) {
                             clearInterval(refreshInterval);
@@ -107,13 +128,7 @@ function IndicatorElement(): HTMLDivElement & IndicatorElementOptions {
                 }
 
                 if (followTicker) {
-                    followInterval = follow();
-                    indicatorElement.on();
-
-                    if (!startedIndicator) {
-                        indicatorElement.hasStarted(false);
-                        refreshInterval = refreshCheck();
-                    }
+                    startFollowing();
                 }
             }
         }
@@ -126,12 +141,6 @@ function IndicatorElement(): HTMLDivElement & IndicatorElementOptions {
     });
 
     if (INITIAL_STATE.followTicker) {
-        followInterval = follow();
-        indicatorElement.on();
-
-        if (!startedIndicator) {
-            indicatorElement.hasStarted(false);
-            refreshInterval = refreshCheck();
-        }
+        startFollowing();
     }
 })();

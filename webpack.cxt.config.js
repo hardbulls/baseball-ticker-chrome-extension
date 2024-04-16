@@ -57,7 +57,7 @@ module.exports = {
   plugins:
     [
       new webpack.DefinePlugin({
-        "PACKAGE_VERSION": JSON.stringify(PACKAGE_JSON.version)
+        "PACKAGE_VERSION": JSON.stringify(PACKAGE_JSON.version),
       }),
       new MiniCssExtractPlugin({
         filename: "[name].css"

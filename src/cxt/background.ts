@@ -11,7 +11,19 @@ import { MessageType } from "../lib/model/MessageType";
     let enableRemote = popupState.enableRemote;
     let shouldReconnect = true;
 
-    chrome.runtime.onMessage.addListener(function (message, _, sendResponse) {
+    chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+        if (message.type === MessageType.KEEP_AWAKE || message.type === MessageType.ALLOW_SLEEP) {
+            const tab = sender.tab;
+
+            if (tab?.id) {
+                await chrome.tabs.update(tab.id, {
+                    autoDiscardable: MessageType.KEEP_AWAKE !== message.type,
+                });
+            }
+
+            return true;
+        }
+
         if (message.type === MessageType.FETCH) {
             fetch(message.url)
                 .then((res) => {
