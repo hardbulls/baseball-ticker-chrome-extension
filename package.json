@@ -1,7 +1,7 @@
 {
   "name": "@hardbulls/baseball-ticker-cxt",
   "description": "Baseball Ticker - Chrome Extension",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "author": {
     "name": "Arjan Frans",
@@ -11,7 +11,7 @@
   "license": "UNLICENSED",
   "homepage": "https://www.hardbulls.com",
   "devDependencies": {
-    "@hardbulls/baseball-scoreboard": "^1.4.1",
+    "@hardbulls/baseball-scoreboard": "^1.4.2",
     "@types/chrome": "^0.0.254",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
