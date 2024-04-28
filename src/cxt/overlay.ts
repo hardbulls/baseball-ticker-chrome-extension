@@ -187,4 +187,6 @@ import { MessageType } from "../lib/model/MessageType";
     updateFilterColor();
     updateSponsors();
     updateStyle();
+
+    await chrome.runtime.sendMessage({ type: MessageType.KEEP_AWAKE });
 })();

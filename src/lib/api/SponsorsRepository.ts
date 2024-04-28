@@ -8,6 +8,8 @@ export abstract class SponsorsRepository {
             new Promise((resolve) => {
                 chrome.runtime.sendMessage({ type: MessageType.FETCH, url: "https://www.hardbulls.com/sponsoren" }, (response) => {
                     resolve(response);
+
+                    return true;
                 });
             })
         )) as string;
