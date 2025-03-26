@@ -9,8 +9,16 @@ const path = require('path');
 const webpack = require('webpack')
 const PACKAGE_JSON = require("./package.json");
 const CopyPlugin = require("copy-webpack-plugin");
+const fs = require("node:fs");
 const useContentHash = false;
 
+let LOCAL_FIREBASE_CONFIG = "{}"
+
+try {
+    LOCAL_FIREBASE_CONFIG = fs.readFileSync('.firebase', { encoding: 'utf8'});
+} catch (err) {
+    console.log('No local .firebase file found.')
+}
 
 module.exports = {
     mode: env,
@@ -59,7 +67,7 @@ module.exports = {
         [
             new webpack.DefinePlugin({
                 'PACKAGE_VERSION': JSON.stringify(PACKAGE_JSON.version),
-                'FIREBASE_CONFIG': process.env.FIREBASE_CONFIG || "{}",
+                'FIREBASE_CONFIG': process.env.FIREBASE_CONFIG || LOCAL_FIREBASE_CONFIG,
             }),
             new MiniCssExtractPlugin({
                 filename: env === 'production' ? '[name].[contenthash].css' : '[name].css'

@@ -62,6 +62,7 @@ function BaseButtonElement(id: string): HTMLButtonElement & { toggle: () => void
 
     const resetBasesButton = document.querySelector("#reset-bases-button") as HTMLButtonElement;
     const resetCountButton = document.querySelector("#reset-count-button") as HTMLButtonElement;
+    const resetPlayersButton = document.querySelector("#reset-players-button") as HTMLButtonElement;
 
     const homeBatterSelect = document.querySelector("#home-batter") as HTMLSelectElement;
     const awayBatterSelect = document.querySelector("#away-batter") as HTMLSelectElement;
@@ -73,6 +74,11 @@ function BaseButtonElement(id: string): HTMLButtonElement & { toggle: () => void
         removeOptions(homePitcherSelect);
         removeOptions(awayBatterSelect);
         removeOptions(awayPitcherSelect);
+
+        homeBatterSelect.options.add(new Option(``, "", true));
+        homePitcherSelect.options.add(new Option(``, "", true));
+        awayBatterSelect.options.add(new Option(``, "", true));
+        awayPitcherSelect.options.add(new Option(``, "", true));
 
         for (const player of playerState.homePlayers) {
             const selectedBatter = player.name === scoreboard.homeBatterName;
@@ -106,6 +112,13 @@ function BaseButtonElement(id: string): HTMLButtonElement & { toggle: () => void
 
     resetBasesButton.disabled = scoreboard.bases.length === 0;
     resetCountButton.disabled = scoreboard.balls === 0 && scoreboard.strikes === 0;
+    resetPlayersButton.disabled =
+        !scoreboard.pitcherEra &&
+        !scoreboard.batterAvg &&
+        !scoreboard.homePitcherName &&
+        !scoreboard.awayPitcherName &&
+        !scoreboard.homeBatterName &&
+        !scoreboard.awayBatterName;
 
     firstBaseButton.setActive(scoreboard.bases.includes(BaseEnum.FIRST));
     secondBaseButton.setActive(scoreboard.bases.includes(BaseEnum.SECOND));
@@ -120,6 +133,14 @@ function BaseButtonElement(id: string): HTMLButtonElement & { toggle: () => void
         };
 
         await Local.setScoreboard(scoreboard);
+
+        resetPlayersButton.disabled =
+            !scoreboard.pitcherEra &&
+            !scoreboard.batterAvg &&
+            !scoreboard.homePitcherName &&
+            !scoreboard.awayPitcherName &&
+            !scoreboard.homeBatterName &&
+            !scoreboard.awayBatterName;
     });
 
     awayBatterSelect.addEventListener("change", async (event) => {
@@ -131,6 +152,14 @@ function BaseButtonElement(id: string): HTMLButtonElement & { toggle: () => void
         };
 
         await Local.setScoreboard(scoreboard);
+
+        resetPlayersButton.disabled =
+            !scoreboard.pitcherEra &&
+            !scoreboard.batterAvg &&
+            !scoreboard.homePitcherName &&
+            !scoreboard.awayPitcherName &&
+            !scoreboard.homeBatterName &&
+            !scoreboard.awayBatterName;
     });
 
     homePitcherSelect.addEventListener("change", async (event) => {
@@ -142,6 +171,14 @@ function BaseButtonElement(id: string): HTMLButtonElement & { toggle: () => void
         };
 
         await Local.setScoreboard(scoreboard);
+
+        resetPlayersButton.disabled =
+            !scoreboard.pitcherEra &&
+            !scoreboard.batterAvg &&
+            !scoreboard.homePitcherName &&
+            !scoreboard.awayPitcherName &&
+            !scoreboard.homeBatterName &&
+            !scoreboard.awayBatterName;
     });
 
     awayPitcherSelect.addEventListener("change", async (event) => {
@@ -153,6 +190,14 @@ function BaseButtonElement(id: string): HTMLButtonElement & { toggle: () => void
         };
 
         await Local.setScoreboard(scoreboard);
+
+        resetPlayersButton.disabled =
+            !scoreboard.pitcherEra &&
+            !scoreboard.batterAvg &&
+            !scoreboard.homePitcherName &&
+            !scoreboard.awayPitcherName &&
+            !scoreboard.homeBatterName &&
+            !scoreboard.awayBatterName;
     });
 
     chrome.storage.onChanged.addListener((changes) => {
@@ -191,6 +236,25 @@ function BaseButtonElement(id: string): HTMLButtonElement & { toggle: () => void
         await Local.setScoreboard(scoreboard);
 
         resetCountButton.disabled = scoreboard.balls === 0 && scoreboard.strikes === 0;
+    };
+
+    const resetPlayers = async () => {
+        scoreboard = {
+            ...scoreboard,
+            homeBatterName: DEFAULT_SCOREBOARD_STATE.homeBatterName,
+            awayBatterName: DEFAULT_SCOREBOARD_STATE.awayBatterName,
+            homePitcherName: DEFAULT_SCOREBOARD_STATE.homePitcherName,
+            awayPitcherName: DEFAULT_SCOREBOARD_STATE.awayPitcherName,
+            batterAvg: DEFAULT_SCOREBOARD_STATE.batterAvg,
+            pitcherEra: DEFAULT_SCOREBOARD_STATE.pitcherEra,
+        };
+
+        updateValueLabels();
+        updatePlayerSelects();
+
+        await Local.setScoreboard(scoreboard);
+
+        resetPlayersButton.disabled = true;
     };
 
     function updateValueLabels() {
@@ -354,6 +418,10 @@ function BaseButtonElement(id: string): HTMLButtonElement & { toggle: () => void
 
     resetCountButton.addEventListener("click", () => {
         resetCounts();
+    });
+
+    resetPlayersButton.addEventListener("click", () => {
+        resetPlayers();
     });
 
     resetBasesButton.addEventListener("click", () => {

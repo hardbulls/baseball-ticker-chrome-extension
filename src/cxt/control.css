@@ -111,10 +111,14 @@ div.controller-row {
     background-color: #a116af;
 }
 
+#reset-players-button {
+    background-color: #6382e6;
+}
+
+
 .controller-row button:disabled {
     background-color: #c4c4c4 !important;
 }
-
 
 #home-batter::before {
     content: 'Home Batter';
