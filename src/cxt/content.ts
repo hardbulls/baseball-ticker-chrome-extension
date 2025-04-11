@@ -63,7 +63,7 @@ function IndicatorElement(): HTMLDivElement & IndicatorElementOptions {
 
     const bodyElement = document.querySelector("body") as HTMLBodyElement;
     const indicatorElement = IndicatorElement();
-    let startedIndicator = document.querySelector(".box-score-top-bar");
+    let startedIndicator = document.querySelector(".box-score");
 
     bodyElement.appendChild(indicatorElement);
 
