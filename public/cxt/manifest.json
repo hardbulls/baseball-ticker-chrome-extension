@@ -2,7 +2,8 @@
   "name": "Hard Bulls Baseball Ticker",
   "manifest_version": 3,
   "host_permissions": [
-    "https://www.hardbulls.com/*"
+    "https://www.hardbulls.com/*",
+    "https://game.wbsc.org/*"
   ],
   "background": {
     "service_worker": "background.js"

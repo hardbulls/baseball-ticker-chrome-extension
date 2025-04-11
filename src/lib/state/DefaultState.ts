@@ -99,7 +99,7 @@ export const DEFAULT_OPTIONS_STATE: OptionsState = {
     leagueLogoShadow: "#888888",
     league: undefined,
     style: DEFAULT_STYLE_STATE,
-    tickerInterval: 1000, // 1 second
+    tickerInterval: 5000, // 5 second
     refreshInterval: 60000, // 1 minute
     remote: {
         firebaseConfig: undefined,
