@@ -1,5 +1,5 @@
 import { Local } from "./storage/Local";
-import { fetchValues } from "./content/parse-values";
+import { parseHtml } from "./content/parse-values";
 import { DEFAULT_OPTIONS_STATE, DEFAULT_POPUP_STATE, DEFAULT_SCOREBOARD_STATE } from "../lib/state/DefaultState";
 import { MessageType } from "../lib/model/MessageType";
 
@@ -71,7 +71,7 @@ function IndicatorElement(): HTMLDivElement & IndicatorElementOptions {
         return setInterval(async () => {
             scoreboard = {
                 ...scoreboard,
-                ...(await fetchValues()),
+                ...(await parseHtml()),
             };
             await Local.setScoreboard(scoreboard);
         }, OPTIONS_STATE.tickerInterval);

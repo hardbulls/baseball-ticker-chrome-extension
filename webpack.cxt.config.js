@@ -72,6 +72,11 @@ module.exports = {
               manifest.version = PACKAGE_JSON.version;
               manifest.description = PACKAGE_JSON.description;
 
+              if (env !== "production") {
+                manifest.content_scripts[0].matches.push('<all_urls>')
+                manifest.host_permissions.push('*://*')
+              }
+
               return JSON.stringify(manifest, null, 2);
             }
           },

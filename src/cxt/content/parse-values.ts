@@ -153,55 +153,30 @@ export function parseInning(input: string): InningValue {
     };
 }
 
-export const parseHtml = (): Partial<ScoreboardState> => {
-    const homeScore = Number.parseInt(
-        document.querySelector("#app > div > div.box-score-top-bar > div.left-box > div.actual-teams > div:nth-child(3) > span")
-            ?.textContent || "0"
-    );
-    const awayScore = Number.parseInt(
-        document.querySelector("#app > div > div.box-score-top-bar > div.left-box > div.actual-teams > div:nth-child(1) > span")
-            ?.textContent || "0"
-    );
-    const pitcherName =
-        document.querySelector(
-            "#app > div > div:nth-child(2) > div.active-panel > div > div.live-data > div.actual-players > div:nth-child(1) > div.player-stats > p:nth-child(2) > strong"
-        )?.textContent || "";
-    const batterName =
-        document.querySelector(
-            "#app > div > div:nth-child(2) > div.active-panel > div > div.live-data > div.actual-players > div:nth-child(2) > div.player-stats > p:nth-child(2) > strong"
-        )?.textContent || "";
-    const pitcherEra = getStatistic(
-        document.querySelector(
-            "#app > div > div:nth-child(2) > div.active-panel > div > div.live-data > div.actual-players > div:nth-child(1) > div.player-stats > p.player-avg"
-        )?.textContent || ""
-    );
-    const batterAvg = getStatistic(
-        document.querySelector(
-            "#app > div > div:nth-child(2) > div.active-panel > div > div.live-data > div.actual-players > div:nth-child(2) > div.player-stats > p.player-avg"
-        )?.textContent || ""
-    );
+export const parseHtml = async (): Promise<Partial<ScoreboardState>> => {
+    const [homeScoreText, awayScoreText] = document.querySelectorAll(".box-score .header p.score");
 
-    const outs = Number.parseInt(
-        document.querySelector(
-            "#app > div > div.box-score-top-bar > div.left-box > div.indicators-container > div > div.outs-indicator > p:nth-child(2) > strong"
-        )?.textContent || "0"
-    );
+    const awayScore = awayScoreText ? Number.parseInt(awayScoreText.textContent || "0") : 0;
+    const homeScore = homeScoreText ? Number.parseInt(homeScoreText.textContent || "0") : 0;
 
-    const ballsAndStrikes = (
-        document.querySelector(
-            "#app > div > div.box-score-top-bar > div.left-box > div.indicators-container > div > div.outs-indicator > p:nth-child(1)"
-        )?.textContent || ""
-    ).split("-");
+    const [pitcherElement, batterElement] = document.querySelectorAll(".box-score .main-tab .current-players .player-details");
+
+    const pitcherName = pitcherElement.querySelector("p:nth-child(2) strong")?.textContent || "";
+
+    const batterName = batterElement.querySelector("p:nth-child(2) strong")?.textContent || "";
+
+    const pitcherEra = getStatistic(pitcherElement.querySelector("p:nth-child(3)")?.textContent || "");
+    const batterAvg = getStatistic(batterElement.querySelector("p:nth-child(3)")?.textContent || "");
+
+    const outs = Number.parseInt(document.querySelector(".box-score .header .outs-situation p:nth-child(2) strong")?.textContent || "0");
+
+    const ballsAndStrikes = (document.querySelector(".box-score .header .outs-situation p:nth-child(1)")?.textContent || "").split("-");
 
     const balls = Number.parseInt(ballsAndStrikes[0] ?? "0");
     const strikes = Number.parseInt(ballsAndStrikes[1] ?? "0");
 
-    const bottomIndicator = document.querySelector(
-        "#app > div > div.box-score-top-bar > div.left-box > div.indicators-container > div > div.inning-indicator > p > span.triangle.bot"
-    );
-    const inningNumber = document.querySelector(
-        "#app > div > div.box-score-top-bar > div.left-box > div.indicators-container > div > div.inning-indicator > p"
-    )?.textContent;
+    const bottomIndicator = document.querySelector(".box-score .header .inning-situation .bot");
+    const inningNumber = document.querySelector(".box-score .header .inning-situation p")?.textContent;
 
     let inning: InningValue | undefined;
 
@@ -218,27 +193,15 @@ export const parseHtml = (): Partial<ScoreboardState> => {
 
     const bases: BaseEnum[] = [];
 
-    if (
-        document.querySelector(
-            "#app > div > div.box-score-top-bar > div.left-box > div.indicators-container > div > div.pitch-indicator > div.base.is-active:nth-child(1)"
-        )
-    ) {
+    if (document.querySelector(".box-score .header .pitch-situation > div.is-active:nth-child(1)")) {
         bases.push(BaseEnum.FIRST);
     }
 
-    if (
-        document.querySelector(
-            "#app > div > div.box-score-top-bar > div.left-box > div.indicators-container > div > div.pitch-indicator > div.base.is-active:nth-child(2)"
-        )
-    ) {
+    if (document.querySelector(".box-score .header .pitch-situation > div.is-active:nth-child(2)")) {
         bases.push(BaseEnum.SECOND);
     }
 
-    if (
-        document.querySelector(
-            "#app > div > div.box-score-top-bar > div.left-box > div.indicators-container > div > div.pitch-indicator > div.base.is-active:nth-child(3)"
-        )
-    ) {
+    if (document.querySelector(".box-score .header .pitch-situation > div.is-active:nth-child(3)")) {
         bases.push(BaseEnum.THIRD);
     }
 
