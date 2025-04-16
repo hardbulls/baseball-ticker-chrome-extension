@@ -1,30 +1,14 @@
 import { Team } from "../model/Team";
 import { TeamNotFoundError } from "./error/TeamNotFoundError";
-import Logo_hb from "../assets/teams/logo_hb.png";
-import Logo_di from "../assets/teams/logo_di.png";
-import Logo_vw from "../assets/teams/logo_vw.png";
-import Logo_dd from "../assets/teams/logo_dd.png";
-import Logo_gh from "../assets/teams/logo_gh.png";
-import Logo_kv from "../assets/teams/logo_kv.png";
-import Logo_bb from "../assets/teams/logo_bb.png";
-import Logo_fc from "../assets/teams/logo_fc.png";
-import Logo_vm from "../assets/teams/logo_vm.png";
-import Logo_st from "../assets/teams/logo_st.png";
-import Logo_ch_pirates from "../assets/teams/logo_ch_pirates.png";
-import Logo_ch_devils from "../assets/teams/logo_ch_devils.png";
-import Logo_highlanders from "../assets/teams/logo_highlanders.png";
-import Logo_aa from "../assets/teams/logo_athletics.png";
-import Logo_centurions from "../assets/teams/logo_centurions.png";
-import Logo_ds from "../assets/teams/logo_dirty-sox.png";
-import Logo_cubs from "../assets/teams/logo_cubs.png";
-import Logo_braves from "../assets/teams/logo_braves.png";
+
+const LOGO_BASE_PATH = "https://api.hardbulls.com/assets/teams";
 
 export abstract class TeamsRepository {
     private static TEAMS: { [key: string]: Team } = {
         hb_1: {
             name: "Hard Bulls",
             nameShort: "Bulls",
-            logo: Logo_hb,
+            logo: `${LOGO_BASE_PATH}/logo_hb.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -37,7 +21,7 @@ export abstract class TeamsRepository {
         hb_2: {
             name: "Hard Bandidos",
             nameShort: "Bandidos",
-            logo: Logo_hb,
+            logo: `${LOGO_BASE_PATH}/logo_hb.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -50,7 +34,7 @@ export abstract class TeamsRepository {
         hb_3: {
             name: "Hard Bullets",
             nameShort: "Bullets",
-            logo: Logo_hb,
+            logo: `${LOGO_BASE_PATH}/logo_hb.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -63,7 +47,7 @@ export abstract class TeamsRepository {
         di_1: {
             name: "Dornbirn Indians",
             nameShort: "Indians",
-            logo: Logo_di,
+            logo: `${LOGO_BASE_PATH}/logo_di.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -76,7 +60,7 @@ export abstract class TeamsRepository {
         vw_1: {
             name: "Vienna Wanderers",
             nameShort: "Wandereres",
-            logo: Logo_vw,
+            logo: `${LOGO_BASE_PATH}/logo_vw.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -89,7 +73,7 @@ export abstract class TeamsRepository {
         dd_1: {
             name: "Diving Ducks Wiener Neustadt",
             nameShort: "Ducks",
-            logo: Logo_dd,
+            logo: `${LOGO_BASE_PATH}/logo_dd.png`,
             logoShadow: "#3b3b3b",
             gradient: {
                 angle: 180,
@@ -102,7 +86,7 @@ export abstract class TeamsRepository {
         gh_1: {
             name: "Traiskirchen Grasshoppers",
             nameShort: "Grasshoppers",
-            logo: Logo_gh,
+            logo: `${LOGO_BASE_PATH}/logo_gh.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -115,7 +99,7 @@ export abstract class TeamsRepository {
         kv_1: {
             name: "Kufstein Vikings",
             nameShort: "Vikings",
-            logo: Logo_kv,
+            logo: `${LOGO_BASE_PATH}/logo_kv.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -128,7 +112,7 @@ export abstract class TeamsRepository {
         bb_1: {
             name: "Schwechat Blue Bats",
             nameShort: "Blue Bats",
-            logo: Logo_bb,
+            logo: `${LOGO_BASE_PATH}/logo_bb.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -141,7 +125,7 @@ export abstract class TeamsRepository {
         fc_1: {
             name: "Feldkirch Cardinals",
             nameShort: "Cardinals",
-            logo: Logo_fc,
+            logo: `${LOGO_BASE_PATH}/logo_fc.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -154,7 +138,7 @@ export abstract class TeamsRepository {
         vm_1: {
             name: "Vienna Metrostars",
             nameShort: "Metrostars",
-            logo: Logo_vm,
+            logo: `${LOGO_BASE_PATH}/logo_vm.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -167,7 +151,7 @@ export abstract class TeamsRepository {
         ds_1: {
             name: "Dirty Sox Graz",
             nameShort: "Dirty Sox",
-            logo: Logo_ds,
+            logo: `${LOGO_BASE_PATH}/logo_dirty-sox.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -180,7 +164,7 @@ export abstract class TeamsRepository {
         st_1: {
             name: "Schwaz Tigers",
             nameShort: "Tigers",
-            logo: Logo_st,
+            logo: `${LOGO_BASE_PATH}/logo_st.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -193,7 +177,7 @@ export abstract class TeamsRepository {
         aa_1: {
             name: "Attnang-Puchheim Athletics",
             nameShort: "Athletics",
-            logo: Logo_aa,
+            logo: `${LOGO_BASE_PATH}/logo_athletics.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -206,7 +190,7 @@ export abstract class TeamsRepository {
         cw_1: {
             name: "Centurions Wels",
             nameShort: "Centurions",
-            logo: Logo_centurions,
+            logo: `${LOGO_BASE_PATH}/logo_centurions.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -219,7 +203,7 @@ export abstract class TeamsRepository {
         sc_1: {
             name: "Stockerau Cubs",
             nameShort: "Cubs",
-            logo: Logo_cubs,
+            logo: `${LOGO_BASE_PATH}/logo_cubs.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -232,7 +216,7 @@ export abstract class TeamsRepository {
         hi_1: {
             name: "Gramastetten Highlanders",
             nameShort: "Highlanders",
-            logo: Logo_highlanders,
+            logo: `${LOGO_BASE_PATH}/logo_highlanders.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -245,7 +229,7 @@ export abstract class TeamsRepository {
         br_1: {
             name: "Hallein Braves",
             nameShort: "Braves",
-            logo: Logo_braves,
+            logo: `${LOGO_BASE_PATH}/logo_braves.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -258,7 +242,7 @@ export abstract class TeamsRepository {
         wp_1: {
             name: "Wil Pirates",
             nameShort: "Pirates",
-            logo: Logo_ch_pirates,
+            logo: `${LOGO_BASE_PATH}/logo_ch_pirates.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
@@ -271,7 +255,7 @@ export abstract class TeamsRepository {
         wd_1: {
             name: "Wil Devils",
             nameShort: "Devils",
-            logo: Logo_ch_devils,
+            logo: `${LOGO_BASE_PATH}/logo_ch_devils.png`,
             gradient: {
                 angle: 180,
                 startPercentage: 30,
