@@ -154,7 +154,7 @@ export function parseInning(input: string): InningValue {
 }
 
 export const parseHtml = async (): Promise<Partial<ScoreboardState>> => {
-    const [homeScoreText, awayScoreText] = document.querySelectorAll(".box-score .header p.score");
+    const [awayScoreText, homeScoreText] = document.querySelectorAll(".box-score .header p.score");
 
     const awayScore = awayScoreText ? Number.parseInt(awayScoreText.textContent || "0") : 0;
     const homeScore = homeScoreText ? Number.parseInt(homeScoreText.textContent || "0") : 0;
